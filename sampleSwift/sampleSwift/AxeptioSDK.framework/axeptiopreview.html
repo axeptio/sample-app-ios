@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+                body {
+                    padding: 0;
+                    margin: 0;
+                }
+            </style>
+    </head>
+    <body>
+        <script>
+            function loadAxeptioScript(d, s) {
+                var t = d.getElementsByTagName(s)[0],
+                e = d.createElement(s);
+                e.async = true;
+                e.type = 'module';
+                e.src = 'https://static.axept.io/tcf/sdk.js';
+                t
+                .parentNode
+                .insertBefore(e, t);
+            };
+            loadAxeptioScript(document, 'script');
+
+            void 0 === window._axcb && (window._axcb = []);
+            let closed = false;
+            window
+            ._axcb
+            .push(function (axeptio) {
+                axeptio.on("*", (evt, payload) => {
+                    switch (evt) {
+                        case "cookies:complete":
+                        if (!closed) __tcfapi('showConsentManager', 2, (show, success) => {});
+                        break;
+                        case "cookies:close":
+                        closed = true;
+                        break;
+                    }
+                    axeptioMobileSdk.onEvent(evt, JSON.stringify(payload));
+                });
+            });
+        </script>
+    </body>
+</html>

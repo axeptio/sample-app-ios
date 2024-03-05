@@ -1,0 +1,50 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.9.2 (swiftlang-5.9.2.2.56 clang-1500.1.0.2.5)
+// swift-module-flags: -target arm64-apple-ios12.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name Axeptio
+// swift-module-flags-ignorable: -enable-bare-slash-regex
+import AppTrackingTransparency
+@_exported import Axeptio
+import Foundation
+import Network
+import Swift
+import UIKit
+import WebKit
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+@objc public enum GoogleConsentStatus : Swift.Int, Swift.RawRepresentable, Swift.Decodable {
+  public typealias RawValue = Swift.String
+  case granted
+  case denied
+  public var rawValue: Axeptio.GoogleConsentStatus.RawValue {
+    get
+  }
+  public init?(rawValue: Axeptio.GoogleConsentStatus.RawValue)
+}
+@_hasMissingDesignatedInitializers @objc public class GoogleConsentV2 : ObjectiveC.NSObject, Swift.Decodable {
+  @objc public var analyticsStorage: Axeptio.GoogleConsentStatus
+  @objc public var adStorage: Axeptio.GoogleConsentStatus
+  @objc public var adUserData: Axeptio.GoogleConsentStatus
+  @objc public var adPersonalization: Axeptio.GoogleConsentStatus
+  @objc deinit
+  required public init(from decoder: any Swift.Decoder) throws
+}
+@_inheritsConvenienceInitializers @objc final public class AxeptioEventListener : ObjectiveC.NSObject {
+  @objc final public var onPopupClosedEvent: (() -> Swift.Void)?
+  @objc final public var onConsentChanged: (() -> Swift.Void)?
+  @objc final public var onGoogleConsentModeUpdate: ((Axeptio.GoogleConsentV2) -> Swift.Void)?
+  @objc override dynamic public init()
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers @objc final public class AxeptioSDK : ObjectiveC.NSObject {
+  @objc public static let shared: Axeptio.AxeptioSDK
+  @objc final public func initialize(projectId: Swift.String, configurationId: Swift.String)
+  @objc final public func setupUI(containerController: UIKit.UIViewController)
+  @objc final public func setUserDeniedTracking()
+  @objc final public func showConsentScreen(_ view: UIKit.UIViewController)
+  @objc final public func setEventListener(_ listener: Axeptio.AxeptioEventListener)
+  @objc final public func removeEventListener(_ listener: Axeptio.AxeptioEventListener)
+  @objc deinit
+}
+extension Axeptio.GoogleConsentStatus : Swift.Equatable {}
+extension Axeptio.GoogleConsentStatus : Swift.Hashable {}

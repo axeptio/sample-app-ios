@@ -1,0 +1,11 @@
+framework module AxeptioSDK {
+  umbrella header "AxeptioSDK.h"
+  export *
+
+  module * { export * }
+}
+
+module AxeptioSDK.Swift {
+  header "AxeptioSDK-Swift.h"
+  requires objc
+}

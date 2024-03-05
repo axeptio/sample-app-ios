@@ -1,0 +1,2824 @@
+{
+  "ABIRoot": {
+    "kind": "Root",
+    "name": "TopLevel",
+    "printedName": "TopLevel",
+    "children": [
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "AxeptioSDK",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "AxeptioSDK",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "GoogleConsentStatus",
+        "printedName": "GoogleConsentStatus",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "granted",
+            "printedName": "granted",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(AxeptioSDK.GoogleConsentStatus.Type) -> AxeptioSDK.GoogleConsentStatus",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "GoogleConsentStatus",
+                    "printedName": "AxeptioSDK.GoogleConsentStatus",
+                    "usr": "c:@M@AxeptioSDK@E@GoogleConsentStatus"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "AxeptioSDK.GoogleConsentStatus.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "GoogleConsentStatus",
+                        "printedName": "AxeptioSDK.GoogleConsentStatus",
+                        "usr": "c:@M@AxeptioSDK@E@GoogleConsentStatus"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "c:@M@AxeptioSDK@E@GoogleConsentStatus@GoogleConsentStatusGranted",
+            "mangledName": "$s10AxeptioSDK19GoogleConsentStatusO7grantedyA2CmF",
+            "moduleName": "AxeptioSDK",
+            "declAttributes": [
+              "ObjC"
+            ],
+            "fixedbinaryorder": 0
+          },
+          {
+            "kind": "Var",
+            "name": "denied",
+            "printedName": "denied",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(AxeptioSDK.GoogleConsentStatus.Type) -> AxeptioSDK.GoogleConsentStatus",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "GoogleConsentStatus",
+                    "printedName": "AxeptioSDK.GoogleConsentStatus",
+                    "usr": "c:@M@AxeptioSDK@E@GoogleConsentStatus"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "AxeptioSDK.GoogleConsentStatus.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "GoogleConsentStatus",
+                        "printedName": "AxeptioSDK.GoogleConsentStatus",
+                        "usr": "c:@M@AxeptioSDK@E@GoogleConsentStatus"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "c:@M@AxeptioSDK@E@GoogleConsentStatus@GoogleConsentStatusDenied",
+            "mangledName": "$s10AxeptioSDK19GoogleConsentStatusO6deniedyA2CmF",
+            "moduleName": "AxeptioSDK",
+            "declAttributes": [
+              "ObjC"
+            ],
+            "fixedbinaryorder": 1
+          },
+          {
+            "kind": "Var",
+            "name": "rawValue",
+            "printedName": "rawValue",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:10AxeptioSDK19GoogleConsentStatusO8rawValueSSvp",
+            "mangledName": "$s10AxeptioSDK19GoogleConsentStatusO8rawValueSSvp",
+            "moduleName": "AxeptioSDK",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:10AxeptioSDK19GoogleConsentStatusO8rawValueSSvg",
+                "mangledName": "$s10AxeptioSDK19GoogleConsentStatusO8rawValueSSvg",
+                "moduleName": "AxeptioSDK",
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(rawValue:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "AxeptioSDK.GoogleConsentStatus?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "GoogleConsentStatus",
+                    "printedName": "AxeptioSDK.GoogleConsentStatus",
+                    "usr": "c:@M@AxeptioSDK@E@GoogleConsentStatus"
+                  }
+                ],
+                "usr": "s:Sq"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:10AxeptioSDK19GoogleConsentStatusO8rawValueACSgSS_tcfc",
+            "mangledName": "$s10AxeptioSDK19GoogleConsentStatusO8rawValueACSgSS_tcfc",
+            "moduleName": "AxeptioSDK",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "init_kind": "Designated"
+          }
+        ],
+        "declKind": "Enum",
+        "usr": "c:@M@AxeptioSDK@E@GoogleConsentStatus",
+        "mangledName": "$s10AxeptioSDK19GoogleConsentStatusO",
+        "moduleName": "AxeptioSDK",
+        "declAttributes": [
+          "AccessControl",
+          "ObjC"
+        ],
+        "enumRawTypeName": "Int",
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Equatable",
+            "printedName": "Equatable",
+            "usr": "s:SQ",
+            "mangledName": "$sSQ"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Hashable",
+            "printedName": "Hashable",
+            "usr": "s:SH",
+            "mangledName": "$sSH"
+          },
+          {
+            "kind": "Conformance",
+            "name": "RawRepresentable",
+            "printedName": "RawRepresentable",
+            "children": [
+              {
+                "kind": "TypeWitness",
+                "name": "RawValue",
+                "printedName": "RawValue",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ]
+              }
+            ],
+            "usr": "s:SY",
+            "mangledName": "$sSY"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Decodable",
+            "printedName": "Decodable",
+            "usr": "s:Se",
+            "mangledName": "$sSe"
+          }
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "GoogleConsentV2",
+        "printedName": "GoogleConsentV2",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "analyticsStorage",
+            "printedName": "analyticsStorage",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "GoogleConsentStatus",
+                "printedName": "AxeptioSDK.GoogleConsentStatus",
+                "usr": "c:@M@AxeptioSDK@E@GoogleConsentStatus"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "c:@M@AxeptioSDK@objc(cs)GoogleConsentV2(py)analyticsStorage",
+            "mangledName": "$s10AxeptioSDK15GoogleConsentV2C16analyticsStorageAA0cD6StatusOvp",
+            "moduleName": "AxeptioSDK",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl",
+              "ObjC"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "GoogleConsentStatus",
+                    "printedName": "AxeptioSDK.GoogleConsentStatus",
+                    "usr": "c:@M@AxeptioSDK@E@GoogleConsentStatus"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "c:@M@AxeptioSDK@objc(cs)GoogleConsentV2(im)analyticsStorage",
+                "mangledName": "$s10AxeptioSDK15GoogleConsentV2C16analyticsStorageAA0cD6StatusOvg",
+                "moduleName": "AxeptioSDK",
+                "implicit": true,
+                "declAttributes": [
+                  "ObjC"
+                ],
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "GoogleConsentStatus",
+                    "printedName": "AxeptioSDK.GoogleConsentStatus",
+                    "usr": "c:@M@AxeptioSDK@E@GoogleConsentStatus"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "c:@M@AxeptioSDK@objc(cs)GoogleConsentV2(im)setAnalyticsStorage:",
+                "mangledName": "$s10AxeptioSDK15GoogleConsentV2C16analyticsStorageAA0cD6StatusOvs",
+                "moduleName": "AxeptioSDK",
+                "implicit": true,
+                "declAttributes": [
+                  "ObjC"
+                ],
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:10AxeptioSDK15GoogleConsentV2C16analyticsStorageAA0cD6StatusOvM",
+                "mangledName": "$s10AxeptioSDK15GoogleConsentV2C16analyticsStorageAA0cD6StatusOvM",
+                "moduleName": "AxeptioSDK",
+                "implicit": true,
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "adStorage",
+            "printedName": "adStorage",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "GoogleConsentStatus",
+                "printedName": "AxeptioSDK.GoogleConsentStatus",
+                "usr": "c:@M@AxeptioSDK@E@GoogleConsentStatus"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "c:@M@AxeptioSDK@objc(cs)GoogleConsentV2(py)adStorage",
+            "mangledName": "$s10AxeptioSDK15GoogleConsentV2C9adStorageAA0cD6StatusOvp",
+            "moduleName": "AxeptioSDK",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl",
+              "ObjC"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "GoogleConsentStatus",
+                    "printedName": "AxeptioSDK.GoogleConsentStatus",
+                    "usr": "c:@M@AxeptioSDK@E@GoogleConsentStatus"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "c:@M@AxeptioSDK@objc(cs)GoogleConsentV2(im)adStorage",
+                "mangledName": "$s10AxeptioSDK15GoogleConsentV2C9adStorageAA0cD6StatusOvg",
+                "moduleName": "AxeptioSDK",
+                "implicit": true,
+                "declAttributes": [
+                  "ObjC"
+                ],
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "GoogleConsentStatus",
+                    "printedName": "AxeptioSDK.GoogleConsentStatus",
+                    "usr": "c:@M@AxeptioSDK@E@GoogleConsentStatus"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "c:@M@AxeptioSDK@objc(cs)GoogleConsentV2(im)setAdStorage:",
+                "mangledName": "$s10AxeptioSDK15GoogleConsentV2C9adStorageAA0cD6StatusOvs",
+                "moduleName": "AxeptioSDK",
+                "implicit": true,
+                "declAttributes": [
+                  "ObjC"
+                ],
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:10AxeptioSDK15GoogleConsentV2C9adStorageAA0cD6StatusOvM",
+                "mangledName": "$s10AxeptioSDK15GoogleConsentV2C9adStorageAA0cD6StatusOvM",
+                "moduleName": "AxeptioSDK",
+                "implicit": true,
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "adUserData",
+            "printedName": "adUserData",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "GoogleConsentStatus",
+                "printedName": "AxeptioSDK.GoogleConsentStatus",
+                "usr": "c:@M@AxeptioSDK@E@GoogleConsentStatus"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "c:@M@AxeptioSDK@objc(cs)GoogleConsentV2(py)adUserData",
+            "mangledName": "$s10AxeptioSDK15GoogleConsentV2C10adUserDataAA0cD6StatusOvp",
+            "moduleName": "AxeptioSDK",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl",
+              "ObjC"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "GoogleConsentStatus",
+                    "printedName": "AxeptioSDK.GoogleConsentStatus",
+                    "usr": "c:@M@AxeptioSDK@E@GoogleConsentStatus"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "c:@M@AxeptioSDK@objc(cs)GoogleConsentV2(im)adUserData",
+                "mangledName": "$s10AxeptioSDK15GoogleConsentV2C10adUserDataAA0cD6StatusOvg",
+                "moduleName": "AxeptioSDK",
+                "implicit": true,
+                "declAttributes": [
+                  "ObjC"
+                ],
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "GoogleConsentStatus",
+                    "printedName": "AxeptioSDK.GoogleConsentStatus",
+                    "usr": "c:@M@AxeptioSDK@E@GoogleConsentStatus"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "c:@M@AxeptioSDK@objc(cs)GoogleConsentV2(im)setAdUserData:",
+                "mangledName": "$s10AxeptioSDK15GoogleConsentV2C10adUserDataAA0cD6StatusOvs",
+                "moduleName": "AxeptioSDK",
+                "implicit": true,
+                "declAttributes": [
+                  "ObjC"
+                ],
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:10AxeptioSDK15GoogleConsentV2C10adUserDataAA0cD6StatusOvM",
+                "mangledName": "$s10AxeptioSDK15GoogleConsentV2C10adUserDataAA0cD6StatusOvM",
+                "moduleName": "AxeptioSDK",
+                "implicit": true,
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "adPersonalization",
+            "printedName": "adPersonalization",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "GoogleConsentStatus",
+                "printedName": "AxeptioSDK.GoogleConsentStatus",
+                "usr": "c:@M@AxeptioSDK@E@GoogleConsentStatus"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "c:@M@AxeptioSDK@objc(cs)GoogleConsentV2(py)adPersonalization",
+            "mangledName": "$s10AxeptioSDK15GoogleConsentV2C17adPersonalizationAA0cD6StatusOvp",
+            "moduleName": "AxeptioSDK",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl",
+              "ObjC"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "GoogleConsentStatus",
+                    "printedName": "AxeptioSDK.GoogleConsentStatus",
+                    "usr": "c:@M@AxeptioSDK@E@GoogleConsentStatus"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "c:@M@AxeptioSDK@objc(cs)GoogleConsentV2(im)adPersonalization",
+                "mangledName": "$s10AxeptioSDK15GoogleConsentV2C17adPersonalizationAA0cD6StatusOvg",
+                "moduleName": "AxeptioSDK",
+                "implicit": true,
+                "declAttributes": [
+                  "ObjC"
+                ],
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "GoogleConsentStatus",
+                    "printedName": "AxeptioSDK.GoogleConsentStatus",
+                    "usr": "c:@M@AxeptioSDK@E@GoogleConsentStatus"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "c:@M@AxeptioSDK@objc(cs)GoogleConsentV2(im)setAdPersonalization:",
+                "mangledName": "$s10AxeptioSDK15GoogleConsentV2C17adPersonalizationAA0cD6StatusOvs",
+                "moduleName": "AxeptioSDK",
+                "implicit": true,
+                "declAttributes": [
+                  "ObjC"
+                ],
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:10AxeptioSDK15GoogleConsentV2C17adPersonalizationAA0cD6StatusOvM",
+                "mangledName": "$s10AxeptioSDK15GoogleConsentV2C17adPersonalizationAA0cD6StatusOvM",
+                "moduleName": "AxeptioSDK",
+                "implicit": true,
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "GoogleConsentV2",
+                "printedName": "AxeptioSDK.GoogleConsentV2",
+                "usr": "c:@M@AxeptioSDK@objc(cs)GoogleConsentV2"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "c:@M@AxeptioSDK@objc(cs)GoogleConsentV2(im)init",
+            "mangledName": "$s10AxeptioSDK15GoogleConsentV2CACycfc",
+            "moduleName": "AxeptioSDK",
+            "overriding": true,
+            "implicit": true,
+            "objc_name": "init",
+            "declAttributes": [
+              "Dynamic",
+              "ObjC",
+              "Override"
+            ],
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(from:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "GoogleConsentV2",
+                "printedName": "AxeptioSDK.GoogleConsentV2",
+                "usr": "c:@M@AxeptioSDK@objc(cs)GoogleConsentV2"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Decoder",
+                "printedName": "Swift.Decoder",
+                "usr": "s:s7DecoderP"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:10AxeptioSDK15GoogleConsentV2C4fromACs7Decoder_p_tKcfc",
+            "mangledName": "$s10AxeptioSDK15GoogleConsentV2C4fromACs7Decoder_p_tKcfc",
+            "moduleName": "AxeptioSDK",
+            "implicit": true,
+            "declAttributes": [
+              "Required"
+            ],
+            "throwing": true,
+            "init_kind": "Designated"
+          }
+        ],
+        "declKind": "Class",
+        "usr": "c:@M@AxeptioSDK@objc(cs)GoogleConsentV2",
+        "mangledName": "$s10AxeptioSDK15GoogleConsentV2C",
+        "moduleName": "AxeptioSDK",
+        "declAttributes": [
+          "AccessControl",
+          "ObjC"
+        ],
+        "superclassUsr": "c:objc(cs)NSObject",
+        "hasMissingDesignatedInitializers": true,
+        "superclassNames": [
+          "ObjectiveC.NSObject"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Decodable",
+            "printedName": "Decodable",
+            "usr": "s:Se",
+            "mangledName": "$sSe"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Equatable",
+            "printedName": "Equatable",
+            "usr": "s:SQ",
+            "mangledName": "$sSQ"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Hashable",
+            "printedName": "Hashable",
+            "usr": "s:SH",
+            "mangledName": "$sSH"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CVarArg",
+            "printedName": "CVarArg",
+            "usr": "s:s7CVarArgP",
+            "mangledName": "$ss7CVarArgP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "_KeyValueCodingAndObservingPublishing",
+            "printedName": "_KeyValueCodingAndObservingPublishing",
+            "usr": "s:10Foundation37_KeyValueCodingAndObservingPublishingP",
+            "mangledName": "$s10Foundation37_KeyValueCodingAndObservingPublishingP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "_KeyValueCodingAndObserving",
+            "printedName": "_KeyValueCodingAndObserving",
+            "usr": "s:10Foundation27_KeyValueCodingAndObservingP",
+            "mangledName": "$s10Foundation27_KeyValueCodingAndObservingP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CustomStringConvertible",
+            "printedName": "CustomStringConvertible",
+            "usr": "s:s23CustomStringConvertibleP",
+            "mangledName": "$ss23CustomStringConvertibleP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CustomDebugStringConvertible",
+            "printedName": "CustomDebugStringConvertible",
+            "usr": "s:s28CustomDebugStringConvertibleP",
+            "mangledName": "$ss28CustomDebugStringConvertibleP"
+          }
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "AxeptioSDK",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "AppTrackingTransparency",
+        "printedName": "AppTrackingTransparency",
+        "declKind": "Import",
+        "moduleName": "AxeptioSDK",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "AxeptioSDK"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "AxeptioSDK",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Network",
+        "printedName": "Network",
+        "declKind": "Import",
+        "moduleName": "AxeptioSDK"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "AxeptioSDK",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "AxeptioSDK",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "UIKit",
+        "printedName": "UIKit",
+        "declKind": "Import",
+        "moduleName": "AxeptioSDK"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "AxeptioSDK",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "AxeptioEventListener",
+        "printedName": "AxeptioEventListener",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "onPopupClosedEvent",
+            "printedName": "onPopupClosedEvent",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "(() -> ())?",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "() -> ()",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Void",
+                        "printedName": "()"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Void",
+                        "printedName": "()"
+                      }
+                    ]
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "c:@M@AxeptioSDK@objc(cs)AxeptioEventListener(py)onPopupClosedEvent",
+            "mangledName": "$s10AxeptioSDK0A13EventListenerC013onPopupClosedC0yycSgvp",
+            "moduleName": "AxeptioSDK",
+            "declAttributes": [
+              "HasInitialValue",
+              "Final",
+              "HasStorage",
+              "AccessControl",
+              "ObjC"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "(() -> ())?",
+                    "children": [
+                      {
+                        "kind": "TypeFunc",
+                        "name": "Function",
+                        "printedName": "() -> ()",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Void",
+                            "printedName": "()"
+                          },
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Void",
+                            "printedName": "()"
+                          }
+                        ]
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "c:@M@AxeptioSDK@objc(cs)AxeptioEventListener(im)onPopupClosedEvent",
+                "mangledName": "$s10AxeptioSDK0A13EventListenerC013onPopupClosedC0yycSgvg",
+                "moduleName": "AxeptioSDK",
+                "implicit": true,
+                "declAttributes": [
+                  "Final",
+                  "ObjC"
+                ],
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "(() -> ())?",
+                    "children": [
+                      {
+                        "kind": "TypeFunc",
+                        "name": "Function",
+                        "printedName": "() -> ()",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Void",
+                            "printedName": "()"
+                          },
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Void",
+                            "printedName": "()"
+                          }
+                        ]
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "c:@M@AxeptioSDK@objc(cs)AxeptioEventListener(im)setOnPopupClosedEvent:",
+                "mangledName": "$s10AxeptioSDK0A13EventListenerC013onPopupClosedC0yycSgvs",
+                "moduleName": "AxeptioSDK",
+                "implicit": true,
+                "declAttributes": [
+                  "Final",
+                  "ObjC"
+                ],
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:10AxeptioSDK0A13EventListenerC013onPopupClosedC0yycSgvM",
+                "mangledName": "$s10AxeptioSDK0A13EventListenerC013onPopupClosedC0yycSgvM",
+                "moduleName": "AxeptioSDK",
+                "implicit": true,
+                "declAttributes": [
+                  "Final"
+                ],
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "onConsentChanged",
+            "printedName": "onConsentChanged",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "(() -> ())?",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "() -> ()",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Void",
+                        "printedName": "()"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Void",
+                        "printedName": "()"
+                      }
+                    ]
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "c:@M@AxeptioSDK@objc(cs)AxeptioEventListener(py)onConsentChanged",
+            "mangledName": "$s10AxeptioSDK0A13EventListenerC16onConsentChangedyycSgvp",
+            "moduleName": "AxeptioSDK",
+            "declAttributes": [
+              "HasInitialValue",
+              "Final",
+              "HasStorage",
+              "AccessControl",
+              "ObjC"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "(() -> ())?",
+                    "children": [
+                      {
+                        "kind": "TypeFunc",
+                        "name": "Function",
+                        "printedName": "() -> ()",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Void",
+                            "printedName": "()"
+                          },
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Void",
+                            "printedName": "()"
+                          }
+                        ]
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "c:@M@AxeptioSDK@objc(cs)AxeptioEventListener(im)onConsentChanged",
+                "mangledName": "$s10AxeptioSDK0A13EventListenerC16onConsentChangedyycSgvg",
+                "moduleName": "AxeptioSDK",
+                "implicit": true,
+                "declAttributes": [
+                  "Final",
+                  "ObjC"
+                ],
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "(() -> ())?",
+                    "children": [
+                      {
+                        "kind": "TypeFunc",
+                        "name": "Function",
+                        "printedName": "() -> ()",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Void",
+                            "printedName": "()"
+                          },
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Void",
+                            "printedName": "()"
+                          }
+                        ]
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "c:@M@AxeptioSDK@objc(cs)AxeptioEventListener(im)setOnConsentChanged:",
+                "mangledName": "$s10AxeptioSDK0A13EventListenerC16onConsentChangedyycSgvs",
+                "moduleName": "AxeptioSDK",
+                "implicit": true,
+                "declAttributes": [
+                  "Final",
+                  "ObjC"
+                ],
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:10AxeptioSDK0A13EventListenerC16onConsentChangedyycSgvM",
+                "mangledName": "$s10AxeptioSDK0A13EventListenerC16onConsentChangedyycSgvM",
+                "moduleName": "AxeptioSDK",
+                "implicit": true,
+                "declAttributes": [
+                  "Final"
+                ],
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "onGoogleConsentModeUpdate",
+            "printedName": "onGoogleConsentModeUpdate",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "((AxeptioSDK.GoogleConsentV2) -> ())?",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "(AxeptioSDK.GoogleConsentV2) -> ()",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Void",
+                        "printedName": "()"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "GoogleConsentV2",
+                        "printedName": "AxeptioSDK.GoogleConsentV2",
+                        "usr": "c:@M@AxeptioSDK@objc(cs)GoogleConsentV2"
+                      }
+                    ]
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "c:@M@AxeptioSDK@objc(cs)AxeptioEventListener(py)onGoogleConsentModeUpdate",
+            "mangledName": "$s10AxeptioSDK0A13EventListenerC25onGoogleConsentModeUpdateyAA0fG2V2CcSgvp",
+            "moduleName": "AxeptioSDK",
+            "declAttributes": [
+              "HasInitialValue",
+              "Final",
+              "HasStorage",
+              "AccessControl",
+              "ObjC"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "((AxeptioSDK.GoogleConsentV2) -> ())?",
+                    "children": [
+                      {
+                        "kind": "TypeFunc",
+                        "name": "Function",
+                        "printedName": "(AxeptioSDK.GoogleConsentV2) -> ()",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Void",
+                            "printedName": "()"
+                          },
+                          {
+                            "kind": "TypeNominal",
+                            "name": "GoogleConsentV2",
+                            "printedName": "AxeptioSDK.GoogleConsentV2",
+                            "usr": "c:@M@AxeptioSDK@objc(cs)GoogleConsentV2"
+                          }
+                        ]
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "c:@M@AxeptioSDK@objc(cs)AxeptioEventListener(im)onGoogleConsentModeUpdate",
+                "mangledName": "$s10AxeptioSDK0A13EventListenerC25onGoogleConsentModeUpdateyAA0fG2V2CcSgvg",
+                "moduleName": "AxeptioSDK",
+                "implicit": true,
+                "declAttributes": [
+                  "Final",
+                  "ObjC"
+                ],
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "((AxeptioSDK.GoogleConsentV2) -> ())?",
+                    "children": [
+                      {
+                        "kind": "TypeFunc",
+                        "name": "Function",
+                        "printedName": "(AxeptioSDK.GoogleConsentV2) -> ()",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Void",
+                            "printedName": "()"
+                          },
+                          {
+                            "kind": "TypeNominal",
+                            "name": "GoogleConsentV2",
+                            "printedName": "AxeptioSDK.GoogleConsentV2",
+                            "usr": "c:@M@AxeptioSDK@objc(cs)GoogleConsentV2"
+                          }
+                        ]
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "c:@M@AxeptioSDK@objc(cs)AxeptioEventListener(im)setOnGoogleConsentModeUpdate:",
+                "mangledName": "$s10AxeptioSDK0A13EventListenerC25onGoogleConsentModeUpdateyAA0fG2V2CcSgvs",
+                "moduleName": "AxeptioSDK",
+                "implicit": true,
+                "declAttributes": [
+                  "Final",
+                  "ObjC"
+                ],
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:10AxeptioSDK0A13EventListenerC25onGoogleConsentModeUpdateyAA0fG2V2CcSgvM",
+                "mangledName": "$s10AxeptioSDK0A13EventListenerC25onGoogleConsentModeUpdateyAA0fG2V2CcSgvM",
+                "moduleName": "AxeptioSDK",
+                "implicit": true,
+                "declAttributes": [
+                  "Final"
+                ],
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "AxeptioEventListener",
+                "printedName": "AxeptioSDK.AxeptioEventListener",
+                "usr": "c:@M@AxeptioSDK@objc(cs)AxeptioEventListener"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "c:@M@AxeptioSDK@objc(cs)AxeptioEventListener(im)init",
+            "mangledName": "$s10AxeptioSDK0A13EventListenerCACycfc",
+            "moduleName": "AxeptioSDK",
+            "overriding": true,
+            "objc_name": "init",
+            "declAttributes": [
+              "Dynamic",
+              "ObjC",
+              "Override",
+              "AccessControl"
+            ],
+            "init_kind": "Designated"
+          }
+        ],
+        "declKind": "Class",
+        "usr": "c:@M@AxeptioSDK@objc(cs)AxeptioEventListener",
+        "mangledName": "$s10AxeptioSDK0A13EventListenerC",
+        "moduleName": "AxeptioSDK",
+        "declAttributes": [
+          "Final",
+          "AccessControl",
+          "ObjC"
+        ],
+        "superclassUsr": "c:objc(cs)NSObject",
+        "inheritsConvenienceInitializers": true,
+        "superclassNames": [
+          "ObjectiveC.NSObject"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Equatable",
+            "printedName": "Equatable",
+            "usr": "s:SQ",
+            "mangledName": "$sSQ"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Hashable",
+            "printedName": "Hashable",
+            "usr": "s:SH",
+            "mangledName": "$sSH"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CVarArg",
+            "printedName": "CVarArg",
+            "usr": "s:s7CVarArgP",
+            "mangledName": "$ss7CVarArgP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "_KeyValueCodingAndObservingPublishing",
+            "printedName": "_KeyValueCodingAndObservingPublishing",
+            "usr": "s:10Foundation37_KeyValueCodingAndObservingPublishingP",
+            "mangledName": "$s10Foundation37_KeyValueCodingAndObservingPublishingP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "_KeyValueCodingAndObserving",
+            "printedName": "_KeyValueCodingAndObserving",
+            "usr": "s:10Foundation27_KeyValueCodingAndObservingP",
+            "mangledName": "$s10Foundation27_KeyValueCodingAndObservingP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CustomStringConvertible",
+            "printedName": "CustomStringConvertible",
+            "usr": "s:s23CustomStringConvertibleP",
+            "mangledName": "$ss23CustomStringConvertibleP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CustomDebugStringConvertible",
+            "printedName": "CustomDebugStringConvertible",
+            "usr": "s:s28CustomDebugStringConvertibleP",
+            "mangledName": "$ss28CustomDebugStringConvertibleP"
+          }
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "AxeptioSDK",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "AxeptioSDK",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "AxeptioSDK",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "UIKit",
+        "printedName": "UIKit",
+        "declKind": "Import",
+        "moduleName": "AxeptioSDK"
+      },
+      {
+        "kind": "Import",
+        "name": "WebKit",
+        "printedName": "WebKit",
+        "declKind": "Import",
+        "moduleName": "AxeptioSDK"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "AxeptioSDK",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "UIKit",
+        "printedName": "UIKit",
+        "declKind": "Import",
+        "moduleName": "AxeptioSDK"
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "AxeptioSDK",
+        "printedName": "AxeptioSDK",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "shared",
+            "printedName": "shared",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "AxeptioSDK",
+                "printedName": "AxeptioSDK.AxeptioSDK",
+                "usr": "c:@M@AxeptioSDK@objc(cs)AxeptioSDK"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "c:@M@AxeptioSDK@objc(cs)AxeptioSDK(cpy)shared",
+            "mangledName": "$s10AxeptioSDKAAC6sharedABvpZ",
+            "moduleName": "AxeptioSDK",
+            "static": true,
+            "declAttributes": [
+              "HasInitialValue",
+              "Final",
+              "HasStorage",
+              "AccessControl",
+              "ObjC"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "AxeptioSDK",
+                    "printedName": "AxeptioSDK.AxeptioSDK",
+                    "usr": "c:@M@AxeptioSDK@objc(cs)AxeptioSDK"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "c:@M@AxeptioSDK@objc(cs)AxeptioSDK(cm)shared",
+                "mangledName": "$s10AxeptioSDKAAC6sharedABvgZ",
+                "moduleName": "AxeptioSDK",
+                "static": true,
+                "implicit": true,
+                "declAttributes": [
+                  "Final",
+                  "ObjC"
+                ],
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Function",
+            "name": "initialize",
+            "printedName": "initialize(projectId:configurationId:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@M@AxeptioSDK@objc(cs)AxeptioSDK(im)initializeWithProjectId:configurationId:",
+            "mangledName": "$s10AxeptioSDKAAC10initialize9projectId013configurationE0ySS_SStF",
+            "moduleName": "AxeptioSDK",
+            "objc_name": "initializeWithProjectId:configurationId:",
+            "declAttributes": [
+              "Final",
+              "AccessControl",
+              "ObjC"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "setupUI",
+            "printedName": "setupUI(containerController:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "UIViewController",
+                "printedName": "UIKit.UIViewController",
+                "usr": "c:objc(cs)UIViewController"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@M@AxeptioSDK@objc(cs)AxeptioSDK(im)setupUIWithContainerController:",
+            "mangledName": "$s10AxeptioSDKAAC7setupUI19containerControllerySo06UIViewF0C_tF",
+            "moduleName": "AxeptioSDK",
+            "objc_name": "setupUIWithContainerController:",
+            "declAttributes": [
+              "Final",
+              "AccessControl",
+              "ObjC"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "setUserDeniedTracking",
+            "printedName": "setUserDeniedTracking()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@M@AxeptioSDK@objc(cs)AxeptioSDK(im)setUserDeniedTracking",
+            "mangledName": "$s10AxeptioSDKAAC21setUserDeniedTrackingyyF",
+            "moduleName": "AxeptioSDK",
+            "declAttributes": [
+              "Final",
+              "AccessControl",
+              "ObjC"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "showConsentScreen",
+            "printedName": "showConsentScreen(_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "UIViewController",
+                "printedName": "UIKit.UIViewController",
+                "usr": "c:objc(cs)UIViewController"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@M@AxeptioSDK@objc(cs)AxeptioSDK(im)showConsentScreen:",
+            "mangledName": "$s10AxeptioSDKAAC17showConsentScreenyySo16UIViewControllerCF",
+            "moduleName": "AxeptioSDK",
+            "declAttributes": [
+              "Final",
+              "AccessControl",
+              "ObjC"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "setEventListener",
+            "printedName": "setEventListener(_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "AxeptioEventListener",
+                "printedName": "AxeptioSDK.AxeptioEventListener",
+                "usr": "c:@M@AxeptioSDK@objc(cs)AxeptioEventListener"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@M@AxeptioSDK@objc(cs)AxeptioSDK(im)setEventListener:",
+            "mangledName": "$s10AxeptioSDKAAC16setEventListeneryyAA0adE0CF",
+            "moduleName": "AxeptioSDK",
+            "declAttributes": [
+              "Final",
+              "AccessControl",
+              "ObjC"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "removeEventListener",
+            "printedName": "removeEventListener(_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "AxeptioEventListener",
+                "printedName": "AxeptioSDK.AxeptioEventListener",
+                "usr": "c:@M@AxeptioSDK@objc(cs)AxeptioEventListener"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@M@AxeptioSDK@objc(cs)AxeptioSDK(im)removeEventListener:",
+            "mangledName": "$s10AxeptioSDKAAC19removeEventListeneryyAA0adE0CF",
+            "moduleName": "AxeptioSDK",
+            "declAttributes": [
+              "Final",
+              "AccessControl",
+              "ObjC"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "AxeptioSDK",
+                "printedName": "AxeptioSDK.AxeptioSDK",
+                "usr": "c:@M@AxeptioSDK@objc(cs)AxeptioSDK"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "c:@M@AxeptioSDK@objc(cs)AxeptioSDK(im)init",
+            "mangledName": "$s10AxeptioSDKAACABycfc",
+            "moduleName": "AxeptioSDK",
+            "overriding": true,
+            "implicit": true,
+            "objc_name": "init",
+            "declAttributes": [
+              "Dynamic",
+              "ObjC",
+              "Override"
+            ],
+            "init_kind": "Designated"
+          }
+        ],
+        "declKind": "Class",
+        "usr": "c:@M@AxeptioSDK@objc(cs)AxeptioSDK",
+        "mangledName": "$s10AxeptioSDKAAC",
+        "moduleName": "AxeptioSDK",
+        "declAttributes": [
+          "Final",
+          "AccessControl",
+          "ObjC"
+        ],
+        "superclassUsr": "c:objc(cs)NSObject",
+        "hasMissingDesignatedInitializers": true,
+        "superclassNames": [
+          "ObjectiveC.NSObject"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Equatable",
+            "printedName": "Equatable",
+            "usr": "s:SQ",
+            "mangledName": "$sSQ"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Hashable",
+            "printedName": "Hashable",
+            "usr": "s:SH",
+            "mangledName": "$sSH"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CVarArg",
+            "printedName": "CVarArg",
+            "usr": "s:s7CVarArgP",
+            "mangledName": "$ss7CVarArgP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "_KeyValueCodingAndObservingPublishing",
+            "printedName": "_KeyValueCodingAndObservingPublishing",
+            "usr": "s:10Foundation37_KeyValueCodingAndObservingPublishingP",
+            "mangledName": "$s10Foundation37_KeyValueCodingAndObservingPublishingP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "_KeyValueCodingAndObserving",
+            "printedName": "_KeyValueCodingAndObserving",
+            "usr": "s:10Foundation27_KeyValueCodingAndObservingP",
+            "mangledName": "$s10Foundation27_KeyValueCodingAndObservingP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CustomStringConvertible",
+            "printedName": "CustomStringConvertible",
+            "usr": "s:s23CustomStringConvertibleP",
+            "mangledName": "$ss23CustomStringConvertibleP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CustomDebugStringConvertible",
+            "printedName": "CustomDebugStringConvertible",
+            "usr": "s:s28CustomDebugStringConvertibleP",
+            "mangledName": "$ss28CustomDebugStringConvertibleP"
+          }
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "AxeptioSDK",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "AxeptioSDK",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "AxeptioSDK",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "AxeptioSDK",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      }
+    ],
+    "json_format_version": 8
+  },
+  "ConstValues": [
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Models\/Events.swift",
+      "kind": "StringLiteral",
+      "offset": 158,
+      "length": 15,
+      "value": "\"consent:saved\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Models\/Events.swift",
+      "kind": "StringLiteral",
+      "offset": 205,
+      "length": 31,
+      "value": "\"google:consent-mode-v2-update\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Models\/Events.swift",
+      "kind": "StringLiteral",
+      "offset": 158,
+      "length": 15,
+      "value": "\"consent:saved\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Models\/Events.swift",
+      "kind": "StringLiteral",
+      "offset": 205,
+      "length": 31,
+      "value": "\"google:consent-mode-v2-update\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Models\/Events.swift",
+      "kind": "StringLiteral",
+      "offset": 324,
+      "length": 15,
+      "value": "\"cookies:close\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Models\/Events.swift",
+      "kind": "StringLiteral",
+      "offset": 363,
+      "length": 14,
+      "value": "\"cookies:open\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Models\/Events.swift",
+      "kind": "StringLiteral",
+      "offset": 410,
+      "length": 24,
+      "value": "\"cookies:consent:accept\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Models\/Events.swift",
+      "kind": "StringLiteral",
+      "offset": 467,
+      "length": 24,
+      "value": "\"cookies:consent:reject\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Models\/Events.swift",
+      "kind": "StringLiteral",
+      "offset": 525,
+      "length": 25,
+      "value": "\"cookies:consent:partial\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Models\/Events.swift",
+      "kind": "StringLiteral",
+      "offset": 586,
+      "length": 28,
+      "value": "\"cookies:vendors:toggle:off\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Models\/Events.swift",
+      "kind": "StringLiteral",
+      "offset": 649,
+      "length": 27,
+      "value": "\"cookies:vendors:toggle:on\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Models\/Events.swift",
+      "kind": "StringLiteral",
+      "offset": 715,
+      "length": 31,
+      "value": "\"cookies:vendors:toggleall:off\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Models\/Events.swift",
+      "kind": "StringLiteral",
+      "offset": 784,
+      "length": 30,
+      "value": "\"ccokies:vendors:toggleall:on\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Models\/Events.swift",
+      "kind": "StringLiteral",
+      "offset": 835,
+      "length": 10,
+      "value": "\"pagehide\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Models\/Events.swift",
+      "kind": "StringLiteral",
+      "offset": 869,
+      "length": 13,
+      "value": "\"pagevisible\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Models\/Events.swift",
+      "kind": "StringLiteral",
+      "offset": 903,
+      "length": 10,
+      "value": "\"pageview\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Models\/Events.swift",
+      "kind": "StringLiteral",
+      "offset": 944,
+      "length": 21,
+      "value": "\"cookies:step:change\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Models\/Events.swift",
+      "kind": "StringLiteral",
+      "offset": 324,
+      "length": 15,
+      "value": "\"cookies:close\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Models\/Events.swift",
+      "kind": "StringLiteral",
+      "offset": 363,
+      "length": 14,
+      "value": "\"cookies:open\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Models\/Events.swift",
+      "kind": "StringLiteral",
+      "offset": 410,
+      "length": 24,
+      "value": "\"cookies:consent:accept\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Models\/Events.swift",
+      "kind": "StringLiteral",
+      "offset": 467,
+      "length": 24,
+      "value": "\"cookies:consent:reject\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Models\/Events.swift",
+      "kind": "StringLiteral",
+      "offset": 525,
+      "length": 25,
+      "value": "\"cookies:consent:partial\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Models\/Events.swift",
+      "kind": "StringLiteral",
+      "offset": 586,
+      "length": 28,
+      "value": "\"cookies:vendors:toggle:off\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Models\/Events.swift",
+      "kind": "StringLiteral",
+      "offset": 649,
+      "length": 27,
+      "value": "\"cookies:vendors:toggle:on\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Models\/Events.swift",
+      "kind": "StringLiteral",
+      "offset": 715,
+      "length": 31,
+      "value": "\"cookies:vendors:toggleall:off\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Models\/Events.swift",
+      "kind": "StringLiteral",
+      "offset": 784,
+      "length": 30,
+      "value": "\"ccokies:vendors:toggleall:on\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Models\/Events.swift",
+      "kind": "StringLiteral",
+      "offset": 835,
+      "length": 10,
+      "value": "\"pagehide\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Models\/Events.swift",
+      "kind": "StringLiteral",
+      "offset": 869,
+      "length": 13,
+      "value": "\"pagevisible\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Models\/Events.swift",
+      "kind": "StringLiteral",
+      "offset": 903,
+      "length": 10,
+      "value": "\"pageview\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Models\/Events.swift",
+      "kind": "StringLiteral",
+      "offset": 944,
+      "length": 21,
+      "value": "\"cookies:step:change\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Models\/Events.swift",
+      "kind": "StringLiteral",
+      "offset": 1014,
+      "length": 10,
+      "value": "\"app:open\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Models\/Events.swift",
+      "kind": "StringLiteral",
+      "offset": 1045,
+      "length": 11,
+      "value": "\"app:close\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Models\/Events.swift",
+      "kind": "StringLiteral",
+      "offset": 1014,
+      "length": 10,
+      "value": "\"app:open\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Models\/Events.swift",
+      "kind": "StringLiteral",
+      "offset": 1045,
+      "length": 11,
+      "value": "\"app:close\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Public\/Models\/GoogleConsent.swift",
+      "kind": "IntegerLiteral",
+      "offset": 253,
+      "length": 6,
+      "value": "1"
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Public\/Models\/GoogleConsent.swift",
+      "kind": "StringLiteral",
+      "offset": 349,
+      "length": 9,
+      "value": "\"granted\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Public\/Models\/GoogleConsent.swift",
+      "kind": "StringLiteral",
+      "offset": 388,
+      "length": 8,
+      "value": "\"denied\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Public\/Models\/GoogleConsent.swift",
+      "kind": "StringLiteral",
+      "offset": 491,
+      "length": 9,
+      "value": "\"granted\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Public\/Models\/GoogleConsent.swift",
+      "kind": "StringLiteral",
+      "offset": 531,
+      "length": 8,
+      "value": "\"denied\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Public\/Models\/GoogleConsent.swift",
+      "kind": "StringLiteral",
+      "offset": 1293,
+      "length": 19,
+      "value": "\"analytics_storage\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Public\/Models\/GoogleConsent.swift",
+      "kind": "StringLiteral",
+      "offset": 1338,
+      "length": 12,
+      "value": "\"ad_storage\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Public\/Models\/GoogleConsent.swift",
+      "kind": "StringLiteral",
+      "offset": 1377,
+      "length": 14,
+      "value": "\"ad_user_data\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Public\/Models\/GoogleConsent.swift",
+      "kind": "StringLiteral",
+      "offset": 1425,
+      "length": 20,
+      "value": "\"ad_personalization\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Public\/Models\/GoogleConsent.swift",
+      "kind": "StringLiteral",
+      "offset": 1293,
+      "length": 19,
+      "value": "\"analytics_storage\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Public\/Models\/GoogleConsent.swift",
+      "kind": "StringLiteral",
+      "offset": 1338,
+      "length": 12,
+      "value": "\"ad_storage\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Public\/Models\/GoogleConsent.swift",
+      "kind": "StringLiteral",
+      "offset": 1377,
+      "length": 14,
+      "value": "\"ad_user_data\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Public\/Models\/GoogleConsent.swift",
+      "kind": "StringLiteral",
+      "offset": 1425,
+      "length": 20,
+      "value": "\"ad_personalization\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Public\/Models\/GoogleConsent.swift",
+      "kind": "StringLiteral",
+      "offset": 622,
+      "length": 15,
+      "value": "\"AxeptioSDK.GoogleConsentV2\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Network\/NetworkRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 676,
+      "length": 23,
+      "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Network\/NetworkRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 698,
+      "length": 9,
+      "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Network\/NetworkRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1143,
+      "length": 14,
+      "value": "\"Content-Type\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Network\/NetworkRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1204,
+      "length": 18,
+      "value": "\"application\/json\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Network\/NetworkRequest.swift",
+      "kind": "StringLiteral",
+      "offset": 1244,
+      "length": 14,
+      "value": "\"Content-Type\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/ATTManager.swift",
+      "kind": "BooleanLiteral",
+      "offset": 428,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Network\/Provider.swift",
+      "kind": "IntegerLiteral",
+      "offset": 833,
+      "length": 3,
+      "value": "200"
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Network\/Provider.swift",
+      "kind": "IntegerLiteral",
+      "offset": 839,
+      "length": 3,
+      "value": "399"
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Network\/Provider.swift",
+      "kind": "IntegerLiteral",
+      "offset": 903,
+      "length": 3,
+      "value": "401"
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Network\/Provider.swift",
+      "kind": "IntegerLiteral",
+      "offset": 989,
+      "length": 1,
+      "value": "0"
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Network\/Provider.swift",
+      "kind": "IntegerLiteral",
+      "offset": 992,
+      "length": 3,
+      "value": "500"
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Network\/Provider.swift",
+      "kind": "IntegerLiteral",
+      "offset": 998,
+      "length": 3,
+      "value": "599"
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/View\/AxeptioViewModel.swift",
+      "kind": "StringLiteral",
+      "offset": 758,
+      "length": 17,
+      "value": "\"IABTCF_TCString\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/View\/AxeptioViewModel.swift",
+      "kind": "BooleanLiteral",
+      "offset": 851,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/View\/AxeptioViewModel.swift",
+      "kind": "StringLiteral",
+      "offset": 1080,
+      "length": 2,
+      "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/View\/AxeptioViewModel.swift",
+      "kind": "BooleanLiteral",
+      "offset": 1181,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/View\/AxeptioViewModel.swift",
+      "kind": "StringLiteral",
+      "offset": 1242,
+      "length": 2,
+      "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/View\/AxeptioViewModel.swift",
+      "kind": "StringLiteral",
+      "offset": 1280,
+      "length": 2,
+      "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/View\/AxeptioViewModel.swift",
+      "kind": "StringLiteral",
+      "offset": 2036,
+      "length": 16,
+      "value": "\"NetworkMonitor\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/View\/AxeptioViewModel.swift",
+      "kind": "BooleanLiteral",
+      "offset": 2877,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/View\/AxeptioViewModel.swift",
+      "kind": "StringLiteral",
+      "offset": 3317,
+      "length": 16,
+      "value": "\"sdk-mobile-tcf\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/View\/AxeptioViewModel.swift",
+      "kind": "StringLiteral",
+      "offset": 3341,
+      "length": 9,
+      "value": "\"sdk-ios\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/View\/AxeptioViewModel.swift",
+      "kind": "StringLiteral",
+      "offset": 4350,
+      "length": 35,
+      "value": "\"Application will enter foreground\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/View\/AxeptioViewModel.swift",
+      "kind": "StringLiteral",
+      "offset": 4516,
+      "length": 34,
+      "value": "\"application did enter background\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Repository\/InAppEventQueueRepository.swift",
+      "kind": "StringLiteral",
+      "offset": 446,
+      "length": 20,
+      "value": "\"event_cookies_open\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Repository\/InAppEventQueueRepository.swift",
+      "kind": "StringLiteral",
+      "offset": 509,
+      "length": 22,
+      "value": "\"io.axept.event_saved\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Repository\/InAppEventQueueRepository.swift",
+      "kind": "StringLiteral",
+      "offset": 952,
+      "length": 11,
+      "value": "\"timestamp\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Repository\/InAppEventQueueRepository.swift",
+      "kind": "StringLiteral",
+      "offset": 993,
+      "length": 12,
+      "value": "\"deployment\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Repository\/InAppEventQueueRepository.swift",
+      "kind": "StringLiteral",
+      "offset": 1035,
+      "length": 6,
+      "value": "\"type\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Repository\/InAppEventQueueRepository.swift",
+      "kind": "StringLiteral",
+      "offset": 1080,
+      "length": 10,
+      "value": "\"pathname\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Repository\/InAppEventQueueRepository.swift",
+      "kind": "StringLiteral",
+      "offset": 1126,
+      "length": 16,
+      "value": "\"io.axeptio.sdk\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Repository\/EventQueueRepository.swift",
+      "kind": "StringLiteral",
+      "offset": 373,
+      "length": 13,
+      "value": "\"event_queue\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Repository\/EventQueueRepository.swift",
+      "kind": "StringLiteral",
+      "offset": 429,
+      "length": 22,
+      "value": "\"io.axept.event_queue\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/View\/WebView.swift",
+      "kind": "StringLiteral",
+      "offset": 251,
+      "length": 12,
+      "value": "\"axeptioSdk\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/View\/WebView.swift",
+      "kind": "BooleanLiteral",
+      "offset": 1267,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/View\/WebView.swift",
+      "kind": "BooleanLiteral",
+      "offset": 1309,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/View\/WebView.swift",
+      "kind": "StringLiteral",
+      "offset": 1521,
+      "length": 16,
+      "value": "\"axeptiopreview\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/View\/WebView.swift",
+      "kind": "StringLiteral",
+      "offset": 1547,
+      "length": 6,
+      "value": "\"html\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/View\/WebView.swift",
+      "kind": "StringLiteral",
+      "offset": 1580,
+      "length": 48,
+      "value": "\"Unable to load local html file: axeptiopreview\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/View\/WebView.swift",
+      "kind": "BooleanLiteral",
+      "offset": 1779,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/View\/WebView.swift",
+      "kind": "StringLiteral",
+      "offset": 140,
+      "length": 7,
+      "value": "\"AxeptioSDK.WebView\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/View\/WebView.swift",
+      "kind": "StringLiteral",
+      "offset": 2327,
+      "length": 6,
+      "value": "\"name\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/View\/WebView.swift",
+      "kind": "StringLiteral",
+      "offset": 2379,
+      "length": 21,
+      "value": "\"error getting event\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/View\/WebView.swift",
+      "kind": "StringLiteral",
+      "offset": 2473,
+      "length": 9,
+      "value": "\"payload\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/View\/WebView.swift",
+      "kind": "BooleanLiteral",
+      "offset": 2758,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/View\/WebView.swift",
+      "kind": "StringLiteral",
+      "offset": 2881,
+      "length": 9,
+      "value": "\"payload\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/View\/WebView.swift",
+      "kind": "StringLiteral",
+      "offset": 3428,
+      "length": 9,
+      "value": "\"payload\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/View\/WebView.swift",
+      "kind": "StringLiteral",
+      "offset": 3691,
+      "length": 186,
+      "value": "\"    window.axeptioSettings = {\n        projectId: '\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/View\/WebView.swift",
+      "kind": "StringLiteral",
+      "offset": 3784,
+      "length": 2,
+      "value": "\"',\n        configurationId: '\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/View\/WebView.swift",
+      "kind": "StringLiteral",
+      "offset": 3849,
+      "length": 2,
+      "value": "\"',\n    }\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/View\/WebView.swift",
+      "kind": "BooleanLiteral",
+      "offset": 4026,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/View\/WebView.swift",
+      "kind": "BooleanLiteral",
+      "offset": 4506,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/View\/WebView.swift",
+      "kind": "BooleanLiteral",
+      "offset": 4707,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/View\/WebView.swift",
+      "kind": "StringLiteral",
+      "offset": 4916,
+      "length": 8,
+      "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/View\/WebView.swift",
+      "kind": "StringLiteral",
+      "offset": 4923,
+      "length": 8,
+      "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/View\/WebView.swift",
+      "kind": "StringLiteral",
+      "offset": 5207,
+      "length": 47,
+      "value": "\"Object.assign(window.localStorage, \""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/View\/WebView.swift",
+      "kind": "StringLiteral",
+      "offset": 5251,
+      "length": 1,
+      "value": "\");\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/View\/WebView.swift",
+      "kind": "BooleanLiteral",
+      "offset": 5339,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/View\/WebView.swift",
+      "kind": "StringLiteral",
+      "offset": 5529,
+      "length": 424,
+      "value": "\"    var axeptioMobileSdk = {\n        onEvent: function (name, payload) {\n\n            const handler = window.webkit.messageHandlers.axeptioSdk;\n            if (handler) {\n                handler.postMessage({name, payload});\n            } else {\n                console.log(\"Missing iOS handler\");\n            }\n        }\n    };\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/View\/WebView.swift",
+      "kind": "BooleanLiteral",
+      "offset": 6097,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Public\/AxeptioSDK.swift",
+      "kind": "IntegerLiteral",
+      "offset": 661,
+      "length": 2,
+      "value": "28"
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Public\/AxeptioSDK.swift",
+      "kind": "StringLiteral",
+      "offset": 695,
+      "length": 14,
+      "value": "\"_ax_tcstring\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Public\/AxeptioSDK.swift",
+      "kind": "StringLiteral",
+      "offset": 744,
+      "length": 21,
+      "value": "\"_ax_mobile_sdk_mode\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Public\/AxeptioSDK.swift",
+      "kind": "StringLiteral",
+      "offset": 802,
+      "length": 23,
+      "value": "\"_ax_mobile_att_denied\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Public\/AxeptioSDK.swift",
+      "kind": "Array",
+      "offset": 916,
+      "length": 2,
+      "value": "[]"
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Public\/AxeptioSDK.swift",
+      "kind": "IntegerLiteral",
+      "offset": 966,
+      "length": 4,
+      "value": "3000"
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Public\/AxeptioSDK.swift",
+      "kind": "BooleanLiteral",
+      "offset": 1759,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Public\/AxeptioSDK.swift",
+      "kind": "BooleanLiteral",
+      "offset": 2084,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Public\/AxeptioSDK.swift",
+      "kind": "BooleanLiteral",
+      "offset": 2642,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Public\/AxeptioSDK.swift",
+      "kind": "StringLiteral",
+      "offset": 520,
+      "length": 10,
+      "value": "\"AxeptioSDK.AxeptioSDK\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Worker\/AxeptioWorker.swift",
+      "kind": "IntegerLiteral",
+      "offset": 502,
+      "length": 2,
+      "value": "20"
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Worker\/AxeptioWorker.swift",
+      "kind": "IntegerLiteral",
+      "offset": 537,
+      "length": 4,
+      "value": "3000"
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Worker\/AxeptioWorker.swift",
+      "kind": "IntegerLiteral",
+      "offset": 584,
+      "length": 5,
+      "value": "60000"
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Worker\/AxeptioWorker.swift",
+      "kind": "BooleanLiteral",
+      "offset": 1370,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Worker\/AxeptioWorker.swift",
+      "kind": "StringLiteral",
+      "offset": 1460,
+      "length": 31,
+      "value": "\"send event queue periodically\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Worker\/AxeptioWorker.swift",
+      "kind": "Array",
+      "offset": 1791,
+      "length": 2,
+      "value": "[]"
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Worker\/AxeptioWorker.swift",
+      "kind": "IntegerLiteral",
+      "offset": 2484,
+      "length": 1,
+      "value": "0"
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Worker\/AxeptioWorker.swift",
+      "kind": "BooleanLiteral",
+      "offset": 3281,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Worker\/AxeptioWorker.swift",
+      "kind": "StringLiteral",
+      "offset": 3544,
+      "length": 2,
+      "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Worker\/AxeptioWorker.swift",
+      "kind": "StringLiteral",
+      "offset": 3588,
+      "length": 27,
+      "value": "\"send consent proof called\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Worker\/AxeptioWorker.swift",
+      "kind": "StringLiteral",
+      "offset": 3720,
+      "length": 35,
+      "value": "\"send consent proof called success\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Worker\/AxeptioWorker.swift",
+      "kind": "StringLiteral",
+      "offset": 3878,
+      "length": 65,
+      "value": "\"send consent proof called error \""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Worker\/AxeptioWorker.swift",
+      "kind": "StringLiteral",
+      "offset": 3942,
+      "length": 2,
+      "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Extensions.swift",
+      "kind": "BooleanLiteral",
+      "offset": 245,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Extensions.swift",
+      "kind": "StringLiteral",
+      "offset": 523,
+      "length": 30,
+      "value": "\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Extensions.swift",
+      "kind": "StringLiteral",
+      "offset": 608,
+      "length": 5,
+      "value": "\"UTC\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Extensions.swift",
+      "kind": "StringLiteral",
+      "offset": 837,
+      "length": 62,
+      "value": "\"Something is wrong while converting dictionary to JSON data.\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Extensions.swift",
+      "kind": "StringLiteral",
+      "offset": 1031,
+      "length": 63,
+      "value": "\"Something is wrong while converting JSON data to JSON string.\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Network\/AxeptioEndPoint.swift",
+      "kind": "StringLiteral",
+      "offset": 318,
+      "length": 6,
+      "value": "\"POST\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Network\/AxeptioEndPoint.swift",
+      "kind": "StringLiteral",
+      "offset": 358,
+      "length": 22,
+      "value": "\"https:\/\/api.axept.io\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Network\/AxeptioEndPoint.swift",
+      "kind": "StringLiteral",
+      "offset": 476,
+      "length": 20,
+      "value": "\"\/v1\/analytics\/evts\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Network\/AxeptioEndPoint.swift",
+      "kind": "StringLiteral",
+      "offset": 587,
+      "length": 58,
+      "value": "\"\/v1\/app\/consents\/\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Network\/AxeptioEndPoint.swift",
+      "kind": "StringLiteral",
+      "offset": 617,
+      "length": 1,
+      "value": "\"\/cookies\/\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Network\/AxeptioEndPoint.swift",
+      "kind": "StringLiteral",
+      "offset": 644,
+      "length": 1,
+      "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/noeline\/develop\/Axeptio\/tcf-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Network\/AxeptioEndPoint.swift",
+      "kind": "Dictionary",
+      "offset": 903,
+      "length": 3,
+      "value": "[]"
+    }
+  ]
+}
