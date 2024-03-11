@@ -1,0 +1,50 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.9.2 (swiftlang-5.9.2.2.56 clang-1500.1.0.2.5)
+// swift-module-flags: -target x86_64-apple-ios12.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name AxeptioSDK
+// swift-module-flags-ignorable: -enable-bare-slash-regex
+import AppTrackingTransparency
+import Foundation
+import Network
+import OSLog
+import Swift
+import UIKit
+import WebKit
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+@objc @_hasMissingDesignatedInitializers final public class Axeptio : ObjectiveC.NSObject {
+  @objc public static let shared: AxeptioSDK.Axeptio
+  @objc final public func initialize(projectId: Swift.String, configurationId: Swift.String)
+  @objc final public func setupUI(containerController: UIKit.UIViewController)
+  @objc final public func setUserDeniedTracking()
+  @objc final public func showConsentScreen(_ view: UIKit.UIViewController)
+  @objc final public func setEventListener(_ listener: AxeptioSDK.AxeptioEventListener)
+  @objc final public func removeEventListener(_ listener: AxeptioSDK.AxeptioEventListener)
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers @objc public class GoogleConsentV2 : ObjectiveC.NSObject, Swift.Decodable {
+  @objc public var analyticsStorage: AxeptioSDK.GoogleConsentStatus
+  @objc public var adStorage: AxeptioSDK.GoogleConsentStatus
+  @objc public var adUserData: AxeptioSDK.GoogleConsentStatus
+  @objc public var adPersonalization: AxeptioSDK.GoogleConsentStatus
+  @objc deinit
+  required public init(from decoder: any Swift.Decoder) throws
+}
+@_inheritsConvenienceInitializers @objc final public class AxeptioEventListener : ObjectiveC.NSObject {
+  @objc final public var onPopupClosedEvent: (() -> Swift.Void)?
+  @objc final public var onConsentChanged: (() -> Swift.Void)?
+  @objc final public var onGoogleConsentModeUpdate: ((AxeptioSDK.GoogleConsentV2) -> Swift.Void)?
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc public enum GoogleConsentStatus : Swift.Int, Swift.RawRepresentable, Swift.Decodable {
+  public typealias RawValue = Swift.String
+  case granted
+  case denied
+  public var rawValue: AxeptioSDK.GoogleConsentStatus.RawValue {
+    get
+  }
+  public init?(rawValue: AxeptioSDK.GoogleConsentStatus.RawValue)
+}
+extension AxeptioSDK.GoogleConsentStatus : Swift.Equatable {}
+extension AxeptioSDK.GoogleConsentStatus : Swift.Hashable {}

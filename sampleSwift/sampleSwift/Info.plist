@@ -2,20 +2,22 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>GOOGLE_ANALYTICS_DEFAULT_ALLOW_ANALYTICS_STORAGE</key>
-	<false/>
-	<key>GOOGLE_ANALYTICS_DEFAULT_ALLOW_AD_STORAGE</key>
-	<false/>
-	<key>GOOGLE_ANALYTICS_DEFAULT_ALLOW_AD_USER_DATA</key>
-	<false/>
-	<key>GOOGLE_ANALYTICS_DEFAULT_ALLOW_AD_PERSONALIZATION_SIGNALS</key>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>Your data will be used to deliver personalized ads to you.</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>FirebaseAutomaticScreenReportingEnabled</key>
 	<false/>
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-3940256099942544~3347511713</string>
-	<key>CFBundleIdentifier</key>
-	<string></string>
+	<key>GOOGLE_ANALYTICS_DEFAULT_ALLOW_AD_PERSONALIZATION_SIGNALS</key>
+	<false/>
+	<key>GOOGLE_ANALYTICS_DEFAULT_ALLOW_AD_STORAGE</key>
+	<false/>
+	<key>GOOGLE_ANALYTICS_DEFAULT_ALLOW_AD_USER_DATA</key>
+	<false/>
+	<key>GOOGLE_ANALYTICS_DEFAULT_ALLOW_ANALYTICS_STORAGE</key>
+	<false/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>

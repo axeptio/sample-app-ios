@@ -7,7 +7,7 @@
 
 import UIKit
 
-import Axeptio
+import AxeptioSDK
 import FirebaseCore
 import GoogleMobileAds
 
@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
 
-        AxeptioSDK.shared.initialize(projectId: "5fbfa806a0787d3985c6ee5f", configurationId: "62ac903ddf8cf90ca29d9585")
+        Axeptio.shared.initialize(projectId: "5fbfa806a0787d3985c6ee5f", configurationId: "62ac903ddf8cf90ca29d9585")
 
         FirebaseApp.configure()
 

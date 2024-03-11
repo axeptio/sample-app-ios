@@ -11,7 +11,7 @@
 @import FirebaseAnalytics;
 @import GoogleMobileAds;
 
-@import Axeptio;
+@import AxeptioSDK;
 
 @interface MainViewController ()<GADFullScreenContentDelegate>
 
@@ -46,7 +46,7 @@
         if (@available(iOS 14, *)) {
             [ATTrackingManager requestTrackingAuthorizationWithCompletionHandler:^(ATTrackingManagerAuthorizationStatus status) {
                 if (status == ATTrackingManagerAuthorizationStatusDenied) {
-                    [AxeptioSDK.shared setUserDeniedTracking];
+                    [Axeptio.shared setUserDeniedTracking];
                 }
             }];
         }
@@ -65,25 +65,25 @@
         [self loadAd];
     }];
 
-    [AxeptioSDK.shared setEventListener:axeptioEventListener];
+    [Axeptio.shared setEventListener:axeptioEventListener];
 
     if (@available(iOS 14, *)) {
         [ATTrackingManager requestTrackingAuthorizationWithCompletionHandler:^(ATTrackingManagerAuthorizationStatus status) {
             if (status == ATTrackingManagerAuthorizationStatusDenied) {
-                [AxeptioSDK.shared setUserDeniedTracking];
+                [Axeptio.shared setUserDeniedTracking];
             } else {
-                [AxeptioSDK.shared setupUIWithContainerController:self];
+                [Axeptio.shared setupUIWithContainerController:self];
             }
         }];
     } else {
-        [AxeptioSDK.shared setupUIWithContainerController:self];
+        [Axeptio.shared setupUIWithContainerController:self];
     }
 
     [self loadAd];
 }
 
 - (IBAction)showConsent:(id)sender {
-    [AxeptioSDK.shared showConsentScreen:self];
+    [Axeptio.shared showConsentScreen:self];
 }
 
 - (IBAction)showGoogleAd:(id)sender {

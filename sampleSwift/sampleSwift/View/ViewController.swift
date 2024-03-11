@@ -5,11 +5,11 @@
 //  Created by Noeline PAGESY on 21/02/2024.
 //
 
-//import AppTrackingTransparency
+import AppTrackingTransparency
 import Foundation
 import UIKit
 
-import Axeptio
+import AxeptioSDK
 import FirebaseAnalytics
 import GoogleMobileAds
 
@@ -28,7 +28,7 @@ class ViewController: UIViewController {
         userDefaultsButton.layer.cornerRadius = 24
         googleAdButton.layer.cornerRadius = 24
 
-        googleAdButton.isHidden = true
+        googleAdButton.isHidden = false
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -45,26 +45,28 @@ class ViewController: UIViewController {
         }
 
         axeptioEventListener.onConsentChanged = {
-//            if #available(iOS 14, *) {
-//                ATTrackingManager.requestTrackingAuthorization { status in
-//                    if status == .denied {
-//                        AxeptioSDK.shared.setUserDeniedTracking()
-//                    }
-//                }
-//            }
+            if #available(iOS 14, *) {
+                ATTrackingManager.requestTrackingAuthorization { status in
+                    if status == .denied {
+                        Axeptio.shared.setUserDeniedTracking()
+                    }
+                }
+            }
         }
 
         axeptioEventListener.onPopupClosedEvent = {
             self.loadAd()
         }
 
-        AxeptioSDK.shared.setEventListener(axeptioEventListener)
+        Axeptio.shared.setEventListener(axeptioEventListener)
 
         loadAd()
+
+        Axeptio.shared.setupUI(containerController: self)
     }
 
     @IBAction func showConsent(_ sender: Any) {
-        AxeptioSDK.shared.showConsentScreen(self)
+        Axeptio.shared.showConsentScreen(self)
     }
 
     @IBAction func showGoogleAd(_ sender: Any) {

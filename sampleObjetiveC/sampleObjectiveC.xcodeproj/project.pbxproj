@@ -3,11 +3,13 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C278B1372B910C8F00C62E48 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C278B1362B910C8F00C62E48 /* GoogleService-Info.plist */; };
+		C2D162C22B9B0F3E002E6085 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C2D162C12B9B0F3E002E6085 /* GoogleService-Info.plist */; };
+		C2D162FC2B9F47CD002E6085 /* AxeptioSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2D162FB2B9F47CD002E6085 /* AxeptioSDK.xcframework */; };
+		C2D162FD2B9F47D7002E6085 /* AxeptioSDK.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C2D162FB2B9F47CD002E6085 /* AxeptioSDK.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C2D9665B2B90DDA40085607A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C2D9665A2B90DDA40085607A /* AppDelegate.m */; };
 		C2D9665E2B90DDA40085607A /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C2D9665D2B90DDA40085607A /* SceneDelegate.m */; };
 		C2D966642B90DDA40085607A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C2D966622B90DDA40085607A /* Main.storyboard */; };
@@ -21,12 +23,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		C29724F12B98618700B63034 /* Embed Frameworks */ = {
+		C2D162B32B99D92B002E6085 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				C2D162FD2B9F47D7002E6085 /* AxeptioSDK.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -34,7 +37,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		C278B1362B910C8F00C62E48 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C2D162C12B9B0F3E002E6085 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C2D162FB2B9F47CD002E6085 /* AxeptioSDK.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:5DS79WMFEL:Agilitation"; lastKnownFileType = wrapper.xcframework; path = AxeptioSDK.xcframework; sourceTree = "<group>"; };
 		C2D966562B90DDA40085607A /* sampleObjectiveC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sampleObjectiveC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2D966592B90DDA40085607A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		C2D9665A2B90DDA40085607A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -56,6 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C2D162FC2B9F47CD002E6085 /* AxeptioSDK.xcframework in Frameworks */,
 				C2D966772B90DE0D0085607A /* GoogleMobileAds in Frameworks */,
 				C2D966742B90DDFC0085607A /* FirebaseAnalytics in Frameworks */,
 			);
@@ -64,11 +69,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C2D162AF2B99D92B002E6085 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C2D162FB2B9F47CD002E6085 /* AxeptioSDK.xcframework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		C2D9664D2B90DDA40085607A = {
 			isa = PBXGroup;
 			children = (
 				C2D966582B90DDA40085607A /* sampleObjectiveC */,
 				C2D966572B90DDA40085607A /* Products */,
+				C2D162AF2B99D92B002E6085 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -83,7 +97,7 @@
 		C2D966582B90DDA40085607A /* sampleObjectiveC */ = {
 			isa = PBXGroup;
 			children = (
-				C278B1362B910C8F00C62E48 /* GoogleService-Info.plist */,
+				C2D162C12B9B0F3E002E6085 /* GoogleService-Info.plist */,
 				C2D9667E2B90E2C50085607A /* View */,
 				C2D966592B90DDA40085607A /* AppDelegate.h */,
 				C2D9665A2B90DDA40085607A /* AppDelegate.m */,
@@ -119,7 +133,7 @@
 				C2D966522B90DDA40085607A /* Sources */,
 				C2D966532B90DDA40085607A /* Frameworks */,
 				C2D966542B90DDA40085607A /* Resources */,
-				C29724F12B98618700B63034 /* Embed Frameworks */,
+				C2D162B32B99D92B002E6085 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -176,7 +190,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C2D966692B90DDA50085607A /* LaunchScreen.storyboard in Resources */,
-				C278B1372B910C8F00C62E48 /* GoogleService-Info.plist in Resources */,
+				C2D162C22B9B0F3E002E6085 /* GoogleService-Info.plist in Resources */,
 				C2D966662B90DDA50085607A /* Assets.xcassets in Resources */,
 				C2D966642B90DDA40085607A /* Main.storyboard in Resources */,
 			);
@@ -340,11 +354,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 5SC9Z4BL26;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 5DS79WMFEL;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = sampleObjectiveC/Info.plist;
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "Your data will be used to deliver personalized ads to you.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -354,8 +371,10 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = io.axept.sampleObjectiveC;
+				PRODUCT_BUNDLE_IDENTIFIER = io.axeptio.sampleobjc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Axeptio Sample Objective C App Store";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -370,11 +389,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 5SC9Z4BL26;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 5DS79WMFEL;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = sampleObjectiveC/Info.plist;
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "Your data will be used to deliver personalized ads to you.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -384,8 +406,10 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = io.axept.sampleObjectiveC;
+				PRODUCT_BUNDLE_IDENTIFIER = io.axeptio.sampleobjc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Axeptio Sample Objective C App Store";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;

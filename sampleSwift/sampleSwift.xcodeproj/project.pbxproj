@@ -3,15 +3,16 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		C2AAF8CB2B85EB5500447D7B /* TCFFields.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2AAF8CA2B85EB5500447D7B /* TCFFields.swift */; };
 		C2AAF8CD2B85EF0A00447D7B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2AAF8CC2B85EF0A00447D7B /* ViewController.swift */; };
-		C2AAF8CF2B85F38400447D7B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C2AAF8CE2B85F38400447D7B /* GoogleService-Info.plist */; };
 		C2AAF8D22B85F42A00447D7B /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = C2AAF8D12B85F42A00447D7B /* FirebaseAnalytics */; };
 		C2AAF8D52B86020300447D7B /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = C2AAF8D42B86020300447D7B /* GoogleMobileAds */; };
+		C2D162C42B9B1071002E6085 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C2D162C32B9B1071002E6085 /* GoogleService-Info.plist */; };
+		C2D162FA2B9F47B2002E6085 /* AxeptioSDK.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C2D162EE2B9F1895002E6085 /* AxeptioSDK.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C2F130F32B750EF80079B2DF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F130F22B750EF80079B2DF /* AppDelegate.swift */; };
 		C2F130F72B750EF80079B2DF /* UserDefaultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F130F62B750EF80079B2DF /* UserDefaultsViewController.swift */; };
 		C2F130FA2B750EF80079B2DF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C2F130F82B750EF80079B2DF /* Main.storyboard */; };
@@ -20,12 +21,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		C29724E82B985B9E00B63034 /* Embed Frameworks */ = {
+		C2D162F92B9F4741002E6085 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				C2D162FA2B9F47B2002E6085 /* AxeptioSDK.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -35,7 +37,8 @@
 /* Begin PBXFileReference section */
 		C2AAF8CA2B85EB5500447D7B /* TCFFields.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCFFields.swift; sourceTree = "<group>"; };
 		C2AAF8CC2B85EF0A00447D7B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		C2AAF8CE2B85F38400447D7B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C2D162C32B9B1071002E6085 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C2D162EE2B9F1895002E6085 /* AxeptioSDK.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:5DS79WMFEL:Agilitation"; lastKnownFileType = wrapper.xcframework; path = AxeptioSDK.xcframework; sourceTree = "<group>"; };
 		C2F130EF2B750EF80079B2DF /* sampleSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sampleSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2F130F22B750EF80079B2DF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C2F130F62B750EF80079B2DF /* UserDefaultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsViewController.swift; sourceTree = "<group>"; };
@@ -87,7 +90,7 @@
 		C2F130F12B750EF80079B2DF /* sampleSwift */ = {
 			isa = PBXGroup;
 			children = (
-				C2AAF8CE2B85F38400447D7B /* GoogleService-Info.plist */,
+				C2D162C32B9B1071002E6085 /* GoogleService-Info.plist */,
 				C2F130F22B750EF80079B2DF /* AppDelegate.swift */,
 				C2AAF8D62B86034300447D7B /* View */,
 				C2F130F82B750EF80079B2DF /* Main.storyboard */,
@@ -102,6 +105,7 @@
 		C2F131932B753D450079B2DF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C2D162EE2B9F1895002E6085 /* AxeptioSDK.xcframework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -116,7 +120,7 @@
 				C2F130EB2B750EF80079B2DF /* Sources */,
 				C2F130EC2B750EF80079B2DF /* Frameworks */,
 				C2F130ED2B750EF80079B2DF /* Resources */,
-				C29724E82B985B9E00B63034 /* Embed Frameworks */,
+				C2D162F92B9F4741002E6085 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -175,7 +179,7 @@
 			files = (
 				C2F130FF2B750EFC0079B2DF /* LaunchScreen.storyboard in Resources */,
 				C2F130FC2B750EFC0079B2DF /* Assets.xcassets in Resources */,
-				C2AAF8CF2B85F38400447D7B /* GoogleService-Info.plist in Resources */,
+				C2D162C42B9B1071002E6085 /* GoogleService-Info.plist in Resources */,
 				C2F130FA2B750EF80079B2DF /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -340,9 +344,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 5SC9Z4BL26;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 5DS79WMFEL;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -361,8 +367,10 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = io.axept.sampleSwift;
+				PRODUCT_BUNDLE_IDENTIFIER = io.axeptio.sampleswift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Axeptio Sample Swift App Store";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -378,9 +386,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 5SC9Z4BL26;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 5DS79WMFEL;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -399,8 +409,10 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = io.axept.sampleSwift;
+				PRODUCT_BUNDLE_IDENTIFIER = io.axeptio.sampleswift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Axeptio Sample Swift App Store";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;

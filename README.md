@@ -1,6 +1,28 @@
-# ios SDK
+# Axeptio iOS SDK
 
-**Axeptio** CMP iOS SDK
+Welcome to the **Axeptio** iOS SDK Samples project! This repository demonstrates how to implement the Axeptio Android SDK in your mobile applications.
+
+## Overview
+
+The project consists of two modules:
+
+* `sampleSwift`: Illustrates the usage of the Axeptio SDK with Swift and SPM.
+* `sampleObjectiveC`: Demonstrates the integration of the Axeptio SDK with ObjectiveC ans cocoaPods.
+
+## Getting Started
+
+**Axeptio** CMP ios sdk
+To get started with implementing the Axeptio SDK in your Android app, follow these steps:
+
+Clone this repository to your local machine:
+```shell
+git clone https://github.com/axeptio/sample-app-ios
+```
+
+# Axeptio SDK implementation
+
+## Additional Resources
+For additional instructions and information about the Axeptio Mobile SDK implementation, please refer to the official documentation.
 
 ## Setup
 
@@ -26,7 +48,7 @@ The package can be added using CocoaPods:
 
 Xcode >= 12 (XCFramework)
 
-1. If you haven' already, install the latest version of CocoaPds.
+1. If you haven' already, install the latest version of [CocoaPods](https://guides.cocoapods.org/using/getting-started.html).
 2. Add this line to your Podfile:
 
 ```ruby
@@ -35,7 +57,7 @@ platform :ios, '12.0'
 use_frameworks!
 
 target 'MyApp' do
-  pod 'AxeptioSDK', '~> 0.5.0'
+  pod 'AxeptioSDK', '~> 0.1.0'
 end
 ```
 
@@ -47,10 +69,10 @@ The iOS SDK is available throught Swift Package Manager as a binary library. In 
 * Select your project in **PROJECT** section
 * Select the **Package Dependencies**
 * Click on the **+** button
-* Copy the package url '' into the search bar
-* Select the **tcf-ios-sdk** package from the list
+* Copy the package url 'https://github.com/axeptio/tcf-ios-sdk' into the search bar
+* Select the **AxeptioSDK** package from the list
 * Click on **Add Package**
-* From the **Choose Package Products for the axeptio-ios-sdk-spm** screen click on Add Package
+* From the **Choose Package Products for the AxeptioSDK** screen click on Add Package
 
 
 ### Initialize the SDK 
@@ -143,7 +165,72 @@ class ViewController: UIViewController {
 
 The consent pop up will automatically open if the user's consents are expired or haven't been registered yet.
 
+## SwiftUI
+
+In order to use the Axeptio SDK in a SwiftUI app we suggest the following steps.
+
+### Prepare UIViewController to call setupUI
+
+Create a new Swift file. You can name it `AxeptioView`
+
+```swift
+import SwiftUI
+
+import AxeptioSDK
+
+// Create a new class that extends UIViewController.
+// We need this to make sure we call the setupUI method when the viewDidAppear method is called.
+class AxeptioViewController: UIViewController {
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        Axeptio.shared.setupUI(containerController: self)
+    }
+}
+
+// Inside the same file, create a struct that implements the UIViewControllerRepresentable protocol as shown below
+struct AxeptioView: UIViewControllerRepresentable {
+    func makeUIViewController(context: Context) -> some UIViewController {
+        let axeptioViewController = AxeptioViewController()
+        return axeptioViewController
+    }
+
+    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {}
+}
+```
+
+Prepare AppDelegate to call initialize method
+
+To be able to use the UIApplicationDelegate functionality in a SwiftUI app and initialize the AxeptioSDK as early as possible, create a class that implements the UIApplicationDelegate.
+
+* Create a new class that extends the UIApplicationDelegate protocol. Inside the `applicationDidFinishLaunchingWithOptions` method, call the Axeptio initialize method.
+
+* Use the `UIApplicationDelegateAdaptor` property wrapper to connect this new struct with the `AppDelegate` class. Make sure this new struct uses the main annotation. Now you are ready to use the new `AxeptioView` struct that you created in the previous steps.
+
 #### SwiftUI
+```swift
+import SwiftUI
+
+import AxeptioSDK
+
+class AppDelegate: NSObject, UIApplicationDelegate {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+        Axeptio.shared.initialize(projectId: "<Your Project ID>", configurationId: "<Your Configuration ID>")
+        return true
+    }
+}
+
+@main
+struct YourSwiftUIApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+
+    var body: some Scene {
+        WindowGroup {
+            AxeptioView()
+        }
+    }
+}
+```
 
 
 ## App Tracking Transparency (iOS 14.5+)

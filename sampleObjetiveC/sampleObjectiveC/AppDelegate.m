@@ -10,7 +10,7 @@
 @import GoogleMobileAds;
 @import FirebaseCore;
 
-@import Axeptio;
+@import AxeptioSDK;
 
 @interface AppDelegate ()
 
@@ -22,7 +22,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
 
-    [AxeptioSDK.shared initializeWithProjectId:@"5fbfa806a0787d3985c6ee5f" configurationId:@"62ac903ddf8cf90ca29d9585"];
+    [Axeptio.shared initializeWithProjectId:@"5fbfa806a0787d3985c6ee5f" configurationId:@"62ac903ddf8cf90ca29d9585"];
     [GADMobileAds.sharedInstance startWithCompletionHandler:nil];
     [FIRApp configure];
 
