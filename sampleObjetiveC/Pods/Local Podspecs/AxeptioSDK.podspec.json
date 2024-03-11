@@ -1,0 +1,27 @@
+{
+  "name": "AxeptioSDK",
+  "version": "0.1.0",
+  "summary": "AxeptioSDK for presenting cookies consent to the user",
+  "description": "Axeptio SDK for presenting cookies consent to the user using a simple Swift API,  accessible from both Objective-C and swift projects",
+  "homepage": "https://github.com/axeptio/tcf-ios-sdk.git",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "Axeptio": "support@axeptio.eu"
+  },
+  "source": {
+    "git": "https://github.com/axeptio/tcf-ios-sdk.git",
+    "branch": "develop",
+    ":tag": "0.1.0"
+  },
+  "swift_versions": "5.6",
+  "platforms": {
+    "ios": "12.0"
+  },
+  "preserve_paths": "AxeptioSDK.xcframework",
+  "vendored_frameworks": "AxeptioSDK.xcframework",
+  "frameworks": "UIKit",
+  "swift_version": "5.6"
+}

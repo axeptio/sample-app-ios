@@ -134,6 +134,15 @@
         "revision" : "65e8f29b2d63c4e38e736b25c27b83e012159be8",
         "version" : "1.25.2"
       }
+    },
+    {
+      "identity" : "tcf-ios-sdk",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/axeptio/tcf-ios-sdk",
+      "state" : {
+        "branch" : "develop",
+        "revision" : "0f37abfcdddf1b8395e142e52f7bd929ea0d4816"
+      }
     }
   ],
   "version" : 2

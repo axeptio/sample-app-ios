@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 60;
+	objectVersion = 56;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -12,7 +12,7 @@
 		C2AAF8D22B85F42A00447D7B /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = C2AAF8D12B85F42A00447D7B /* FirebaseAnalytics */; };
 		C2AAF8D52B86020300447D7B /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = C2AAF8D42B86020300447D7B /* GoogleMobileAds */; };
 		C2D162C42B9B1071002E6085 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C2D162C32B9B1071002E6085 /* GoogleService-Info.plist */; };
-		C2D162FA2B9F47B2002E6085 /* AxeptioSDK.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C2D162EE2B9F1895002E6085 /* AxeptioSDK.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C2D1632E2B9F7B71002E6085 /* AxeptioSDK in Frameworks */ = {isa = PBXBuildFile; productRef = C2D1632D2B9F7B71002E6085 /* AxeptioSDK */; };
 		C2F130F32B750EF80079B2DF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F130F22B750EF80079B2DF /* AppDelegate.swift */; };
 		C2F130F72B750EF80079B2DF /* UserDefaultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F130F62B750EF80079B2DF /* UserDefaultsViewController.swift */; };
 		C2F130FA2B750EF80079B2DF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C2F130F82B750EF80079B2DF /* Main.storyboard */; };
@@ -27,7 +27,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				C2D162FA2B9F47B2002E6085 /* AxeptioSDK.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -38,7 +37,6 @@
 		C2AAF8CA2B85EB5500447D7B /* TCFFields.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCFFields.swift; sourceTree = "<group>"; };
 		C2AAF8CC2B85EF0A00447D7B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		C2D162C32B9B1071002E6085 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		C2D162EE2B9F1895002E6085 /* AxeptioSDK.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:5DS79WMFEL:Agilitation"; lastKnownFileType = wrapper.xcframework; path = AxeptioSDK.xcframework; sourceTree = "<group>"; };
 		C2F130EF2B750EF80079B2DF /* sampleSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sampleSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2F130F22B750EF80079B2DF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C2F130F62B750EF80079B2DF /* UserDefaultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsViewController.swift; sourceTree = "<group>"; };
@@ -54,6 +52,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C2AAF8D52B86020300447D7B /* GoogleMobileAds in Frameworks */,
+				C2D1632E2B9F7B71002E6085 /* AxeptioSDK in Frameworks */,
 				C2AAF8D22B85F42A00447D7B /* FirebaseAnalytics in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -105,7 +104,6 @@
 		C2F131932B753D450079B2DF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C2D162EE2B9F1895002E6085 /* AxeptioSDK.xcframework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -130,6 +128,7 @@
 			packageProductDependencies = (
 				C2AAF8D12B85F42A00447D7B /* FirebaseAnalytics */,
 				C2AAF8D42B86020300447D7B /* GoogleMobileAds */,
+				C2D1632D2B9F7B71002E6085 /* AxeptioSDK */,
 			);
 			productName = sampleSwift;
 			productReference = C2F130EF2B750EF80079B2DF /* sampleSwift.app */;
@@ -162,6 +161,7 @@
 			packageReferences = (
 				C2AAF8D02B85F42A00447D7B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				C2AAF8D32B86020300447D7B /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
+				C2D1632C2B9F7B71002E6085 /* XCRemoteSwiftPackageReference "tcf-ios-sdk" */,
 			);
 			productRefGroup = C2F130F02B750EF80079B2DF /* Products */;
 			projectDirPath = "";
@@ -463,6 +463,14 @@
 				minimumVersion = 11.0.1;
 			};
 		};
+		C2D1632C2B9F7B71002E6085 /* XCRemoteSwiftPackageReference "tcf-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/axeptio/tcf-ios-sdk";
+			requirement = {
+				branch = develop;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -475,6 +483,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C2AAF8D32B86020300447D7B /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
 			productName = GoogleMobileAds;
+		};
+		C2D1632D2B9F7B71002E6085 /* AxeptioSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C2D1632C2B9F7B71002E6085 /* XCRemoteSwiftPackageReference "tcf-ios-sdk" */;
+			productName = AxeptioSDK;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

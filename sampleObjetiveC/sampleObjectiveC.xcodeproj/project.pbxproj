@@ -3,42 +3,27 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 60;
+	objectVersion = 56;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		C2D162C22B9B0F3E002E6085 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C2D162C12B9B0F3E002E6085 /* GoogleService-Info.plist */; };
-		C2D162FC2B9F47CD002E6085 /* AxeptioSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2D162FB2B9F47CD002E6085 /* AxeptioSDK.xcframework */; };
-		C2D162FD2B9F47D7002E6085 /* AxeptioSDK.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C2D162FB2B9F47CD002E6085 /* AxeptioSDK.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C2D9665B2B90DDA40085607A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C2D9665A2B90DDA40085607A /* AppDelegate.m */; };
 		C2D9665E2B90DDA40085607A /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C2D9665D2B90DDA40085607A /* SceneDelegate.m */; };
 		C2D966642B90DDA40085607A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C2D966622B90DDA40085607A /* Main.storyboard */; };
 		C2D966662B90DDA50085607A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C2D966652B90DDA50085607A /* Assets.xcassets */; };
 		C2D966692B90DDA50085607A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C2D966672B90DDA50085607A /* LaunchScreen.storyboard */; };
 		C2D9666C2B90DDA50085607A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C2D9666B2B90DDA50085607A /* main.m */; };
-		C2D966742B90DDFC0085607A /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = C2D966732B90DDFC0085607A /* FirebaseAnalytics */; };
-		C2D966772B90DE0D0085607A /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = C2D966762B90DE0D0085607A /* GoogleMobileAds */; };
 		C2D9667D2B90DEA90085607A /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2D9667C2B90DEA90085607A /* MainViewController.m */; };
 		C2D966812B90E2D90085607A /* UserDefaultsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2D966802B90E2D90085607A /* UserDefaultsTableViewController.m */; };
+		FCFBA4EA5CB7A9B170D59A1F /* Pods_sampleObjectiveC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA45638D733739C11025B046 /* Pods_sampleObjectiveC.framework */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		C2D162B32B99D92B002E6085 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				C2D162FD2B9F47D7002E6085 /* AxeptioSDK.xcframework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
+		091A41F0C1018774E15C5CF8 /* Pods-sampleObjectiveC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sampleObjectiveC.debug.xcconfig"; path = "Target Support Files/Pods-sampleObjectiveC/Pods-sampleObjectiveC.debug.xcconfig"; sourceTree = "<group>"; };
+		B04EEB5D22D6B885C04B5B36 /* Pods-sampleObjectiveC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sampleObjectiveC.release.xcconfig"; path = "Target Support Files/Pods-sampleObjectiveC/Pods-sampleObjectiveC.release.xcconfig"; sourceTree = "<group>"; };
+		BA45638D733739C11025B046 /* Pods_sampleObjectiveC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_sampleObjectiveC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2D162C12B9B0F3E002E6085 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		C2D162FB2B9F47CD002E6085 /* AxeptioSDK.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:5DS79WMFEL:Agilitation"; lastKnownFileType = wrapper.xcframework; path = AxeptioSDK.xcframework; sourceTree = "<group>"; };
 		C2D966562B90DDA40085607A /* sampleObjectiveC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sampleObjectiveC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2D966592B90DDA40085607A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		C2D9665A2B90DDA40085607A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -60,9 +45,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C2D162FC2B9F47CD002E6085 /* AxeptioSDK.xcframework in Frameworks */,
-				C2D966772B90DE0D0085607A /* GoogleMobileAds in Frameworks */,
-				C2D966742B90DDFC0085607A /* FirebaseAnalytics in Frameworks */,
+				FCFBA4EA5CB7A9B170D59A1F /* Pods_sampleObjectiveC.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,7 +55,7 @@
 		C2D162AF2B99D92B002E6085 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C2D162FB2B9F47CD002E6085 /* AxeptioSDK.xcframework */,
+				BA45638D733739C11025B046 /* Pods_sampleObjectiveC.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -83,6 +66,7 @@
 				C2D966582B90DDA40085607A /* sampleObjectiveC */,
 				C2D966572B90DDA40085607A /* Products */,
 				C2D162AF2B99D92B002E6085 /* Frameworks */,
+				D93D74012B9BE58E40F210EF /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -123,6 +107,15 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		D93D74012B9BE58E40F210EF /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				091A41F0C1018774E15C5CF8 /* Pods-sampleObjectiveC.debug.xcconfig */,
+				B04EEB5D22D6B885C04B5B36 /* Pods-sampleObjectiveC.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -130,20 +123,17 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C2D9666F2B90DDA50085607A /* Build configuration list for PBXNativeTarget "sampleObjectiveC" */;
 			buildPhases = (
+				2D578EFEA4D6B5395CCE1204 /* [CP] Check Pods Manifest.lock */,
 				C2D966522B90DDA40085607A /* Sources */,
 				C2D966532B90DDA40085607A /* Frameworks */,
 				C2D966542B90DDA40085607A /* Resources */,
-				C2D162B32B99D92B002E6085 /* Embed Frameworks */,
+				FE882610D8B3D493C21723A7 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = sampleObjectiveC;
-			packageProductDependencies = (
-				C2D966732B90DDFC0085607A /* FirebaseAnalytics */,
-				C2D966762B90DE0D0085607A /* GoogleMobileAds */,
-			);
 			productName = sampleObjC;
 			productReference = C2D966562B90DDA40085607A /* sampleObjectiveC.app */;
 			productType = "com.apple.product-type.application";
@@ -171,10 +161,6 @@
 				Base,
 			);
 			mainGroup = C2D9664D2B90DDA40085607A;
-			packageReferences = (
-				C2D966722B90DDFC0085607A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
-				C2D966752B90DE0D0085607A /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
-			);
 			productRefGroup = C2D966572B90DDA40085607A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -197,6 +183,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2D578EFEA4D6B5395CCE1204 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-sampleObjectiveC-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FE882610D8B3D493C21723A7 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-sampleObjectiveC/Pods-sampleObjectiveC-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-sampleObjectiveC/Pods-sampleObjectiveC-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-sampleObjectiveC/Pods-sampleObjectiveC-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		C2D966522B90DDA40085607A /* Sources */ = {
@@ -266,6 +294,8 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO;
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -327,6 +357,8 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO;
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -344,6 +376,7 @@
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -351,6 +384,7 @@
 		};
 		C2D966702B90DDA50085607A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 091A41F0C1018774E15C5CF8 /* Pods-sampleObjectiveC.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -359,6 +393,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 5DS79WMFEL;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = sampleObjectiveC/Info.plist;
 				INFOPLIST_KEY_NSUserTrackingUsageDescription = "Your data will be used to deliver personalized ads to you.";
@@ -380,12 +415,13 @@
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
 		C2D966712B90DDA50085607A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B04EEB5D22D6B885C04B5B36 /* Pods-sampleObjectiveC.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -394,6 +430,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 5DS79WMFEL;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = sampleObjectiveC/Info.plist;
 				INFOPLIST_KEY_NSUserTrackingUsageDescription = "Your data will be used to deliver personalized ads to you.";
@@ -406,6 +443,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = io.axeptio.sampleobjc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -415,7 +453,7 @@
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -441,38 +479,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		C2D966722B90DDFC0085607A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 10.21.0;
-			};
-		};
-		C2D966752B90DE0D0085607A /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 11.0.1;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		C2D966732B90DDFC0085607A /* FirebaseAnalytics */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = C2D966722B90DDFC0085607A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAnalytics;
-		};
-		C2D966762B90DE0D0085607A /* GoogleMobileAds */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = C2D966752B90DE0D0085607A /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
-			productName = GoogleMobileAds;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = C2D9664E2B90DDA40085607A /* Project object */;
 }

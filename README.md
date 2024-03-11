@@ -6,13 +6,14 @@ Welcome to the **Axeptio** iOS SDK Samples project! This repository demonstrates
 
 The project consists of two modules:
 
-* `sampleSwift`: Illustrates the usage of the Axeptio SDK with Swift and SPM.
-* `sampleObjectiveC`: Demonstrates the integration of the Axeptio SDK with ObjectiveC ans cocoaPods.
+* `sampleSwift`: Illustrates the usage of the Axeptio SDK with Swift and Swift Package Manager.
+* `sampleObjectiveC`: Demonstrates the integration of the Axeptio SDK with ObjectiveC and CocoaPods.
 
 ## Getting Started
 
 **Axeptio** CMP ios sdk
-To get started with implementing the Axeptio SDK in your Android app, follow these steps:
+
+To get started with implementing the Axeptio SDK in your iOS app, follow these steps:
 
 Clone this repository to your local machine:
 ```shell
@@ -57,7 +58,7 @@ platform :ios, '12.0'
 use_frameworks!
 
 target 'MyApp' do
-  pod 'AxeptioSDK', '~> 0.1.0'
+  pod 'AxeptioSDK'
 end
 ```
 
