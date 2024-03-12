@@ -71,9 +71,9 @@ The iOS SDK is available throught Swift Package Manager as a binary library. In 
 * Select the **Package Dependencies**
 * Click on the **+** button
 * Copy the package url 'https://github.com/axeptio/tcf-ios-sdk' into the search bar
-* Select the **AxeptioSDK** package from the list
+* Select the **tcf-ios-sdk** package from the list
 * Click on **Add Package**
-* From the **Choose Package Products for the AxeptioSDK** screen click on Add Package
+* From the **Choose Package Products for the tcf-ios-sdk** screen click on Add Package
 
 
 ### Initialize the SDK 
