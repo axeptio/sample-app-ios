@@ -6,7 +6,7 @@ target 'sampleObjectiveC' do
   use_frameworks!
 
   # Pods for sampleObjectiveC
-  pod 'AxeptioSDK', :git => 'https://github.com/axeptio/tcf-ios-sdk.git', :branch => 'develop', :tag => '0.1.1'
+  pod 'AxeptioSDK', :git => 'https://github.com/axeptio/tcf-ios-sdk.git', :tag => '0.1.1'
   pod 'FirebaseCore'
   pod 'FirebaseAnalytics'
   pod 'Google-Mobile-Ads-SDK'

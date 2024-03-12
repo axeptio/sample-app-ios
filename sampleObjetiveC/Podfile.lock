@@ -1,5 +1,5 @@
 PODS:
-  - AxeptioSDK (0.1.0)
+  - AxeptioSDK (0.1.1)
   - FirebaseAnalytics (10.22.0):
     - FirebaseAnalytics/AdIdSupport (= 10.22.0)
     - FirebaseCore (~> 10.0)
@@ -88,7 +88,7 @@ PODS:
   - PromisesObjC (2.4.0)
 
 DEPENDENCIES:
-  - AxeptioSDK (from `https://github.com/axeptio/tcf-ios-sdk.git`, branch `develop`, tag `0.1.0`)
+  - AxeptioSDK (from `https://github.com/axeptio/tcf-ios-sdk.git`, tag `0.1.1`)
   - FirebaseAnalytics
   - FirebaseCore
   - Google-Mobile-Ads-SDK
@@ -108,18 +108,16 @@ SPEC REPOS:
 
 EXTERNAL SOURCES:
   AxeptioSDK:
-    :branch: develop
     :git: https://github.com/axeptio/tcf-ios-sdk.git
-    :tag: 0.1.0
+    :tag: 0.1.1
 
 CHECKOUT OPTIONS:
   AxeptioSDK:
-    :commit: 0f37abfcdddf1b8395e142e52f7bd929ea0d4816
     :git: https://github.com/axeptio/tcf-ios-sdk.git
-    :tag: 0.1.0
+    :tag: 0.1.1
 
 SPEC CHECKSUMS:
-  AxeptioSDK: 157a1212f2f3e375bd115f3685c019cc7467d73f
+  AxeptioSDK: 22a178c6c018a0110ee7fb7f1f61b7a7e99e9580
   FirebaseAnalytics: 8d0ff929c63b7f72260f332b86ccf569776b75d3
   FirebaseCore: 0326ec9b05fbed8f8716cddbf0e36894a13837f7
   FirebaseCoreInternal: bca337352024b18424a61e478460547d46c4c753
@@ -131,6 +129,6 @@ SPEC CHECKSUMS:
   nanopb: 438bc412db1928dac798aa6fd75726007be04262
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
 
-PODFILE CHECKSUM: d77c375b3353f1c79113705a3d19f5c36e42badf
+PODFILE CHECKSUM: 0798d998ef216f082d8aaccca34a4163699ccabc
 
 COCOAPODS: 1.15.2
