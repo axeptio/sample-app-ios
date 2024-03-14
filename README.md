@@ -22,19 +22,7 @@ git clone https://github.com/axeptio/sample-app-ios
 
 # Axeptio SDK implementation
 
-## Additional Resources
-For additional instructions and information about the Axeptio Mobile SDK implementation, please refer to the official documentation.
-
-## Setup
-
-Follow these steps to setup the Axeptio CMP iOS SDK:
-* Requirements
-* Add the SDK to your project
-* Initialize the SDK
-* Setup the SDK UI
-* App Tracking Transparency (iOS 14.5+)
-* Events
-
+For more details, you can refer to the [Github documentation]()
 
 ### Requirements
 
@@ -47,18 +35,18 @@ The package can be added using CocoaPods and Swift Package Manager
 #### Using CocoaPods
 The package can be added using CocoaPods:
 
-Xcode >= 12 (XCFramework)
+Xcode >= 14 (XCFramework)
 
 1. If you haven' already, install the latest version of [CocoaPods](https://guides.cocoapods.org/using/getting-started.html).
 2. Add this line to your Podfile:
 
 ```ruby
 source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, '12.0'
+platform :ios, '14.0'
 use_frameworks!
 
 target 'MyApp' do
-  pod 'AxeptioSDK'
+  pod 'AxeptioTCFSDK'
 end
 ```
 
@@ -124,6 +112,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 ```
 
+The consent pop up will automatically open if the user's consents are expired or haven't been registered yet.
+> By default, the user's consent choices expire after 6 months
+
+The SDK will automatically update the UserDefaults according to the TCFv2 [IAB Requirements](https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20CMP%20API%20v2.md#in-app-details)
+
+
+
 ### Setup the SDK UI
 > [!IMPORTANT]
 > The setupUI method should be called only from your main/entry UIViewController which in most cases should be once per app launch. Therefore, by calling this method the consent notice and preference views will only be displayed if it is required and only once the SDK is ready.
@@ -163,8 +158,6 @@ class ViewController: UIViewController {
 ​
 @end
 ```
-
-The consent pop up will automatically open if the user's consents are expired or haven't been registered yet.
 
 ## SwiftUI
 

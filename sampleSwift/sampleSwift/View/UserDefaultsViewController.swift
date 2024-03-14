@@ -27,7 +27,9 @@ extension UserDefaultsViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TCFCell", for: indexPath) as! TCFCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "TCFCell", for: indexPath) as? TCFCell else {
+            return UITableViewCell()
+        }
         cell.title?.text = Array(fields.keys)[indexPath.row]
         cell.value?.text = "\(Array(fields.values)[indexPath.row])"
 
