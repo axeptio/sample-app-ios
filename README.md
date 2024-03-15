@@ -26,7 +26,7 @@ For more details, you can refer to the [Github documentation]()
 
 ### Requirements
 
-We offer our SDK as a pre-compiled binary package as a XCFramework that you can add to your application. We support iOS versions >= 12
+We offer our SDK as a pre-compiled binary package as a XCFramework that you can add to your application. We support iOS versions >= 15
 
 ### Add the SDK to your project
 
@@ -35,14 +35,14 @@ The package can be added using CocoaPods and Swift Package Manager
 #### Using CocoaPods
 The package can be added using CocoaPods:
 
-Xcode >= 14 (XCFramework)
+Xcode >= 15 (XCFramework)
 
 1. If you haven' already, install the latest version of [CocoaPods](https://guides.cocoapods.org/using/getting-started.html).
 2. Add this line to your Podfile:
 
 ```ruby
 source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, '14.0'
+platform :ios, '15.0'
 use_frameworks!
 
 target 'MyApp' do
@@ -307,7 +307,7 @@ class ViewController: UIViewController {
 This sample shows how to: 
 * Show the ATT permission request if iOS >= 14
 * Show the Axeptio consent notice if and only if:: 
-    * The iOS version is >= 14
+    * The iOS version is >= 15
     * The user accepted the ATT permission
 
 The Axeptio consent notice will only be displayed if the user accepts the ATT permission OR the ATT permission cannot be displayed for any reason (restricted or iOS < 14).

@@ -117,5 +117,5 @@ install_xcframework() {
   echo "Copied $source to $destination"
 }
 
-install_xcframework "${PODS_ROOT}/AxeptioSDK/AxeptioSDK.xcframework" "AxeptioSDK" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
+install_xcframework "${PODS_ROOT}/AxeptioTCFSDK/AxeptioSDK.xcframework" "AxeptioTCFSDK" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
 
