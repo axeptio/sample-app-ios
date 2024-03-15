@@ -1,0 +1,6 @@
+framework module Pods_sampleObjectiveC {
+  umbrella header "Pods-sampleObjectiveC-umbrella.h"
+
+  export *
+  module * { export * }
+}
