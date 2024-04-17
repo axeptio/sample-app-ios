@@ -66,7 +66,7 @@ The iOS SDK is available throught Swift Package Manager as a binary library. In 
 
 ### Initialize the SDK 
 
-In the `AppDelegate`, make sure to import the `AxeptioSDK` module, then call the `initialize` method and pass your API key:
+In the `AppDelegate`, make sure to import the `AxeptioSDK` module, then call the `initialize` method and pass your API key, you can also initialize the sdk with the consent already set from an other device with the the token parameter :
 
 
 #### Swift
@@ -81,8 +81,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        // sample init
+        Axeptio.shared.initialize(clientId: "<Your Client ID>", cookiesVersion: "<Your Cookies Version>")
 
-        Axeptio.shared.initialize(projectId: "<Your Project ID>", configurationId: "<Your Configuration ID>")
+        // or with a token set from an other device
+        Axeptio.shared.initialize(clientId: "<Your Client ID>", cookiesVersion: "<Your Cookies Version>", token: "<Token>")
 
         return true
     }
@@ -103,20 +106,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    // sample init
+    [Axeptio.shared initializeWithClientId:@"<Your Client ID>" cookiesVersion:@"<Your Cookeis Version>"];
 
-    [Axeptio.shared initializeWithProjectId:@"<Your Project ID>" configurationId:@"<Your Configuration ID>"];
+    // or with a token set from an other device
+    [Axeptio.shared initializeWithClientId:@"<Your Client ID>" cookiesVersion:@"<Your Cookeis Version>" token:@"<Token>"];
 
     return YES;
 }
 
 ```
 
-The consent pop up will automatically open if the user's consents are expired or haven't been registered yet.
-> By default, the user's consent choices expire after 6 months
-
 The SDK will automatically update the UserDefaults according to the TCFv2 [IAB Requirements](https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20CMP%20API%20v2.md#in-app-details)
-
 
 
 ### Setup the SDK UI
@@ -136,7 +137,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        Axeptio.shared.setupUI(containerController: self)
+        Axeptio.shared.setupUI()
     }
 }
 ```
@@ -153,7 +154,7 @@ class ViewController: UIViewController {
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [Axeptio.shared setupUIWithContainerController:self];
+    [Axeptio.shared setupUI];
 }
 ​
 @end
@@ -178,7 +179,7 @@ class AxeptioViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        Axeptio.shared.setupUI(containerController: self)
+        Axeptio.shared.setupUI()
     }
 }
 
@@ -209,7 +210,7 @@ import AxeptioSDK
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-        Axeptio.shared.initialize(projectId: "<Your Project ID>", configurationId: "<Your Configuration ID>")
+        Axeptio.shared.initialize(clientId: "<Your Client ID>", cookiesVersion: "<Your Cookies Version>")
         return true
     }
 }
@@ -328,12 +329,12 @@ class ViewController: UIViewController {
                 if status == .denied {
                     Axeptio.shared.setUserDeniedTracking()
                 } else {
-                    Axeptio.shared.setupUI(containerController: self)
+                    Axeptio.shared.setupUI()
                 }
             }
         } else {
             // Show the Axeptio CMP notice to collect consent from the user as iOS < 14 (no ATT available)
-            Axeptio.shared.setupUI(containerController: self)
+            Axeptio.shared.setupUI()
         }
     }
 }
@@ -355,11 +356,11 @@ class ViewController: UIViewController {
             if (status == ATTrackingManagerAuthorizationStatusDenied) {
                 [Axeptio.shared setUserDeniedTracking];
             } else {
-                [Axeptio.shared setupUIWithContainerController:self];
+                [Axeptio.shared setupUI];
             }
         }];
     } else {
-        [Axeptio.shared setupUIWithContainerController:self];
+        [Axeptio.shared setupUI];
     }
 }
 
@@ -367,15 +368,65 @@ class ViewController: UIViewController {
 ```
 
 ### Show consent popup demand
-Additionally, you can request the consent popup to open on demand.
+You can request the consent popup to open on demand.
 
 #### Swift
 ```swift
-Axeptio.shared.showConsentScreen(self)
+Axeptio.shared.showConsentScreen()
 ```
 #### Objective-C
 ```objc
-[Axeptio.shared showConsentScreen:self];
+[Axeptio.shared showConsentScreen];
+```
+
+### Clear consent from UserDefault
+A methode is available to clear consent from UserDefault.
+
+#### Swift
+```swift
+Axeptio.shared.clearConsent()
+```
+
+#### Objective-C
+```objc
+[Axeptio.shared  clearConsent];
+```
+
+## Share consent with webviews
+
+You can also add the SDK token or any other token to any URL:
+
+- manually with the `axeptionToken` and `keyAxeptioTokenQueryItem` variables:
+#### Swift
+```swift
+Axeptio.shared.axeptioToken
+Axeptio.shared.keyAxeptioTokenQueryItem
+```
+
+```swift
+var urlComponents = URLComponents(string: "<Your URL>")
+urlComponents?.queryItems = [URLQueryItem(name: Axeptio.shared.keyAxeptioTokenQueryItem, value: <Axeptio.shared.axeptioToken or Your Token>)]
+```
+#### Objective-C
+```objc
+[Axeptio.shared axeptioToken];
+[Axeptio.shared keyAxeptioTokenQueryItem];
+```
+
+```objc
+NSURLComponents *urlComponents = [[NSURLComponents alloc] initWithString:@"<Your URL>"];
+urlComponents.queryItems = @[[NSURLQueryItem queryItemWithName:[Axeptio.shared keyAxeptioTokenQueryItem] value:[Axeptio.shared axeptioToken]]];
+```
+
+- automatically with the `appendAxeptioTokenToURL` function:  
+#### Swift
+```swift
+let updatedURL = Axeptio.shared.appendAxeptioTokenToURL(<Your URL>, token: <Axeptio.shared.axeptioToken or Your Token>)
+```
+
+#### Objective-C
+```objc
+NSURL *updatedURL = [[Axeptio shared] appendAxeptioTokenToURL:<Your URL> token:<Axeptio.shared.axeptioToken or Your Token>];
 ```
 
 
