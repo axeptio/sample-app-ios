@@ -1,4 +1,5 @@
 {
+  "originHash" : "2d68af45dfc94000473924140bf0c4b5ab61feec119c8d2008c4a662471591c1",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -140,10 +141,10 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/axeptio/tcf-ios-sdk",
       "state" : {
-        "branch" : "develop",
-        "revision" : "0f37abfcdddf1b8395e142e52f7bd929ea0d4816"
+        "revision" : "7e979384cbdaa9fa909a8ca049aa73d8ee109955",
+        "version" : "1.1.0"
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }

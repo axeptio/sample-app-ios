@@ -18,8 +18,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="32" translatesAutoresizingMaskIntoConstraints="NO" id="EtE-rI-qkY">
-                                <rect key="frame" x="16" y="278" width="361" height="296"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="EtE-rI-qkY">
+                                <rect key="frame" x="16" y="216" width="361" height="420"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="msV-Hp-E4J">
                                         <rect key="frame" x="0.0" y="0.0" width="361" height="50"/>
@@ -37,7 +37,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bqm-UY-Dhh">
-                                        <rect key="frame" x="0.0" y="82" width="361" height="50"/>
+                                        <rect key="frame" x="0.0" y="74" width="361" height="50"/>
                                         <color key="backgroundColor" name="AccentColor"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="fff-g9-vWb"/>
@@ -52,7 +52,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mhr-jf-YF9">
-                                        <rect key="frame" x="0.0" y="164" width="361" height="50"/>
+                                        <rect key="frame" x="0.0" y="148" width="361" height="50"/>
                                         <color key="backgroundColor" name="AccentColor"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="sUP-ov-g3y"/>
@@ -67,36 +67,67 @@
                                         </connections>
                                     </button>
                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="Jhw-BM-LEO">
-                                        <rect key="frame" x="0.0" y="246" width="361" height="50"/>
+                                        <rect key="frame" x="0.0" y="222" width="361" height="50"/>
                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="Itg-pO-VYS"/>
                                         </constraints>
                                         <color key="color" name="AccentColor"/>
                                     </activityIndicatorView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ib2-tG-gcB">
+                                        <rect key="frame" x="0.0" y="296" width="361" height="50"/>
+                                        <color key="backgroundColor" name="AxeptioRed"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="az8-AF-8cA"/>
+                                        </constraints>
+                                        <color key="tintColor" systemColor="labelColor"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Clear consent">
+                                            <fontDescription key="titleFontDescription" style="UICTFontTextStyleBody"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="clearConsent:" destination="Vi5-Gt-zt5" eventType="touchUpInside" id="yQd-8t-y8O"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="878-RG-6lt">
+                                        <rect key="frame" x="0.0" y="370" width="361" height="50"/>
+                                        <color key="backgroundColor" name="AccentColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="9Bd-1z-cTw"/>
+                                        </constraints>
+                                        <color key="tintColor" systemColor="labelColor"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Show webview with token">
+                                            <fontDescription key="titleFontDescription" style="UICTFontTextStyleBody"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="showWebView:" destination="Vi5-Gt-zt5" eventType="touchUpInside" id="ztc-EE-qcf"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                             </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Ak4-5U-UcD"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" name="AxeptioYellowLight"/>
                         <constraints>
-                            <constraint firstItem="EtE-rI-qkY" firstAttribute="centerY" secondItem="5XA-5O-bot" secondAttribute="centerY" id="2md-9D-7Vm"/>
-                            <constraint firstItem="EtE-rI-qkY" firstAttribute="leading" secondItem="Ak4-5U-UcD" secondAttribute="leading" constant="16" id="Udr-Lv-SRd"/>
-                            <constraint firstItem="Ak4-5U-UcD" firstAttribute="trailing" secondItem="EtE-rI-qkY" secondAttribute="trailing" constant="16" id="VbW-4h-piQ"/>
-                            <constraint firstItem="EtE-rI-qkY" firstAttribute="centerX" secondItem="5XA-5O-bot" secondAttribute="centerX" id="vSh-hg-JPD"/>
+                            <constraint firstItem="EtE-rI-qkY" firstAttribute="centerY" secondItem="5XA-5O-bot" secondAttribute="centerY" id="cGx-db-Ch1"/>
+                            <constraint firstItem="EtE-rI-qkY" firstAttribute="leading" secondItem="Ak4-5U-UcD" secondAttribute="leading" constant="16" id="h5d-PY-G8c"/>
+                            <constraint firstItem="Ak4-5U-UcD" firstAttribute="trailing" secondItem="EtE-rI-qkY" secondAttribute="trailing" constant="16" id="mbI-Tk-nhV"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="SMC-ed-5gg"/>
                     <connections>
+                        <outlet property="clearConsentButton" destination="ib2-tG-gcB" id="oRM-GT-bdr"/>
                         <outlet property="googleAdButton" destination="Mhr-jf-YF9" id="05V-pk-jN3"/>
                         <outlet property="googleAdSpinner" destination="Jhw-BM-LEO" id="a3E-DO-Lgx"/>
                         <outlet property="showConsentButton" destination="msV-Hp-E4J" id="1j0-Ny-MYb"/>
+                        <outlet property="tokenButton" destination="878-RG-6lt" id="bHy-ls-AA5"/>
                         <outlet property="userDefaultsButton" destination="Bqm-UY-Dhh" id="Arr-ZB-4z7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uee-7a-eOP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="50" y="-811"/>
+            <point key="canvasLocation" x="49.618320610687022" y="-811.26760563380287"/>
         </scene>
         <!--Axeptio | Swift sample-->
         <scene sceneID="tne-QT-ifu">
@@ -190,7 +221,13 @@
     </scenes>
     <resources>
         <namedColor name="AccentColor">
-            <color red="0.96862745098039216" green="0.81568627450980391" blue="0.36862745098039218" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.79199999570846558" blue="0.15700000524520874" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="AxeptioRed">
+            <color red="0.80392156862745101" green="0.38039215686274508" blue="0.35686274509803922" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="AxeptioYellowLight">
+            <color red="0.99215686274509807" green="0.96862745098039216" blue="0.90588235294117647" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
