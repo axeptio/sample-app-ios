@@ -66,7 +66,7 @@ The iOS SDK is available throught Swift Package Manager as a binary library. In 
 
 ### Initialize the SDK 
 
-In the `AppDelegate`, make sure to import the `AxeptioSDK` module, then call the `initialize` method and pass your API key, you can also initialize the sdk with the consent already set from an other device with the the token parameter :
+In the `AppDelegate`, make sure to import the `AxeptioSDK` module, then call the `initialize` method and pass your API key, you can also initialize the sdk with the consent already set from an other device with the token parameter :
 
 
 #### Swift
@@ -84,7 +84,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // sample init
         Axeptio.shared.initialize(clientId: "<Your Client ID>", cookiesVersion: "<Your Cookies Version>")
 
-        // or with a token set from an other device
+        // or with a token set from an other device (you are in charge to store and pass the token along between devices)
         Axeptio.shared.initialize(clientId: "<Your Client ID>", cookiesVersion: "<Your Cookies Version>", token: "<Token>")
 
         return true
@@ -107,10 +107,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // sample init
-    [Axeptio.shared initializeWithClientId:@"<Your Client ID>" cookiesVersion:@"<Your Cookeis Version>"];
+    [Axeptio.shared initializeWithClientId:@"<Your Client ID>" cookiesVersion:@"<Your Cookies Version>"];
 
     // or with a token set from an other device
-    [Axeptio.shared initializeWithClientId:@"<Your Client ID>" cookiesVersion:@"<Your Cookeis Version>" token:@"<Token>"];
+    [Axeptio.shared initializeWithClientId:@"<Your Client ID>" cookiesVersion:@"<Your Cookies Version>" token:@"<Token>"];
 
     return YES;
 }
@@ -396,7 +396,7 @@ Axeptio.shared.clearConsent()
 
 You can also add the SDK token or any other token to any URL:
 
-- manually with the `axeptionToken` and `keyAxeptioTokenQueryItem` variables:
+- manually with the `axeptioToken` and `keyAxeptioTokenQueryItem` variables:
 #### Swift
 ```swift
 Axeptio.shared.axeptioToken
