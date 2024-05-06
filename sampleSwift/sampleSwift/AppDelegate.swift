@@ -15,17 +15,19 @@ import GoogleMobileAds
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
-
-        Axeptio.shared.initialize(projectId: "5fbfa806a0787d3985c6ee5f", configurationId: "62ac903ddf8cf90ca29d9585")
-
+    
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+    ) -> Bool {
+        Axeptio.shared.initialize(clientId: "5fbfa806a0787d3985c6ee5f", cookiesVersion: "google cmp partner program sandbox-en-EU")
+        // Good token
+        // Axeptio.shared.initialize(clientId: "5fbfa806a0787d3985c6ee5f", cookiesVersion: "google cmp partner program sandbox-en-EU", token: "5sj42u50ta2ys8c3nhjkxi")
+        // Bad token
+        // Axeptio.shared.initialize(clientId: "5fbfa806a0787d3985c6ee5f", cookiesVersion: "google cmp partner program sandbox-en-EU", token: "5sj42u50ta2ys8c3nhjkxidlkdlkmekmdlk")
         FirebaseApp.configure()
-
         GADMobileAds.sharedInstance().start()
 
         return true
     }
 }
-

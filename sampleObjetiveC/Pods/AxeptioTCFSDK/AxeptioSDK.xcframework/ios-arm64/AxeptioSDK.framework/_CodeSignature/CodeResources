@@ -10,31 +10,31 @@
 		</data>
 		<key>Headers/AxeptioSDK-Swift.h</key>
 		<data>
-		xpkkCiIefr+V9ZngeK+AqyfQKYs=
+		KWMB9GkEp97+onAqt21IpyNOvlo=
 		</data>
 		<key>Info.plist</key>
 		<data>
-		sVg/9LhMQwSxLhpTlBEJalmjnIU=
+		Qbc743cf4dXxXYQBxwsy1QoMvb0=
 		</data>
 		<key>Modules/AxeptioSDK.swiftmodule/arm64-apple-ios.abi.json</key>
 		<data>
-		EfbGiqALLPuwuBBlhup4C3g4pI0=
+		xHewfyPjFJPNB50b000/Uwx5GUI=
 		</data>
 		<key>Modules/AxeptioSDK.swiftmodule/arm64-apple-ios.private.swiftinterface</key>
 		<data>
-		AQa607hS2DJWxFPgBJnaQnSVWXM=
+		oPeO5ppGGLYzOm+lnR2/DE8+QQo=
 		</data>
 		<key>Modules/AxeptioSDK.swiftmodule/arm64-apple-ios.swiftdoc</key>
 		<data>
-		ibLhhfcBERh7lJd7ayAVmW2F0+U=
+		p/p8QyNr4MB5s+BDyS+lggOBYGc=
 		</data>
 		<key>Modules/AxeptioSDK.swiftmodule/arm64-apple-ios.swiftinterface</key>
 		<data>
-		AQa607hS2DJWxFPgBJnaQnSVWXM=
+		oPeO5ppGGLYzOm+lnR2/DE8+QQo=
 		</data>
 		<key>Modules/AxeptioSDK.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<data>
-		2U0CyN3D+vLjh95gCKCpFK8TZUY=
+		OLhJbGecrGbNMh5wIbdKTNMiy/g=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -43,6 +43,10 @@
 		<key>PrivacyInfo.xcprivacy</key>
 		<data>
 		y+lsioNhyeLebTWPzXkOTMNoUC8=
+		</data>
+		<key>axeptiopreview.html</key>
+		<data>
+		Dk0F/176nD7RtiluXt84MaMFm9Q=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -58,42 +62,42 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			NsYetqyD4h2uNafkfL5hVAG2zjBYkR0gEp1MugqyhYE=
+			k3e7gsg7l3SC5sLJkRJDX1FtVBmSCd1ELsL6yAc65f4=
 			</data>
 		</dict>
 		<key>Modules/AxeptioSDK.swiftmodule/arm64-apple-ios.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			RRoX1kU58HgFH6c2hP0ONp3tIR8iKh96vVqBSTuEPzo=
+			Se4licaGgi6oznj4xZYXsYSp4ZUbkWFXk1yhHK6Q/9Y=
 			</data>
 		</dict>
 		<key>Modules/AxeptioSDK.swiftmodule/arm64-apple-ios.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			rTCSaZBXpGWSx51FUb/g6PIW4k52Vvtx5hYuXXQikEs=
+			d3A5Fd5ZVBaXRzc0fFakWsnurL4wOscI4TO+Fqly5ZU=
 			</data>
 		</dict>
 		<key>Modules/AxeptioSDK.swiftmodule/arm64-apple-ios.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			DY8KiA7Ii7hibUe6bfOpiqY5m6bj5cy1SP/PLcovqIs=
+			8e2RO+x5eP1k8JXbAdjTTnFpN+io1f95tg8CiRqr/ME=
 			</data>
 		</dict>
 		<key>Modules/AxeptioSDK.swiftmodule/arm64-apple-ios.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			rTCSaZBXpGWSx51FUb/g6PIW4k52Vvtx5hYuXXQikEs=
+			d3A5Fd5ZVBaXRzc0fFakWsnurL4wOscI4TO+Fqly5ZU=
 			</data>
 		</dict>
 		<key>Modules/AxeptioSDK.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			FOZnOcBfAgA5mOU6nPs1LhS1pG3tzpjO+qFTDqjTQHM=
+			2BhwjO4H6RgD6X+cp2K0+0h5HKnqqFrGslrLcWr4vnA=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
@@ -108,6 +112,13 @@
 			<key>hash2</key>
 			<data>
 			jI30Nn5ZbGleAPrNOEjs/+4AbNDgxlMwISfv5UdPTss=
+			</data>
+		</dict>
+		<key>axeptiopreview.html</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			nN03twBPAaKZ8GgWqt75bDKDM/Ihodui6UzEESQG3hk=
 			</data>
 		</dict>
 	</dict>

@@ -3092,6 +3092,24 @@
 			};
 			name = Release;
 		};
+		65C4AE98353B9C3403F7357C8B0CFE53 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8BBD630281200D341211E886ADAC5272 /* AxeptioTCFSDK.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		6B67F1DE7177C879847CE639BD286B6E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9A65746578F0BBF1008C905141137895 /* GoogleUtilities.debug.xcconfig */;
@@ -3140,6 +3158,23 @@
 				WRAPPER_EXTENSION = bundle;
 			};
 			name = Release;
+		};
+		7D8B024A52F704901E3E1C00594C7C14 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 79FBC0C586A6A48F10D6E196C98CA5C6 /* AxeptioTCFSDK.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
 		};
 		8585087D1911EA31E9345940F1CB0674 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -3461,41 +3496,6 @@
 			};
 			name = Release;
 		};
-		B415976EB77719E6FB21B658EF86DBDA /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 79FBC0C586A6A48F10D6E196C98CA5C6 /* AxeptioTCFSDK.debug.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		BCD17306F6AFA0603251172FD1478C48 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8BBD630281200D341211E886ADAC5272 /* AxeptioTCFSDK.release.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
 		C4BB6404D7E5E2743B19E02D68C81D25 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D4B478AA62BCA86390F0CD2A1CE67F0 /* FirebaseInstallations.release.xcconfig */;
@@ -3752,8 +3752,8 @@
 		3042372AD68E164F1AD9696E234E8251 /* Build configuration list for PBXAggregateTarget "AxeptioTCFSDK" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				B415976EB77719E6FB21B658EF86DBDA /* Debug */,
-				BCD17306F6AFA0603251172FD1478C48 /* Release */,
+				7D8B024A52F704901E3E1C00594C7C14 /* Debug */,
+				65C4AE98353B9C3403F7357C8B0CFE53 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

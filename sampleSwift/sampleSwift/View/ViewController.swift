@@ -16,42 +16,42 @@ import GoogleMobileAds
 class ViewController: UIViewController {
     @IBOutlet weak var showConsentButton: UIButton!
     @IBOutlet weak var userDefaultsButton: UIButton!
+    @IBOutlet weak var clearConsentButton: UIButton!
     @IBOutlet weak var googleAdButton: UIButton!
     @IBOutlet weak var googleAdSpinner: UIActivityIndicatorView!
+
+    @IBOutlet weak var tokenButton: UIButton!
     
     private var interstitial: GADInterstitialAd?
+    private let cornerRadius = 24.0
+    private weak var observer: NSObjectProtocol?
+
+    var token: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        showConsentButton.layer.cornerRadius = 24
-        userDefaultsButton.layer.cornerRadius = 24
-        googleAdButton.layer.cornerRadius = 24
+        showConsentButton.layer.cornerRadius = cornerRadius
+        userDefaultsButton.layer.cornerRadius = cornerRadius
+        clearConsentButton.layer.cornerRadius = cornerRadius
+        googleAdButton.layer.cornerRadius = cornerRadius
+        tokenButton.layer.cornerRadius = cornerRadius
 
-        googleAdButton.isHidden = false
-    }
+        googleAdSpinner.isHidden = true
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
         let axeptioEventListener = AxeptioEventListener()
 
         axeptioEventListener.onGoogleConsentModeUpdate = { consents in
             Analytics.setConsent([
-                .analyticsStorage: consents.analyticsStorage == GoogleConsentStatus.granted ? ConsentStatus.granted : ConsentStatus.denied,
-                .adStorage: consents.adStorage == GoogleConsentStatus.denied ? ConsentStatus.granted : ConsentStatus.denied,
-                .adUserData: consents.adUserData == GoogleConsentStatus.denied ? ConsentStatus.granted : ConsentStatus.denied,
-                .adPersonalization: consents.adPersonalization == GoogleConsentStatus.denied ? ConsentStatus.granted : ConsentStatus.denied
+                .analyticsStorage: consents.analyticsStorage == GoogleConsentStatus.granted ? .granted : .denied,
+                .adStorage: consents.adStorage == GoogleConsentStatus.granted ? .granted : .denied,
+                .adUserData: consents.adUserData == GoogleConsentStatus.granted ? .granted : .denied,
+                .adPersonalization: consents.adPersonalization == GoogleConsentStatus.granted ? .granted : .denied
             ])
         }
 
         axeptioEventListener.onConsentChanged = {
-            if #available(iOS 14, *) {
-                ATTrackingManager.requestTrackingAuthorization { status in
-                    if status == .denied {
-                        Axeptio.shared.setUserDeniedTracking()
-                    }
-                }
-            }
+            self.requestTrackingAuthorization()
         }
 
         axeptioEventListener.onPopupClosedEvent = {
@@ -59,23 +59,95 @@ class ViewController: UIViewController {
         }
 
         Axeptio.shared.setEventListener(axeptioEventListener)
+        Axeptio.shared.setupUI()
 
         loadAd()
-
-        Axeptio.shared.setupUI(containerController: self)
     }
 
     @IBAction func showConsent(_ sender: Any) {
-        Axeptio.shared.showConsentScreen(self)
+        Axeptio.shared.showConsentScreen()
     }
-
+    
     @IBAction func showGoogleAd(_ sender: Any) {
         if interstitial != nil {
             interstitial?.present(fromRootViewController: self)
         }
     }
+
+    @IBAction func clearConsent(_ sender: Any) {
+        Axeptio.shared.clearConsent()
+    }
+
+    @IBAction func showWebView(_ sender: Any) {
+        let alertController = UIAlertController(title: "Enter axeptio token", message: "", preferredStyle: .alert)
+        alertController.addTextField { textField in
+            textField.placeholder = "axeptio token"
+        }
+        let saveAction = UIAlertAction(title: "Open in Browser", style: .default) {  [weak self] _ in
+            guard 
+                let self,
+                let sourceURL = URL(string: "https://google-cmp-partner.axept.io/cmp-for-publishers.html")
+            else { return }
+
+            var url: URL = sourceURL
+            if let token = alertController.textFields?[0].text, !token.isEmpty {
+                url = Axeptio.shared.appendAxeptioTokenToURL(url, token: token)
+            } else if let token = Axeptio.shared.axeptioToken {
+                url = Axeptio.shared.appendAxeptioTokenToURL(url, token: token)
+            }
+            let webView = WebViewController(url)
+            present(webView, animated: true)
+        }
+
+        alertController.addAction(saveAction)
+        alertController.addAction(.init(title: "Cancel", style: .cancel))
+
+        present(alertController, animated: true)
+    }
 }
 
+extension ViewController {
+    func requestTrackingAuthorization() {
+        self.removeObserver()
+
+        guard #available(iOS 14, *) else {
+            return
+        }
+
+        ATTrackingManager.requestTrackingAuthorization { [weak self] status in
+            guard status == .denied else {
+                return
+            }
+            // We need to do that to manage a bug in iOS 17.4 about ATT
+            if ATTrackingManager.trackingAuthorizationStatus == .notDetermined {
+                self?.addObserver()
+                return
+            }
+            
+            Axeptio.shared.setUserDeniedTracking()
+        }
+    }
+
+    private func addObserver() {
+        self.removeObserver()
+        self.observer = NotificationCenter.default.addObserver(
+            forName: UIApplication.didBecomeActiveNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            self?.requestTrackingAuthorization()
+        }
+    }
+
+    private func removeObserver() {
+        if let observer {
+            NotificationCenter.default.removeObserver(observer)
+        }
+        self.observer = nil
+    }
+}
+
+// swiftlint:disable identifier_name
 extension ViewController: GADFullScreenContentDelegate {
     func loadAd() {
         googleAdButton.isHidden = true
@@ -91,8 +163,7 @@ extension ViewController: GADFullScreenContentDelegate {
                 self.googleAdSpinner.stopAnimating()
                 self.googleAdSpinner.isHidden = true
 
-                if let error = error {
-                    print("error loading interstitial \(error.localizedDescription)")
+                if error != nil {
                     self.googleAdButton.isEnabled = false
                     self.googleAdButton.isHidden = false
                     return
@@ -108,7 +179,6 @@ extension ViewController: GADFullScreenContentDelegate {
         loadAd()
     }
 
-    func ad(_ ad: GADFullScreenPresentingAd, didFailToPresentFullScreenContentWithError error: Error) {
-        print("Ad did fail to present full screen content with error \(error.localizedDescription)")
-    }
+    func ad(_ ad: GADFullScreenPresentingAd, didFailToPresentFullScreenContentWithError error: Error) {}
 }
+// swiftlint:enable identifier_name

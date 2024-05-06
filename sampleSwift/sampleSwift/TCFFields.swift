@@ -15,7 +15,9 @@ public enum TCFFields: String, CaseIterable {
     case publisherCC = "IABTCF_PublisherCC"
     case publisherConsent = "IABTCF_PublisherConsent"
     case publisherCustomPurposesConsents = "IABTCF_PublisherCustomPurposesConsents"
+    // swiftlint:disable identifier_name
     case publisherCustomPurposesLegitimateInterests = "IABTCF_PublisherCustomPurposesLegitimateInterests"
+    // swiftlint:enable identifier_name
     case publisherLegitimateInterests = "IABTCF_PublisherLegitimateInterests"
     case publisherRestrictions = "IABTCF_PublisherRestrictions"
     case purposeConsents = "IABTCF_PurposeConsents"
