@@ -1,0 +1,103 @@
+
+<!doctype html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>body { padding: 0; margin: 0; }</style>
+  </head>
+  <body>
+    <script>
+      function waitForLocalStorage(key, interval, timeout) {
+        interval = interval || 20;
+        timeout = timeout || 200;
+        return new Promise(function (resolve, reject) {
+          var totalTime = 0;
+          var check = function () {
+            var value = localStorage.getItem(key);
+            if (value !== null) {
+              resolve(value);
+            } else if (totalTime < timeout) {
+              totalTime += interval;
+              setTimeout(check, interval);
+            } else {
+              reject(new Error("Timeout waiting for " + key));
+            }
+          };
+          check();
+        });
+      }
+
+      function init() {
+        try {
+          waitForLocalStorage("_ax_client_id")
+            .then(function (clientId) {
+              return waitForLocalStorage("_ax_cookies_version").then(
+                function (cookiesVersion) {
+                  window.axeptioSettings = {
+                    clientId: clientId,
+                    cookiesVersion: cookiesVersion,
+                  };
+
+                  loadAxeptioScript(document, "script");
+                  if (typeof window._axcb === "undefined") {
+                    window._axcb = [];
+                  }
+                  if (window.location.search.includes("showConsentManager")) {
+                    window._axcb.push(function (axeptio) {
+                      __tcfapi("showConsentManager", 2, (show, success) => {
+                        if (window.location.search.includes("debugMode")) {
+                          console.log("[WEBVIEW - DEBUG] showConsentManager", success, show);
+                        }
+                      });
+                    });
+                  }
+                  window._axcb.push(function (axeptio) {
+                    axeptio.on("*", function (evt, payload) {
+                      if (window.location.search.includes("debugMode")) {
+                        console.log("[WEBVIEW - DEBUG] Event", evt, JSON.stringify(payload));
+                      }
+                      axeptioAppSdk.onEvent(evt, JSON.stringify(payload));
+                    });
+                  });
+                }
+              );
+            })
+            .catch(function (error) {
+              console.error(error);
+            });
+        } catch (error) {
+          console.error(error);
+        }
+      }
+
+      function getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, '\\$&');
+        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+            results = regex.exec(url);
+        if (!results) return '';
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+      }
+
+      let sdkUrl = "https://static.axept.io/tcf/sdk.js";
+      var axeptioPrRegex = /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gm;
+      var axeptioPr = getParameterByName('axeptioPr');
+      if (axeptioPr.search(axeptioPrRegex) !== -1) {
+        var uuid = getParameterByName('axeptioPr');
+        sdkUrl = "https://static.axept.io/tcf/sdk-pr-" + uuid + ".js";
+        console.log("#### Loading PR SDK", sdkUrl);
+      }
+
+      function loadAxeptioScript(d, s) {
+        var t = d.getElementsByTagName(s)[0];
+        var e = d.createElement(s);
+        e.async = true;
+        e.type = "module";
+        e.src = sdkUrl;
+        t.parentNode.insertBefore(e, t);
+      }
+      init();
+    </script>
+  </body>
+</html>

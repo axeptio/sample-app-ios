@@ -21,8 +21,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-
-    [Axeptio.shared initializeWithProjectId:@"5fbfa806a0787d3985c6ee5f" configurationId:@"62ac903ddf8cf90ca29d9585"];
+    [Axeptio.shared initializeWithClientId:@"5fbfa806a0787d3985c6ee5f" cookiesVersion:@"google cmp partner program sandbox-en-EU"];
     [GADMobileAds.sharedInstance startWithCompletionHandler:nil];
     [FIRApp configure];
 
