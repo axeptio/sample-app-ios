@@ -496,7 +496,7 @@ When google consent is update bye the user.
 
 
 ## Google Consent Mode v2
-Instructions on how to integrate Google Consent Mode with the Axeptio SDK in your Android application.
+Instructions on how to integrate Google Consent Mode with the Axeptio SDK in your iOS application.
 
 If you haven't already, add [Firebase Analytics](https://developers.google.com/tag-platform/security/guides/app-consent?hl=fr&consentmode=basic&platform=ios) to your iOS project.
 Register to Google Consent updates
