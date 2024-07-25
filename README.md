@@ -1,6 +1,6 @@
 # Axeptio iOS SDK
 
-Welcome to the **Axeptio** iOS SDK Samples project! This repository demonstrates how to implement the Axeptio Android SDK in your mobile applications.
+Welcome to the **Axeptio** iOS SDK Samples project! This repository demonstrates how to implement the Axeptio iOS SDK in your mobile applications.
 
 ## Overview
 
@@ -500,6 +500,8 @@ Instructions on how to integrate Google Consent Mode with the Axeptio SDK in you
 
 If you haven't already, add [Firebase Analytics](https://developers.google.com/tag-platform/security/guides/app-consent?hl=fr&consentmode=basic&platform=ios) to your iOS project.
 Register to Google Consent updates
+
+When user consent is collected through your CMP, the SDK will set the IABTCF_EnableAdvertiserConsentMode key in the Shared Preferences to true.
 
 Axeptio SDK provides a callback to listen to Google Consent updates. You'll have to map the consent types and status to the corresponding Firebase models. You can then update Firebase analytics consents by calling Firebase analytics' setConsent().
 
