@@ -9,6 +9,8 @@ The project consists of two modules:
 * `sampleSwift`: Illustrates the usage of the Axeptio SDK with Swift and Swift Package Manager.
 * `sampleObjectiveC`: Demonstrates the integration of the Axeptio SDK with ObjectiveC and CocoaPods.
 
+Each module can be build with `brands` or `publishers` given your requirements.
+
 ## Getting Started
 
 **Axeptio** CMP ios sdk
@@ -46,7 +48,7 @@ platform :ios, '15.0'
 use_frameworks!
 
 target 'MyApp' do
-  pod 'AxeptioTCFSDK'
+  pod 'AxeptioIOSSDK'
 end
 ```
 
@@ -58,10 +60,10 @@ The iOS SDK is available throught Swift Package Manager as a binary library. In 
 * Select your project in **PROJECT** section
 * Select the **Package Dependencies**
 * Click on the **+** button
-* Copy the package url 'https://github.com/axeptio/tcf-ios-sdk' into the search bar
-* Select the **tcf-ios-sdk** package from the list
+* Copy the package url 'https://github.com/axeptio/axeptio-ios-sdk' into the search bar
+* Select the **axeptio-ios-sdk** package from the list
 * Click on **Add Package**
-* From the **Choose Package Products for the tcf-ios-sdk** screen click on Add Package
+* From the **Choose Package Products for the axeptio-ios-sdk** screen click on Add Package
 
 
 ### Initialize the SDK 
@@ -81,11 +83,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    
+        let targetService: AxeptioService = .brands // or .publisherTcf
         // sample init
-        Axeptio.shared.initialize(clientId: "<Your Client ID>", cookiesVersion: "<Your Cookies Version>")
+        Axeptio.shared.initialize(targetService: targetService, clientId: "<Your Client ID>", cookiesVersion: "<Your Cookies Version>")
 
         // or with a token set from an other device (you are in charge to store and pass the token along between devices)
-        Axeptio.shared.initialize(clientId: "<Your Client ID>", cookiesVersion: "<Your Cookies Version>", token: "<Token>")
+        Axeptio.shared.initialize(targetService: targetService, clientId: "<Your Client ID>", cookiesVersion: "<Your Cookies Version>", token: "<Token>")
 
         return true
     }
@@ -106,16 +110,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+
+    AxeptioService targetService = AxeptioServiceBrands; // or AxeptioServicePublisherTcf
     // sample init
-    [Axeptio.shared initializeWithClientId:@"<Your Client ID>" cookiesVersion:@"<Your Cookies Version>"];
+    [Axeptio.shared initializeWithTargetService:targetServiceclientId:@"<Your Client ID>" cookiesVersion:@"<Your Cookies Version>"];
 
     // or with a token set from an other device
-    [Axeptio.shared initializeWithClientId:@"<Your Client ID>" cookiesVersion:@"<Your Cookies Version>" token:@"<Token>"];
+    [Axeptio.shared initializeWithTargetService:targetServiceclientId:@"<Your Client ID>" cookiesVersion:@"<Your Cookies Version>" token:@"<Token>"];
 
     return YES;
 }
 
 ```
+> **Publishers**
+You can transfer a user's consents by providing his Axeptio token.
 
 The SDK will automatically update the UserDefaults according to the TCFv2 [IAB Requirements](https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20CMP%20API%20v2.md#in-app-details)
 
@@ -393,6 +401,7 @@ Axeptio.shared.clearConsent()
 ```
 
 ## Share consent with webviews
+>*This feature is only available for **publishers** service.*
 
 You can also add the SDK token or any other token to any URL:
 
