@@ -1,5 +1,5 @@
 PODS:
-  - AxeptioTCFSDK (1.1.0)
+  - AxeptioIOSSDK (2.0.0)
   - FirebaseAnalytics (10.22.0):
     - FirebaseAnalytics/AdIdSupport (= 10.22.0)
     - FirebaseCore (~> 10.0)
@@ -88,14 +88,14 @@ PODS:
   - PromisesObjC (2.4.0)
 
 DEPENDENCIES:
-  - AxeptioTCFSDK
+  - AxeptioIOSSDK
   - FirebaseAnalytics
   - FirebaseCore
   - Google-Mobile-Ads-SDK
 
 SPEC REPOS:
   trunk:
-    - AxeptioTCFSDK
+    - AxeptioIOSSDK
     - FirebaseAnalytics
     - FirebaseCore
     - FirebaseCoreInternal
@@ -108,7 +108,7 @@ SPEC REPOS:
     - PromisesObjC
 
 SPEC CHECKSUMS:
-  AxeptioTCFSDK: 04a6a9fd75b30cd744b25828c9745a9f97332222
+  AxeptioIOSSDK: bd90bad4320ea91b5a21a823e99004212a3d1d0b
   FirebaseAnalytics: 8d0ff929c63b7f72260f332b86ccf569776b75d3
   FirebaseCore: 0326ec9b05fbed8f8716cddbf0e36894a13837f7
   FirebaseCoreInternal: bca337352024b18424a61e478460547d46c4c753
@@ -120,6 +120,6 @@ SPEC CHECKSUMS:
   nanopb: 438bc412db1928dac798aa6fd75726007be04262
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
 
-PODFILE CHECKSUM: 0a7127deac0488a862176ed9bd34cad5af2c8f33
+PODFILE CHECKSUM: 23ff6c9bf0433fbfb58d22c3401f8757102d1f6b
 
-COCOAPODS: 1.13.0
+COCOAPODS: 1.15.2
