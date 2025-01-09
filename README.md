@@ -9,8 +9,6 @@ The project consists of two modules:
 * `sampleSwift`: Illustrates the usage of the Axeptio SDK with Swift and Swift Package Manager.
 * `sampleObjectiveC`: Demonstrates the integration of the Axeptio SDK with ObjectiveC and CocoaPods.
 
-Each module can be build with `brands` or `publishers` given your requirements.
-
 ## Getting Started
 
 **Axeptio** CMP ios sdk
@@ -48,7 +46,7 @@ platform :ios, '15.0'
 use_frameworks!
 
 target 'MyApp' do
-  pod 'AxeptioIOSSDK'
+  pod 'AxeptioTCFSDK'
 end
 ```
 
@@ -60,10 +58,10 @@ The iOS SDK is available throught Swift Package Manager as a binary library. In 
 * Select your project in **PROJECT** section
 * Select the **Package Dependencies**
 * Click on the **+** button
-* Copy the package url 'https://github.com/axeptio/axeptio-ios-sdk' into the search bar
-* Select the **axeptio-ios-sdk** package from the list
+* Copy the package url 'https://github.com/axeptio/tcf-ios-sdk' into the search bar
+* Select the **tcf-ios-sdk** package from the list
 * Click on **Add Package**
-* From the **Choose Package Products for the axeptio-ios-sdk** screen click on Add Package
+* From the **Choose Package Products for the tcf-ios-sdk** screen click on Add Package
 
 
 ### Initialize the SDK 
@@ -83,13 +81,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-    
-        let targetService: AxeptioService = .brands // or .publisherTcf
         // sample init
-        Axeptio.shared.initialize(targetService: targetService, clientId: "<Your Client ID>", cookiesVersion: "<Your Cookies Version>")
+        Axeptio.shared.initialize(clientId: "<Your Client ID>", cookiesVersion: "<Your Cookies Version>")
 
         // or with a token set from an other device (you are in charge to store and pass the token along between devices)
-        Axeptio.shared.initialize(targetService: targetService, clientId: "<Your Client ID>", cookiesVersion: "<Your Cookies Version>", token: "<Token>")
+        Axeptio.shared.initialize(clientId: "<Your Client ID>", cookiesVersion: "<Your Cookies Version>", token: "<Token>")
 
         return true
     }
@@ -110,20 +106,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-
-    AxeptioService targetService = AxeptioServiceBrands; // or AxeptioServicePublisherTcf
     // sample init
-    [Axeptio.shared initializeWithTargetService:targetServiceclientId:@"<Your Client ID>" cookiesVersion:@"<Your Cookies Version>"];
+    [Axeptio.shared initializeWithClientId:@"<Your Client ID>" cookiesVersion:@"<Your Cookies Version>"];
 
     // or with a token set from an other device
-    [Axeptio.shared initializeWithTargetService:targetServiceclientId:@"<Your Client ID>" cookiesVersion:@"<Your Cookies Version>" token:@"<Token>"];
+    [Axeptio.shared initializeWithClientId:@"<Your Client ID>" cookiesVersion:@"<Your Cookies Version>" token:@"<Token>"];
 
     return YES;
 }
 
 ```
-> **Publishers**
-You can transfer a user's consents by providing his Axeptio token.
 
 The SDK will automatically update the UserDefaults according to the TCFv2 [IAB Requirements](https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20CMP%20API%20v2.md#in-app-details)
 
@@ -242,75 +234,10 @@ The Axeptio SDK does not ask for the user permission for tracking in the ATT fra
 
 Your app must follow [Apple's guidelines](https://developer.apple.com/app-store/user-privacy-and-data-use/) for disclosing the data collected by your app and asking for the user's permission for tracking. Permission for tracking on iOS can be asked by calling the `ATTrackingManager.requestTrackingAuthorization` function in your app.
 
-### Integrate the CMP notice and ATT permission
+Apple has been to know to deny app publication if ATT is refused by the user, and a CMP ask for consent, as they consider it a reassement of a previously establish choice. 
 
-
-#### Show consent popup on demand
-
-This sample shows how to: 
-* Show the Axeptio consent notice
-* Show the ATT permission request if and only if: 
-    * The iOS version is >= 14
-    * The user has not made an ATT permission choice before and the choice is not [restricted](https://developer.apple.com/documentation/apptrackingtransparency/attrackingmanager/authorizationstatus/restricted) 
-
-The CMP consent notice will always be displayed and the ATT permission will not show if the user denies consent to all purposes in the Axeptio consent notice. The ATT status will remain notDetermined. If the user denies ATT permission the CMP consent notice will close automatically.
-
-#### Swift 
-```swift
-import UIKit
-import AppTrackingTransparency
-
-import AxeptioSDK
-​
-class ViewController: UIViewController {
- override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        let axeptioEventListener = AxeptioEventListener()
-        axeptioEventListener.onConsentChanged = {
-            if #available(iOS 14, *) {
-                ATTrackingManager.requestTrackingAuthorization { status in
-                    if status == .denied {
-                        Axeptio.shared.setUserDeniedTracking()
-                    }
-                }
-            }
-        }
-        Axeptio.shared.setEventListener(axeptioEventListener)
-    }
-}
-
-```
-
-#### Objective-C
-```objc
-#import <AppTrackingTransparency/AppTrackingTransparency.h>
-
-@import AxeptioSDK;
-
-@implementation ViewController
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-
-    AxeptioEventListener *axeptioEventListener = [[AxeptioEventListener alloc] init];
-
-    [axeptioEventListener setOnConsentChanged:^{
-
-        if (@available(iOS 14, *)) {
-            [ATTrackingManager requestTrackingAuthorizationWithCompletionHandler:^(ATTrackingManagerAuthorizationStatus status) {
-                if (status == ATTrackingManagerAuthorizationStatusDenied) {
-                    [Axeptio.shared setUserDeniedTracking];
-                }
-            }];
-        }
-    }];
-    [Axeptio.shared setEventListener:axeptioEventListener];
-}
-
-@end
-```
-
-
+ *if* in accordance with Apple's guidelines your application required to have ATT., ask for ATT before anything else, and if the user accept ATT, the folowing implementation example is our recommandation on how to set it up.
+ 
 #### Show the ATT permission then the CMP notice if the user accepts the ATT permission
 
 This sample shows how to: 
@@ -325,24 +252,32 @@ The Axeptio consent notice will only be displayed if the user accepts the ATT pe
 ```swift
 import UIKit
 import AppTrackingTransparency
-
 import AxeptioSDK
-​
+
 class ViewController: UIViewController {
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        Task {
+            await handleATTAndInitializeAxeptioCMP()
+        }
+    }
 
+    private func handleATTAndInitializeAxeptioCMP() async {
         if #available(iOS 14, *) {
-            ATTrackingManager.requestTrackingAuthorization { status in
-                if status == .denied {
-                    Axeptio.shared.setUserDeniedTracking()
-                } else {
-                    Axeptio.shared.setupUI()
-                }
-            }
+            let status = await ATTrackingManager.requestTrackingAuthorization()
+            let isAuthorized = (status == .authorized)
+            initializeAxeptioCMPUI(granted: isAuthorized)
         } else {
-            // Show the Axeptio CMP notice to collect consent from the user as iOS < 14 (no ATT available)
+            initializeAxeptioCMPUI(granted: true)
+        }
+    }
+
+    private func initializeAxeptioCMPUI(granted: Bool) {
+        if granted {
             Axeptio.shared.setupUI()
+        } else {
+            Axeptio.shared.setUserDeniedTracking()
         }
     }
 }
@@ -351,7 +286,6 @@ class ViewController: UIViewController {
 #### Objective-C
 ```objc
 #import <AppTrackingTransparency/AppTrackingTransparency.h>
-
 @import AxeptioSDK;
 
 @implementation ViewController
@@ -360,15 +294,24 @@ class ViewController: UIViewController {
     [super viewDidAppear:animated];
     
     if (@available(iOS 14, *)) {
-        [ATTrackingManager requestTrackingAuthorizationWithCompletionHandler:^(ATTrackingManagerAuthorizationStatus status) {
-            if (status == ATTrackingManagerAuthorizationStatusDenied) {
-                [Axeptio.shared setUserDeniedTracking];
-            } else {
-                [Axeptio.shared setupUI];
-            }
-        }];
+        [self requestTrackingAuthorization];
     } else {
         [Axeptio.shared setupUI];
+    }
+}
+
+- (void)requestTrackingAuthorization {
+    [ATTrackingManager requestTrackingAuthorizationWithCompletionHandler:^(ATTrackingManagerAuthorizationStatus status) {
+        BOOL isAuthorized = (status == ATTrackingManagerAuthorizationStatusAuthorized);
+        [self initializeAxeptioCMPUI:isAuthorized];
+    }];
+}
+
+- (void)initializeAxeptioCMPUI:(BOOL)granted {
+    if (granted) {
+        [Axeptio.shared setupUI];
+    } else {
+        [Axeptio.shared setUserDeniedTracking];
     }
 }
 
@@ -401,7 +344,6 @@ Axeptio.shared.clearConsent()
 ```
 
 ## Share consent with webviews
->*This feature is only available for **publishers** service.*
 
 You can also add the SDK token or any other token to any URL:
 
