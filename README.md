@@ -234,75 +234,10 @@ The Axeptio SDK does not ask for the user permission for tracking in the ATT fra
 
 Your app must follow [Apple's guidelines](https://developer.apple.com/app-store/user-privacy-and-data-use/) for disclosing the data collected by your app and asking for the user's permission for tracking. Permission for tracking on iOS can be asked by calling the `ATTrackingManager.requestTrackingAuthorization` function in your app.
 
-### Integrate the CMP notice and ATT permission
+Apple has been to know to deny app publication if ATT is refused by the user, and a CMP ask for consent, as they consider it a reassement of a previously establish choice. 
 
-
-#### Show consent popup on demand
-
-This sample shows how to: 
-* Show the Axeptio consent notice
-* Show the ATT permission request if and only if: 
-    * The iOS version is >= 14
-    * The user has not made an ATT permission choice before and the choice is not [restricted](https://developer.apple.com/documentation/apptrackingtransparency/attrackingmanager/authorizationstatus/restricted) 
-
-The CMP consent notice will always be displayed and the ATT permission will not show if the user denies consent to all purposes in the Axeptio consent notice. The ATT status will remain notDetermined. If the user denies ATT permission the CMP consent notice will close automatically.
-
-#### Swift 
-```swift
-import UIKit
-import AppTrackingTransparency
-
-import AxeptioSDK
-​
-class ViewController: UIViewController {
- override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        let axeptioEventListener = AxeptioEventListener()
-        axeptioEventListener.onConsentChanged = {
-            if #available(iOS 14, *) {
-                ATTrackingManager.requestTrackingAuthorization { status in
-                    if status == .denied {
-                        Axeptio.shared.setUserDeniedTracking()
-                    }
-                }
-            }
-        }
-        Axeptio.shared.setEventListener(axeptioEventListener)
-    }
-}
-
-```
-
-#### Objective-C
-```objc
-#import <AppTrackingTransparency/AppTrackingTransparency.h>
-
-@import AxeptioSDK;
-
-@implementation ViewController
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-
-    AxeptioEventListener *axeptioEventListener = [[AxeptioEventListener alloc] init];
-
-    [axeptioEventListener setOnConsentChanged:^{
-
-        if (@available(iOS 14, *)) {
-            [ATTrackingManager requestTrackingAuthorizationWithCompletionHandler:^(ATTrackingManagerAuthorizationStatus status) {
-                if (status == ATTrackingManagerAuthorizationStatusDenied) {
-                    [Axeptio.shared setUserDeniedTracking];
-                }
-            }];
-        }
-    }];
-    [Axeptio.shared setEventListener:axeptioEventListener];
-}
-
-@end
-```
-
-
+ *if* in accordance with Apple's guidelines your application required to have ATT., ask for ATT before anything else, and if the user accept ATT, the folowing implementation example is our recommandation on how to set it up.
+ 
 #### Show the ATT permission then the CMP notice if the user accepts the ATT permission
 
 This sample shows how to: 
@@ -317,24 +252,32 @@ The Axeptio consent notice will only be displayed if the user accepts the ATT pe
 ```swift
 import UIKit
 import AppTrackingTransparency
-
 import AxeptioSDK
-​
+
 class ViewController: UIViewController {
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        Task {
+            await handleATTAndInitializeAxeptioCMP()
+        }
+    }
 
+    private func handleATTAndInitializeAxeptioCMP() async {
         if #available(iOS 14, *) {
-            ATTrackingManager.requestTrackingAuthorization { status in
-                if status == .denied {
-                    Axeptio.shared.setUserDeniedTracking()
-                } else {
-                    Axeptio.shared.setupUI()
-                }
-            }
+            let status = await ATTrackingManager.requestTrackingAuthorization()
+            let isAuthorized = (status == .authorized)
+            initializeAxeptioCMPUI(granted: isAuthorized)
         } else {
-            // Show the Axeptio CMP notice to collect consent from the user as iOS < 14 (no ATT available)
+            initializeAxeptioCMPUI(granted: true)
+        }
+    }
+
+    private func initializeAxeptioCMPUI(granted: Bool) {
+        if granted {
             Axeptio.shared.setupUI()
+        } else {
+            Axeptio.shared.setUserDeniedTracking()
         }
     }
 }
@@ -343,7 +286,6 @@ class ViewController: UIViewController {
 #### Objective-C
 ```objc
 #import <AppTrackingTransparency/AppTrackingTransparency.h>
-
 @import AxeptioSDK;
 
 @implementation ViewController
@@ -352,15 +294,24 @@ class ViewController: UIViewController {
     [super viewDidAppear:animated];
     
     if (@available(iOS 14, *)) {
-        [ATTrackingManager requestTrackingAuthorizationWithCompletionHandler:^(ATTrackingManagerAuthorizationStatus status) {
-            if (status == ATTrackingManagerAuthorizationStatusDenied) {
-                [Axeptio.shared setUserDeniedTracking];
-            } else {
-                [Axeptio.shared setupUI];
-            }
-        }];
+        [self requestTrackingAuthorization];
     } else {
         [Axeptio.shared setupUI];
+    }
+}
+
+- (void)requestTrackingAuthorization {
+    [ATTrackingManager requestTrackingAuthorizationWithCompletionHandler:^(ATTrackingManagerAuthorizationStatus status) {
+        BOOL isAuthorized = (status == ATTrackingManagerAuthorizationStatusAuthorized);
+        [self initializeAxeptioCMPUI:isAuthorized];
+    }];
+}
+
+- (void)initializeAxeptioCMPUI:(BOOL)granted {
+    if (granted) {
+        [Axeptio.shared setupUI];
+    } else {
+        [Axeptio.shared setUserDeniedTracking];
     }
 }
 

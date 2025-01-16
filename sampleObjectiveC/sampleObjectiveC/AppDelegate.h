@@ -6,9 +6,11 @@
 //
 
 #import <UIKit/UIKit.h>
+@import AxeptioSDK;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
++ (AxeptioService)targetService;
 
 @end
 

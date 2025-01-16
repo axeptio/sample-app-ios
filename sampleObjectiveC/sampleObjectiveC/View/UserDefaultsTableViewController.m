@@ -6,6 +6,8 @@
 //
 
 #import "UserDefaultsTableViewController.h"
+#import "AppDelegate.h"
+@import AxeptioSDK;
 
 @interface UserDefaultsTableViewController ()
 
@@ -18,28 +20,37 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    AxeptioService currentService = [AppDelegate targetService];
 
-    _keys = @[
-        @"IABTCF_CmpSdkID",
-        @"IABTCF_CmpSdkVersion",
-        @"IABTCF_gdprApplies",
-        @"IABTCF_PolicyVersion",
-        @"IABTCF_PublisherCC",
-        @"IABTCF_PublisherConsent",
-        @"IABTCF_PublisherLegitimateInterests",
-        @"IABTCF_PublisherCustomPurposesConsents",
-        @"IABTCF_PublisherCustomPurposesLegitimateInterests",
-        @"IABTCF_PublisherRestrictions",
-        @"IABTCF_PurposeConsents",
-        @"IABTCF_PurposeLegitimateInterests",
-        @"IABTCF_PurposeOneTreatment",
-        @"IABTCF_SpecialFeaturesOptIns",
-        @"IABTCF_TCString",
-        @"IABTCF_UseNonStandardTexts",
-        @"IABTCF_VendorConsents",
-        @"IABTCF_VendorLegitimateInterests",
-        @"IABTCF_AddtlConsent"
-    ];
+    if (currentService == AxeptioServicePublisherTcf) {
+        _keys = @[
+            @"IABTCF_CmpSdkID",
+            @"IABTCF_CmpSdkVersion",
+            @"IABTCF_gdprApplies",
+            @"IABTCF_PolicyVersion",
+            @"IABTCF_PublisherCC",
+            @"IABTCF_PublisherConsent",
+            @"IABTCF_PublisherLegitimateInterests",
+            @"IABTCF_PublisherCustomPurposesConsents",
+            @"IABTCF_PublisherCustomPurposesLegitimateInterests",
+            @"IABTCF_PublisherRestrictions",
+            @"IABTCF_PurposeConsents",
+            @"IABTCF_PurposeLegitimateInterests",
+            @"IABTCF_PurposeOneTreatment",
+            @"IABTCF_SpecialFeaturesOptIns",
+            @"IABTCF_TCString",
+            @"IABTCF_UseNonStandardTexts",
+            @"IABTCF_VendorConsents",
+            @"IABTCF_VendorLegitimateInterests",
+            @"IABTCF_AddtlConsent"
+        ];
+    } else {
+        _keys = @[
+            @"axeptio_cookies",
+            @"axeptio_all_vendors",
+            @"axeptio_authorized_vendors"
+        ];
+    }
     _defaults = [NSUserDefaults standardUserDefaults];
 }
 
@@ -49,8 +60,8 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TCFCell" forIndexPath:indexPath];
-    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UserDefaultsCell" forIndexPath:indexPath];
+
     NSString *title = [_keys objectAtIndex:indexPath.row];
     NSString *value = [_defaults stringForKey:title];
     [cell.textLabel setText:title];
