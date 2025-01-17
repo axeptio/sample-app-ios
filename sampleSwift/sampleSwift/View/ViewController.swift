@@ -49,19 +49,15 @@ class ViewController: UIViewController {
                 .adPersonalization: consents.adPersonalization == GoogleConsentStatus.granted ? .granted : .denied
             ])
         }
-
-        axeptioEventListener.onConsentChanged = {
-            self.requestTrackingAuthorization()
-        }
-
         axeptioEventListener.onPopupClosedEvent = {
             self.loadAd()
         }
 
-        Axeptio.shared.setEventListener(axeptioEventListener)
-        Axeptio.shared.setupUI()
-
-        loadAd()
+        if #available(iOS 14, *) {
+            self.requestTrackingAuthorization()
+        } else {
+            Axeptio.shared.setupUI()
+        }
     }
 
     @IBAction func showConsent(_ sender: Any) {
@@ -115,16 +111,19 @@ extension ViewController {
         }
 
         ATTrackingManager.requestTrackingAuthorization { [weak self] status in
-            guard status == .denied else {
-                return
-            }
+
+            let isAuthorized = (status == .authorized)
             // We need to do that to manage a bug in iOS 17.4 about ATT
             if ATTrackingManager.trackingAuthorizationStatus == .notDetermined {
                 self?.addObserver()
                 return
             }
-            
-            Axeptio.shared.setUserDeniedTracking()
+
+            if isAuthorized {
+                Axeptio.shared.setupUI()
+            } else {
+                Axeptio.shared.setUserDeniedTracking()
+            }
         }
     }
 
