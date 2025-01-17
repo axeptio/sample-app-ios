@@ -66,7 +66,8 @@ The iOS SDK is available throught Swift Package Manager as a binary library. In 
 
 ### Initialize the SDK 
 
-In the `AppDelegate`, make sure to import the `AxeptioSDK` module, then call the `initialize` method and pass your API key, you can also initialize the sdk with the consent already set from an other device with the token parameter :
+In the `AppDelegate`, make sure to import the `AxeptioSDK` module, then call the `initialize` method with your API key.
+The SDK can be configured for either brands or publishers via the AxeptioService enum. You can also initialize the sdk with the consent already set from an other device with the token parameter :
 
 
 #### Swift
@@ -234,10 +235,6 @@ The Axeptio SDK does not ask for the user permission for tracking in the ATT fra
 
 Your app must follow [Apple's guidelines](https://developer.apple.com/app-store/user-privacy-and-data-use/) for disclosing the data collected by your app and asking for the user's permission for tracking. Permission for tracking on iOS can be asked by calling the `ATTrackingManager.requestTrackingAuthorization` function in your app.
 
-Apple has been to know to deny app publication if ATT is refused by the user, and a CMP ask for consent, as they consider it a reassement of a previously establish choice. 
-
- *if* in accordance with Apple's guidelines your application required to have ATT., ask for ATT before anything else, and if the user accept ATT, the folowing implementation example is our recommandation on how to set it up.
- 
 #### Show the ATT permission then the CMP notice if the user accepts the ATT permission
 
 This sample shows how to: 
@@ -317,6 +314,37 @@ class ViewController: UIViewController {
 
 @end
 ```
+### Responsibilities: Mobile App vs SDK
+
+The Axeptio SDK and your mobile application have distinct responsibilities in managing user consent and tracking:
+
+#### Mobile Application Responsibilities:
+- Implementing and managing the App Tracking Transparency (ATT) permission flow
+- Deciding when to show the ATT prompt relative to the Axeptio CMP
+- Properly declaring data collection practices in App Store privacy labels
+- Handling SDK events and updating app behavior based on user consent
+
+#### Axeptio SDK Responsibilities:
+- Displaying the consent management platform (CMP) interface
+- Managing and storing user consent choices
+- Sending consent status through APIs
+
+The SDK does not automatically handle ATT permissions - this must be explicitly managed by the host application as shown in the implementation examples above.
+
+### Get stored consents
+
+You can retrieve the consents that are stored by the SDK in UserDefaults:
+
+#### Swift
+```swift
+UserDefaults.standard.object(forKey:"Key")
+```
+#### Objective-C
+```objc
+ [[NSUserDefaults standardUserDefaults] objectForKey:@"Key"]
+```
+ 
+For detailed information about stored values and cookies, please refer to the [Axeptio documentation](https://support.axeptio.eu/hc/en-gb/articles/8558526367249-Does-Axeptio-deposit-cookies).
 
 ### Show consent popup demand
 You can request the consent popup to open on demand.
@@ -400,8 +428,9 @@ axeptioEventListener.onPopupClosedEvent = {
 }
 
 axeptioEventListener.onConsentChanged = {
-    // The consent status of the user has changed.
-    // Do something
+    // Retrieve consents from UserDefaults
+    // Check user preferences
+    // Run external process/services according user consents
 }
 
 axeptioEventListener.onGoogleConsentModeUpdate = { consents in
