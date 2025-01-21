@@ -430,12 +430,7 @@ When closing, the consent popup will trigger an event which you can listen by se
 ```swift
 let axeptioEventListener = AxeptioEventListener()
 axeptioEventListener.onPopupClosedEvent = {
-    // The CMP notice is being hidden
-    // Do something
-}
-
-axeptioEventListener.onConsentChanged = {
-    // Retrieve consents from UserDefaults
+     // Retrieve consents from UserDefaults
     // Check user preferences
     // Run external process/services according user consents
 }
