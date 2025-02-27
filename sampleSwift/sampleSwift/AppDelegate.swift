@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
-        Axeptio.shared.initialize(targetService: AppDelegate.targetService, clientId: "5fbfa806a0787d3985c6ee5f", cookiesVersion: "insideapp-brands", token: "5sj42u50ta2ys8c3nhjkxi")
+        Axeptio.shared.initialize(targetService: AppDelegate.targetService, clientId: "5fbfa806a0787d3985c6ee5f", cookiesVersion: "insideapp-brands")
         // Good token
         // Axeptio.shared.initialize(clientId: "5fbfa806a0787d3985c6ee5f", cookiesVersion: "google cmp partner program sandbox-en-EU", token: "5sj42u50ta2ys8c3nhjkxi")
         // Bad token

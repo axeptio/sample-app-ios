@@ -266,7 +266,7 @@ class ViewController: UIViewController {
  override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         let axeptioEventListener = AxeptioEventListener()
-        axeptioEventListener.onConsentChanged = {
+        axeptioEventListener.onConsentCleared = {
             if #available(iOS 14, *) {
                 ATTrackingManager.requestTrackingAuthorization { status in
                     if status == .denied {
@@ -294,7 +294,7 @@ class ViewController: UIViewController {
 
     AxeptioEventListener *axeptioEventListener = [[AxeptioEventListener alloc] init];
 
-    [axeptioEventListener setOnConsentChanged:^{
+    [axeptioEventListener setOnConsentCleared:^{
 
         if (@available(iOS 14, *)) {
             [ATTrackingManager requestTrackingAuthorizationWithCompletionHandler:^(ATTrackingManagerAuthorizationStatus status) {
@@ -457,8 +457,8 @@ axeptioEventListener.onPopupClosedEvent = {
     // Do something
 }
 
-axeptioEventListener.onConsentChanged = {
-    // The consent status of the user has changed.
+axeptioEventListener.onConsentCleared = {
+    // The consent status of the user has been cleared.
     // Do something
 }
 
@@ -478,8 +478,8 @@ Axeptio.shared.setEventListener(axeptioEventListener)
     // Do something
 }];
 
-[axeptioEventListener setOnConsentChanged:^{
-    // The consent status of the user has changed.
+[axeptioEventListener setOnConsentCleared:^{
+    // The consent status of the user has been cleared.
     // Do something
 }];
 
@@ -497,8 +497,8 @@ Axeptio.shared.setEventListener(axeptioEventListener)
 `onPopupClosedEvent`
 When the consent notice is hidden.
 
-`onConsentChanged`
-When a consent is given by the user.
+`onConsentCleared`
+When the user consent has been cleared.
 
 `onGoogleConsentModeUpdate`
 When google consent is update bye the user.

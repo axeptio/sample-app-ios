@@ -43,7 +43,7 @@
 
     AxeptioEventListener *axeptioEventListener = [[AxeptioEventListener alloc] init];
 
-    [axeptioEventListener setOnConsentChanged:^{
+    [axeptioEventListener setOnConsentCleared:^{
         [self requestTrackingAuthorization];
     }];
 
@@ -97,7 +97,7 @@
                                  actionWithTitle:@"Open in Browser"
                                  style:UIAlertActionStyleDefault
                                  handler:^(UIAlertAction * _Nonnull action) {
-        NSURL *sourceURL = [[NSURL alloc] initWithString:@"https://google-cmp-partner.axept.io/cmp-for-publishers.html"];
+        NSURL *sourceURL = [[NSURL alloc] initWithString:@"https://static.axept.io/app-sdk-webview-for-brands.html"];
         NSString *token = [[alertController textFields] objectAtIndex:0].text;
 
         NSURL *url = sourceURL;

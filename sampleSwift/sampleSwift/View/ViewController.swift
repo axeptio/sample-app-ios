@@ -50,7 +50,7 @@ class ViewController: UIViewController {
             ])
         }
 
-        axeptioEventListener.onConsentChanged = {
+        axeptioEventListener.onConsentCleared = {
             self.requestTrackingAuthorization()
         }
 
@@ -86,7 +86,7 @@ class ViewController: UIViewController {
         let saveAction = UIAlertAction(title: "Open in Browser", style: .default) {  [weak self] _ in
             guard 
                 let self,
-                let sourceURL = URL(string: "https://google-cmp-partner.axept.io/cmp-for-publishers.html")
+                let sourceURL = URL(string: "https://static.axept.io/app-sdk-webview-for-brands.html")
             else { return }
 
             var url: URL = sourceURL

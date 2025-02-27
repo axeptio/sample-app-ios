@@ -1,5 +1,5 @@
 {
-  "originHash" : "96f41b76bbf5b876ca244e17062b2b765a1123ca81e7675e3a10d02a04274283",
+  "originHash" : "786ab16bafa2bed4129b10e8607939002c779d299197bbc99d2d9a7ff2bee2f2",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -22,10 +22,10 @@
     {
       "identity" : "axeptio-ios-sdk",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/axeptio/axeptio-ios-sdk",
+      "location" : "https://github.com/axeptio/axeptio-ios-sdk.git",
       "state" : {
-        "revision" : "223bab25d11686abee124d30b56a67ca9d64f9ce",
-        "version" : "2.0.0"
+        "revision" : "1617869decab399427dab3e01f0245c7b154b296",
+        "version" : "2.0.5"
       }
     },
     {
