@@ -37,7 +37,7 @@ extension UserDefaultsViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "UserDefaultsCell", for: indexPath) as? USerDefaultsCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "UserDefaultsCell", for: indexPath) as? UserDefaultsCell else {
             return UITableViewCell()
         }
         cell.title?.text = Array(fields.keys)[indexPath.row]
@@ -47,7 +47,7 @@ extension UserDefaultsViewController: UITableViewDataSource {
     }
 }
 
-class USerDefaultsCell: UITableViewCell {
+class UserDefaultsCell: UITableViewCell {
     @IBOutlet var title: UILabel?
     @IBOutlet var value: UILabel?
 }

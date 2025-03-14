@@ -15,27 +15,29 @@ import GoogleMobileAds
 
 class ViewController: UIViewController {
     @IBOutlet weak var showConsentButton: UIButton!
+    @IBOutlet weak var tokenButton: UIButton!
     @IBOutlet weak var userDefaultsButton: UIButton!
     @IBOutlet weak var clearConsentButton: UIButton!
     @IBOutlet weak var googleAdButton: UIButton!
     @IBOutlet weak var googleAdSpinner: UIActivityIndicatorView!
-
-    @IBOutlet weak var tokenButton: UIButton!
+    @IBOutlet weak var showWebViewButton: UIButton!
     
+
     private var interstitial: GADInterstitialAd?
     private let cornerRadius = 24.0
     private weak var observer: NSObjectProtocol?
-
-    var token: String?
+    private var token: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         showConsentButton.layer.cornerRadius = cornerRadius
+        tokenButton.layer.cornerRadius = cornerRadius
         userDefaultsButton.layer.cornerRadius = cornerRadius
         clearConsentButton.layer.cornerRadius = cornerRadius
         googleAdButton.layer.cornerRadius = cornerRadius
         tokenButton.layer.cornerRadius = cornerRadius
+        showWebViewButton.layer.cornerRadius = cornerRadius
 
         googleAdSpinner.isHidden = true
 
@@ -50,9 +52,7 @@ class ViewController: UIViewController {
             ])
         }
 
-        axeptioEventListener.onConsentChanged = {
-            self.requestTrackingAuthorization()
-        }
+        axeptioEventListener.onConsentCleared = {}
 
         axeptioEventListener.onPopupClosedEvent = {
             self.loadAd()
@@ -67,7 +67,13 @@ class ViewController: UIViewController {
     @IBAction func showConsent(_ sender: Any) {
         Axeptio.shared.showConsentScreen()
     }
-    
+
+    @IBAction func reInitWebView(_ sender: Any) {
+        let cookiesVersion = AppDelegate.targetService == .publisherTcf ? "google cmp partner program sandbox-en-EU" : "insideapp-brands"
+        Axeptio.shared.initialize(targetService: AppDelegate.targetService, clientId: AppDelegate.clientId, cookiesVersion: cookiesVersion, token: token ?? "")
+        Axeptio.shared.setupUI()
+    }
+
     @IBAction func showGoogleAd(_ sender: Any) {
         if interstitial != nil {
             interstitial?.present(fromRootViewController: self)
@@ -75,6 +81,7 @@ class ViewController: UIViewController {
     }
 
     @IBAction func clearConsent(_ sender: Any) {
+        token = Axeptio.shared.axeptioToken
         Axeptio.shared.clearConsent()
     }
 
@@ -83,10 +90,11 @@ class ViewController: UIViewController {
         alertController.addTextField { textField in
             textField.placeholder = "axeptio token"
         }
+        let sourceURL = AppDelegate.targetService == .publisherTcf ? "https://google-cmp-partner.axept.io/cmp-for-publishers.html" : "https://static.axept.io/app-sdk-webview-for-brands.html"
         let saveAction = UIAlertAction(title: "Open in Browser", style: .default) {  [weak self] _ in
             guard 
                 let self,
-                let sourceURL = URL(string: "https://google-cmp-partner.axept.io/cmp-for-publishers.html")
+                let sourceURL = URL(string: sourceURL)
             else { return }
 
             var url: URL = sourceURL
