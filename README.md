@@ -1,7 +1,7 @@
-<h1>
-  <img src="https://axeptio.imgix.net/2024/07/e444a7b2-ea3d-4471-a91c-6be23e0c3cbb.png" alt="Descrizione immagine" width="80" style="vertical-align: middle; margin-right: 10px;" />
-  Axeptio iOS SDK Documentation
-</h1>
+<img src="https://github.com/user-attachments/assets/5799ac86-5d77-4a9e-9bdf-36d40881a449" width="600" height="300"/>
+
+# Axeptio iOS SDK Documentation
+
 
 ![License](https://img.shields.io/badge/license-Apache%202.0-blue) ![iOS version >= 15](https://img.shields.io/badge/iOS%20version-%3E%3D%2015-green) ![Platform](https://img.shields.io/badge/platform-iOS-blue) ![GitHub Stars](https://img.shields.io/github/stars/axeptio/sample-app-ios?style=social) ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen)
 
