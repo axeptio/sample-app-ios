@@ -37,9 +37,8 @@ Welcome to the **Axeptio iOS SDK Samples project!** This repository provides a c
     - [Automatic Token Addition](#automatic-token-addition)
 13. [Events Overview](#events-overview)
 14. [Event Descriptions](#event-descriptions)
-15. [How to Receive Events](#how-to-receive-events)
-16. [Google Consent Mode v2 Integration with Axeptio SDK](#google-consent-mode-v2-integration-with-axeptio-sdk)
-17. [Google AdMob Integration with Axeptio SDK](#google-admob-integration-with-axeptio-sdk)
+15. [Google Consent Mode v2 Integration with Axeptio SDK](#google-consent-mode-v2-integration-with-axeptio-sdk)
+16. [Google AdMob Integration with Axeptio SDK](#google-admob-integration-with-axeptio-sdk)
 
 <br><br>
 
@@ -746,7 +745,7 @@ Some of the events Axeptio can send include:
  ```
 These events are sent by the system to notify the host app that the user has interacted with the consent system or that an action related to consent has been completed.
 <br><br><br>
-
+<!--  
 ## How to Receive Events
 
 To listen for events sent by the SDK, you can use one of the following approaches:
@@ -849,7 +848,7 @@ In this example, the host app implements the AxeptioEventDelegate protocol and r
 
 
 
-<br><br><br>
+<br><br><br> -->
 ## 🚀Google Consent Mode v2 Integration with Axeptio SDK
 
 This steps explains how to integrate Google Consent Mode v2 with the Axeptio SDK for managing user consent within your iOS application. It covers Firebase Analytics integration and provides code examples in both Swift and Objective-C.
