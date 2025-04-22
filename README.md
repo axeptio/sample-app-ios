@@ -28,6 +28,7 @@ Welcome to the **Axeptio iOS SDK Samples project!** This repository provides a c
 7. [Axeptio SDK and App Tracking Transparency (ATT) Integration](#axeptio-sdk-and-app-tracking-transparency-att-integration)
    - [Swift Integration](#swift-integration)
    - [Objective-C Integration](#objective-c-integration)
+   - [Handling Changes in ATT Settings](#handling-changes-in-att-settings)
 8. [Responsibilities Mobile App vs SDK](#responsibilities-mobile-app-vs-sdk)
 9. [Retrieving Stored Consents](#retrieving-stored-consents)
 10. [Show Consent Popup on Demand](#show-consent-popup-on-demand)
@@ -475,6 +476,37 @@ For Objective-C, the implementation is quite similar. You’ll request ATT permi
 #### Useful Links
 - [Apple’s App Tracking Transparency Documentation](https://developer.apple.com/documentation/apptrackingtransparency)
 - [Apple's App Store Review Guidelines](https://developer.apple.com/app-store/review/guidelines/)
+
+## Handling Changes in ATT Settings
+
+The SDK introduces improved handling of the App Tracking Transparency (ATT) flow. This enhancement addresses an issue where, after modifying ATT permissions via iOS Settings, the “Reopen Cookie Banner” feature continued redirecting users to Settings instead of re-displaying the consent banner.
+
+The SDK offers a new setup option to control whether the consent banner should be displayed even if ATT is denied on the device.
+
+### New Configuration Flag
+
+```swift
+allowPopupDisplayWithRejectedDeviceTrackingPermissions: Bool
+```
+- Default: `false`
+- If set to `true`, the SDK bypasses the ATT check and allows the consent popup to be displayed even if ATT tracking is denied at the OS level.
+This flag must be set during the Axeptio SDK setup phase.
+
+### Logic to Display the Consent Popup
+
+To display the popup, the following conditions are now evaluated:
+
+| **Condition**                                | **Mandatory** | **Configurable** |
+|----------------------------------------------|---------------|------------------|
+| Network connectivity                         | ✅ Yes        | ❌ No            |
+| Device ATT status is “Authorized”            | ❌ No         | ✅ Yes (via `allowPopupDisplayWithRejectedDeviceTrackingPermissions`) |
+
+## Behavior of the `_ax_app_att_denied` flag
+- Set to `true` when ATT is denied on the device.
+- Automatically removed from local storage when ATT is later enabled, ensuring the consent banner can be displayed again.
+
+If the user initially denies ATT and later re-enables it in iOS Settings, the app will now detect the change. Based on the ` allowPopupDisplayWithRejectedDeviceTrackingPermissions`  flag, it can choose to show the consent popup again — instead of redirecting the user to Settings.
+
 
 <br><br><br>
 ## Responsibilities Mobile App vs SDK
