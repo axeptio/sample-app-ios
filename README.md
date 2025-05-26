@@ -25,21 +25,22 @@ Welcome to the **Axeptio iOS SDK Samples project!** This repository provides a c
    - [Objective-C](#objective-c)
      - [Issues with the Consent Popup (Objective-C)](#issues-with-the-consent-popup-objective-c)
    - [SwiftUI Integration](#swiftui-integration)
-7. [Axeptio SDK and App Tracking Transparency (ATT) Integration](#axeptio-sdk-and-app-tracking-transparency-att-integration)
+7. [Additional Configuration: Show Popup When Returning from Background](#additional-configuration-show-popup-when-returning-from-background)
+8. [Axeptio SDK and App Tracking Transparency (ATT) Integration](#axeptio-sdk-and-app-tracking-transparency-att-integration)
    - [Swift Integration](#swift-integration)
    - [Objective-C Integration](#objective-c-integration)
    - [Handling Changes in ATT Settings](#handling-changes-in-att-settings)
-8. [Responsibilities Mobile App vs SDK](#responsibilities-mobile-app-vs-sdk)
-9. [Retrieving Stored Consents](#retrieving-stored-consents)
-10. [Show Consent Popup on Demand](#show-consent-popup-on-demand)
-11. [Clearing Consent from `UserDefaults`](#clearing-consent-from-userdefaults)
-12. [Sharing Consent with Webviews](#sharing-consent-with-webviews)
+9. [Responsibilities Mobile App vs SDK](#responsibilities-mobile-app-vs-sdk)
+10. [Retrieving Stored Consents](#retrieving-stored-consents)
+11. [Show Consent Popup on Demand](#show-consent-popup-on-demand)
+12. [Clearing Consent from `UserDefaults`](#clearing-consent-from-userdefaults)
+13. [Sharing Consent with Webviews](#sharing-consent-with-webviews)
     - [Manual Token Addition](#manual-token-addition)
     - [Automatic Token Addition](#automatic-token-addition)
-13. [Events Overview](#events-overview)
-14. [Event Descriptions](#event-descriptions)
-15. [Google Consent Mode v2 Integration with Axeptio SDK](#google-consent-mode-v2-integration-with-axeptio-sdk)
-16. [Google AdMob Integration with Axeptio SDK](#google-admob-integration-with-axeptio-sdk)
+14. [Events Overview](#events-overview)
+15. [Event Descriptions](#event-descriptions)
+16. [Google Consent Mode v2 Integration with Axeptio SDK](#google-consent-mode-v2-integration-with-axeptio-sdk)
+17. [Google AdMob Integration with Axeptio SDK](#google-admob-integration-with-axeptio-sdk)
 
 <br><br>
 
@@ -346,6 +347,29 @@ struct YourSwiftUIApp: App {
 }
 ```
 By following these steps, the Axeptio SDK will be correctly integrated into a SwiftUI app, and the logic for displaying the consent popup will be handled inside `viewDidAppear()` within the custom `UIViewController`
+<br><br><br>
+
+## Additional Configuration Show Popup When Returning from Background
+The `setDisplayPopUpOnEnterForeground` property was added to control whether the consent popup should automatically appear when the app returns from the background.
+You can set this property after the SDK has been initialized.
+
+#### Example Usage:
+```swift
+// Initialize the SDK as usual
+AxeptioSDK.initialize(...)
+
+// Configure the popup behavior when returning from background
+AxeptioSDK.setDisplayPopUpOnEnterForeground(true)
+```
+#### Behavior:
+- The user is in the main app that includes the SDK.
+- The user switches to another app → the main app goes to the background.
+- The user returns to the main app → the app comes back to the foreground.
+- If `setDisplayPopUpOnEnterForeground = true`, the popup is displayed.
+- If `setDisplayPopUpOnEnterForeground = false`, the popup is not displayed automatically.
+
+
+
 <br><br><br>
 ## 🚀Axeptio SDK and App Tracking Transparency (ATT) Integration
 
