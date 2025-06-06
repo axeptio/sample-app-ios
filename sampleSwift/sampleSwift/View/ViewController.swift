@@ -15,28 +15,25 @@ import GoogleMobileAds
 
 class ViewController: UIViewController {
     @IBOutlet weak var showConsentButton: UIButton!
+    @IBOutlet weak var tokenButton: UIButton!
     @IBOutlet weak var userDefaultsButton: UIButton!
     @IBOutlet weak var clearConsentButton: UIButton!
     @IBOutlet weak var googleAdButton: UIButton!
     @IBOutlet weak var googleAdSpinner: UIActivityIndicatorView!
-
-    @IBOutlet weak var tokenButton: UIButton!
     
     private var interstitial: GADInterstitialAd?
     private let cornerRadius = 24.0
     private weak var observer: NSObjectProtocol?
-
-    var token: String?
+    private var token: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         showConsentButton.layer.cornerRadius = cornerRadius
+        tokenButton.layer.cornerRadius = cornerRadius
         userDefaultsButton.layer.cornerRadius = cornerRadius
         clearConsentButton.layer.cornerRadius = cornerRadius
         googleAdButton.layer.cornerRadius = cornerRadius
-        tokenButton.layer.cornerRadius = cornerRadius
-
         googleAdSpinner.isHidden = true
 
         let axeptioEventListener = AxeptioEventListener()
@@ -50,8 +47,8 @@ class ViewController: UIViewController {
             ])
         }
 
-        axeptioEventListener.onConsentChanged = {
-            self.requestTrackingAuthorization()
+        axeptioEventListener.onConsentCleared = {
+            print("Consent have been cleared")
         }
 
         axeptioEventListener.onPopupClosedEvent = {
@@ -59,9 +56,7 @@ class ViewController: UIViewController {
         }
 
         Axeptio.shared.setEventListener(axeptioEventListener)
-        Axeptio.shared.setupUI()
-
-        loadAd()
+        requestTrackingAuthorization()
     }
 
     @IBAction func showConsent(_ sender: Any) {
@@ -75,6 +70,7 @@ class ViewController: UIViewController {
     }
 
     @IBAction func clearConsent(_ sender: Any) {
+        token = Axeptio.shared.axeptioToken
         Axeptio.shared.clearConsent()
     }
 
@@ -83,10 +79,11 @@ class ViewController: UIViewController {
         alertController.addTextField { textField in
             textField.placeholder = "axeptio token"
         }
+        let sourceURL = AppDelegate.targetService == .publisherTcf ? "https://google-cmp-partner.axept.io/cmp-for-publishers.html" : "https://static.axept.io/app-sdk-webview-for-brands.html"
         let saveAction = UIAlertAction(title: "Open in Browser", style: .default) {  [weak self] _ in
-            guard 
+            guard
                 let self,
-                let sourceURL = URL(string: "https://google-cmp-partner.axept.io/cmp-for-publishers.html")
+                let sourceURL = URL(string: sourceURL)
             else { return }
 
             var url: URL = sourceURL
@@ -113,18 +110,23 @@ extension ViewController {
         guard #available(iOS 14, *) else {
             return
         }
+        
+        if ATTrackingManager.trackingAuthorizationStatus != .notDetermined {
+            return
+        }
 
         ATTrackingManager.requestTrackingAuthorization { [weak self] status in
-            guard status == .denied else {
-                return
-            }
+            let isAuthorized = status == .authorized
             // We need to do that to manage a bug in iOS 17.4 about ATT
             if ATTrackingManager.trackingAuthorizationStatus == .notDetermined {
                 self?.addObserver()
                 return
             }
+            if isAuthorized {
+                Axeptio.shared.setupUI()
+            }
             
-            Axeptio.shared.setUserDeniedTracking()
+            Axeptio.shared.setUserDeniedTracking(denied: !isAuthorized)
         }
     }
 

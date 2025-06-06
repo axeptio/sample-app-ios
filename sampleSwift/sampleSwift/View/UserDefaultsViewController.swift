@@ -12,21 +12,32 @@ class UserDefaultsViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        TCFFields.allCases.forEach { field in
-            let value = UserDefaults.standard.value(forKey: field.rawValue) ?? ""
-            fields.updateValue(value, forKey: field.rawValue)
+        if AppDelegate.targetService == .publisherTcf {
+            TCFFields.allCases.forEach { field in
+                let value = UserDefaults.standard.value(forKey: field.rawValue) ?? ""
+                fields.updateValue(value, forKey: field.rawValue)
+            }
+        } else {
+            CookieFields.allCases.forEach { field in
+                let value = UserDefaults.standard.value(forKey: field.rawValue) ?? ""
+                fields.updateValue(value, forKey: field.rawValue)
+            }
         }
+
     }
 }
 
 extension UserDefaultsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        TCFFields.allCases.count
+        if AppDelegate.targetService == .publisherTcf {
+            TCFFields.allCases.count
+        } else {
+            CookieFields.allCases.count
+        }
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "TCFCell", for: indexPath) as? TCFCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "UserDefaultsCell", for: indexPath) as? USerDefaultsCell else {
             return UITableViewCell()
         }
         cell.title?.text = Array(fields.keys)[indexPath.row]
@@ -36,7 +47,7 @@ extension UserDefaultsViewController: UITableViewDataSource {
     }
 }
 
-class TCFCell: UITableViewCell {
+class USerDefaultsCell: UITableViewCell {
     @IBOutlet var title: UILabel?
     @IBOutlet var value: UILabel?
 }

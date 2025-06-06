@@ -1,5 +1,5 @@
 {
-  "originHash" : "2d68af45dfc94000473924140bf0c4b5ab61feec119c8d2008c4a662471591c1",
+  "originHash" : "786ab16bafa2bed4129b10e8607939002c779d299197bbc99d2d9a7ff2bee2f2",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -17,6 +17,15 @@
       "state" : {
         "revision" : "3e464dad87dad2d29bb29a97836789bf0f8f67d2",
         "version" : "10.18.1"
+      }
+    },
+    {
+      "identity" : "axeptio-ios-sdk",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/axeptio/axeptio-ios-sdk",
+      "state" : {
+        "revision" : "6294da6df74029027fa2abb56c8806837b693b62",
+        "version" : "2.0.10"
       }
     },
     {
@@ -134,15 +143,6 @@
       "state" : {
         "revision" : "65e8f29b2d63c4e38e736b25c27b83e012159be8",
         "version" : "1.25.2"
-      }
-    },
-    {
-      "identity" : "tcf-ios-sdk",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/axeptio/tcf-ios-sdk",
-      "state" : {
-        "revision" : "7e979384cbdaa9fa909a8ca049aa73d8ee109955",
-        "version" : "1.1.0"
       }
     }
   ],

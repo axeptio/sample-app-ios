@@ -64,9 +64,10 @@
 
     if (@available(iOS 14, *)) {
         [self requestTrackingAuthorization];
+    } else {
+        [Axeptio.shared setupUI];
     }
 
-    [self loadAd];
 }
 
 - (IBAction)showConsent:(id)sender {
@@ -127,16 +128,18 @@
 
     if (@available(iOS 14, *)) {
         [ATTrackingManager requestTrackingAuthorizationWithCompletionHandler:^(ATTrackingManagerAuthorizationStatus status) {
-            if (status != ATTrackingManagerAuthorizationStatusDenied) {
-                return;
-            }
+            BOOL isAuthorized = (status == ATTrackingManagerAuthorizationStatusAuthorized);
             // Nous devons faire cela pour gérer un bogue dans iOS 17.4 concernant l'ATT
             if ([ATTrackingManager trackingAuthorizationStatus] == ATTrackingManagerAuthorizationStatusNotDetermined) {
                 [self addObserver];
                 return;
             }
 
-            [[Axeptio shared] setUserDeniedTracking];
+            if (isAuthorized) {
+                [Axeptio.shared setupUI];
+            } else {
+                [Axeptio.shared setUserDeniedTracking];
+            }
         }];
     }
 }
