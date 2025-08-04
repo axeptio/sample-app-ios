@@ -432,7 +432,7 @@ class ViewController: UIViewController {
             Axeptio.shared.setupUI()
         } else {
             // Handle case where user denies permission or ATT is restricted
-            Axeptio.shared.setUserDeniedTracking()
+            Axeptio.shared.setUserDeniedTracking(denied: true)
         }
     }
 }
@@ -482,7 +482,7 @@ For Objective-C, the implementation is quite similar. You’ll request ATT permi
         [Axeptio.shared setupUI];
     } else {
         // Handle case where user denies permission or ATT is restricted
-        [Axeptio.shared setUserDeniedTracking];
+        [Axeptio.shared setUserDeniedTracking:false];
     }
 }
 
