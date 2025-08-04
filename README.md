@@ -132,10 +132,10 @@ class ViewController: UIViewController, UITableViewDataSource {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Registra l'identificatore della cella per UserDefaultsCell
+        // Register the cell identifier for UserDefaultsCell
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "UserDefaultsCell")
         
-        // Chiamata di setupUI per mostrare il popup di consenso quando appropriato
+        // Call setupUI to show the consent popup when appropriate
         Axeptio.shared.setupUI()
     }
 
