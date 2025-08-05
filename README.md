@@ -132,10 +132,10 @@ class ViewController: UIViewController, UITableViewDataSource {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Registra l'identificatore della cella per UserDefaultsCell
+        // Register the cell identifier for UserDefaultsCell
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "UserDefaultsCell")
         
-        // Chiamata di setupUI per mostrare il popup di consenso quando appropriato
+        // Call setupUI to show the consent popup when appropriate
         Axeptio.shared.setupUI()
     }
 
@@ -432,7 +432,7 @@ class ViewController: UIViewController {
             Axeptio.shared.setupUI()
         } else {
             // Handle case where user denies permission or ATT is restricted
-            Axeptio.shared.setUserDeniedTracking()
+            Axeptio.shared.setUserDeniedTracking(denied: true)
         }
     }
 }
@@ -482,7 +482,7 @@ For Objective-C, the implementation is quite similar. You’ll request ATT permi
         [Axeptio.shared setupUI];
     } else {
         // Handle case where user denies permission or ATT is restricted
-        [Axeptio.shared setUserDeniedTracking];
+        [Axeptio.shared setUserDeniedTracking:false];
     }
 }
 
