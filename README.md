@@ -39,8 +39,9 @@ Welcome to the **Axeptio iOS SDK Samples project!** This repository provides a c
     - [Automatic Token Addition](#automatic-token-addition)
 14. [Events Overview](#events-overview)
 15. [Event Descriptions](#event-descriptions)
-16. [Google Consent Mode v2 Integration with Axeptio SDK](#google-consent-mode-v2-integration-with-axeptio-sdk)
-17. [Google AdMob Integration with Axeptio SDK](#google-admob-integration-with-axeptio-sdk)
+16. [Event source for KPI tracking](#event-source-for-kpi-tracking)
+17. [Google Consent Mode v2 Integration with Axeptio SDK](#google-consent-mode-v2-integration-with-axeptio-sdk)
+18. [Google AdMob Integration with Axeptio SDK](#google-admob-integration-with-axeptio-sdk)
 
 <br><br>
 
@@ -131,10 +132,10 @@ class ViewController: UIViewController, UITableViewDataSource {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Registra l'identificatore della cella per UserDefaultsCell
+        // Register the cell identifier for UserDefaultsCell
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "UserDefaultsCell")
         
-        // Chiamata di setupUI per mostrare il popup di consenso quando appropriato
+        // Call setupUI to show the consent popup when appropriate
         Axeptio.shared.setupUI()
     }
 
@@ -431,7 +432,7 @@ class ViewController: UIViewController {
             Axeptio.shared.setupUI()
         } else {
             // Handle case where user denies permission or ATT is restricted
-            Axeptio.shared.setUserDeniedTracking()
+            Axeptio.shared.setUserDeniedTracking(denied: true)
         }
     }
 }
@@ -481,7 +482,7 @@ For Objective-C, the implementation is quite similar. You’ll request ATT permi
         [Axeptio.shared setupUI];
     } else {
         // Handle case where user denies permission or ATT is restricted
-        [Axeptio.shared setUserDeniedTracking];
+        [Axeptio.shared setUserDeniedTracking:false];
     }
 }
 
@@ -903,6 +904,20 @@ In this example, the host app implements the AxeptioEventDelegate protocol and r
 
 
 
+
+<br><br><br> -->
+
+## Event source for KPI tracking
+To ensure proper KPI attribution in the back office, the App SDK now adds a specific `event_source` value when emitting TCF events from the WebView.
+
+- `sdk-app-tcf` → Used when TCF is loaded in a mobile app (via WebView)
+- `sdk-web-tcf` → Used when TCF is loaded on a website
+- `sdk-app-brands` → Used when the brands widget is loaded in an app
+- `sdk-web` → Used for regular brands on the web
+
+> ⚠️ This change ensures that events triggered from the App SDK are not incorrectly counted under Web KPIs.
+
+No additional configuration is needed on your side if you are using the official SDK integration.
 
 <br><br><br> -->
 ## 🚀Google Consent Mode v2 Integration with Axeptio SDK
