@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="sY1-JE-zSu">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="sY1-JE-zSu">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="EtE-rI-qkY">
-                                <rect key="frame" x="16" y="216" width="361" height="420"/>
+                                <rect key="frame" x="16" y="179" width="361" height="494"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="msV-Hp-E4J">
                                         <rect key="frame" x="0.0" y="0.0" width="361" height="50"/>
@@ -104,6 +104,21 @@
                                             <action selector="showWebView:" destination="Vi5-Gt-zt5" eventType="touchUpInside" id="ztc-EE-qcf"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qwj-fM-hGg">
+                                        <rect key="frame" x="0.0" y="444" width="361" height="50"/>
+                                        <color key="backgroundColor" name="AxeptioBlueLight"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="9Ey-2N-hd7"/>
+                                        </constraints>
+                                        <color key="tintColor" systemColor="labelColor"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Consent Debug Info">
+                                            <fontDescription key="titleFontDescription" style="UICTFontTextStyleBody"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="showConsentDebugInfo:" destination="Vi5-Gt-zt5" eventType="touchUpInside" id="jCs-G4-TMq"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                             </stackView>
                         </subviews>
@@ -118,6 +133,7 @@
                     <navigationItem key="navigationItem" id="SMC-ed-5gg"/>
                     <connections>
                         <outlet property="clearConsentButton" destination="ib2-tG-gcB" id="oRM-GT-bdr"/>
+                        <outlet property="consentDebugInfoButton" destination="qwj-fM-hGg" id="8Nu-DY-HG2"/>
                         <outlet property="googleAdButton" destination="Mhr-jf-YF9" id="05V-pk-jN3"/>
                         <outlet property="googleAdSpinner" destination="Jhw-BM-LEO" id="a3E-DO-Lgx"/>
                         <outlet property="showConsentButton" destination="msV-Hp-E4J" id="1j0-Ny-MYb"/>
@@ -141,7 +157,7 @@
                                 <rect key="frame" x="16" y="16" width="361" height="810"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="USerDefaultsCell" textLabel="MZY-SL-KZz" detailTextLabel="Kfa-tL-9rP" style="IBUITableViewCellStyleSubtitle" id="GJh-xb-ueT" customClass="USerDefaultsCell" customModule="sampleSwift" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="UserDefaultsCell" textLabel="MZY-SL-KZz" detailTextLabel="Kfa-tL-9rP" style="IBUITableViewCellStyleSubtitle" id="GJh-xb-ueT" customClass="UserDefaultsCell" customModule="sampleSwift" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="50" width="361" height="43.666667938232422"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="GJh-xb-ueT" id="cf8-Kg-a68">
@@ -222,6 +238,9 @@
     <resources>
         <namedColor name="AccentColor">
             <color red="1" green="0.79199999570846558" blue="0.15700000524520874" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="AxeptioBlueLight">
+            <color red="0.90980392156862744" green="0.92549019607843142" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="AxeptioRed">
             <color red="0.80392156862745101" green="0.38039215686274508" blue="0.35686274509803922" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
