@@ -464,7 +464,7 @@
 			repositoryURL = "https://github.com/axeptio/axeptio-ios-sdk";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 2.0.12;
+				minimumVersion = 2.0.13;
 			};
 		};
 		C2AAF8D02B85F42A00447D7B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
