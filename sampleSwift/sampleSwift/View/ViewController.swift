@@ -225,7 +225,8 @@ class ViewController: UIViewController {
                 url = Axeptio.shared.appendAxeptioTokenToURL(url, token: token)
             }
             let webView = WebViewController(url)
-            present(webView, animated: true)
+            let navController = UINavigationController(rootViewController: webView)
+            present(navController, animated: true)
         }
 
         alertController.addAction(saveAction)

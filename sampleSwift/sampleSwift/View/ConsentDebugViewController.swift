@@ -151,8 +151,12 @@ class ConsentDebugCell: UITableViewCell {
         }
         
         if let value = value {
-            // Try to pretty print JSON first
-            if let prettyJson = prettyPrint(value: value) {
+            // Handle strings directly to avoid truncation
+            if let stringValue = value as? String {
+                valueLabel.text = stringValue
+            }
+            // Try to pretty print JSON
+            else if let prettyJson = prettyPrint(value: value) {
                 valueLabel.text = prettyJson
             } else if let array = value as? [Any] {
                 // Try to pretty print array as JSON
@@ -168,8 +172,22 @@ class ConsentDebugCell: UITableViewCell {
                 } else {
                     valueLabel.text = "Dictionary (\(dict.count) items): \(String(describing: dict))"
                 }
-            } else {
-                valueLabel.text = String(describing: value)
+            } 
+            // Handle other types - explicitly convert to avoid truncation
+            else {
+                if let data = value as? Data {
+                    valueLabel.text = String(data: data, encoding: .utf8) ?? "Binary data (\(data.count) bytes)"
+                } else if let number = value as? NSNumber {
+                    valueLabel.text = number.stringValue
+                } else if let date = value as? Date {
+                    let formatter = DateFormatter()
+                    formatter.dateStyle = .medium
+                    formatter.timeStyle = .medium
+                    valueLabel.text = formatter.string(from: date)
+                } else {
+                    // Use explicit string interpolation to avoid truncation
+                    valueLabel.text = "\(value)"
+                }
             }
         } else {
             valueLabel.text = "nil"
