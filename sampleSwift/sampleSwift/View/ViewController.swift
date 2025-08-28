@@ -105,9 +105,13 @@ class ViewController: UIViewController {
     }
     
     @IBAction func showConsentDebugInfo(_ sender: Any) {
-        let consentData = Axeptio.shared.getConsentDebugInfo(preferenceKey:nil)
         
-        let debugViewController = ConsentDebugViewController(data: consentData)
+        guard let debugInfo = Axeptio.shared.getConsentDebugInfo(preferenceKey:nil) as? [String : Any?] else {
+            print("debugInfo is not available")
+            return
+        }
+        
+        let debugViewController = ConsentDebugViewController(data: debugInfo)
         let navController = UINavigationController(rootViewController: debugViewController)
         self.present(navController, animated: true)
     }

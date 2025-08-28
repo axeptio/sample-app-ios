@@ -64,7 +64,7 @@ extension ConsentDebugViewController: UITableViewDataSource, UITableViewDelegate
         let key = sortedKeys[indexPath.row]
         let value = data[key]
         
-        cell.configure(key: key, value: value)
+        cell.configure(key: key, value: value as Any?)
         
         return cell
     }
