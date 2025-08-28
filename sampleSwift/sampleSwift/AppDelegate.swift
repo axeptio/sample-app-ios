@@ -15,16 +15,42 @@ import GoogleMobileAds
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    static let targetService: AxeptioService = .brands
+    
+    // Dynamic target service based on configuration
+    static var targetService: AxeptioService {
+        return ConfigurationManager.shared.currentConfiguration.targetService
+    }
+    
     func application(
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
-        Axeptio.shared.initialize(targetService: AppDelegate.targetService, clientId: "5fbfa806a0787d3985c6ee5f", cookiesVersion: "insideapp-brands", token: "5sj42u50ta2ys8c3nhjkxi")
-        // Good token
-        // Axeptio.shared.initialize(clientId: "5fbfa806a0787d3985c6ee5f", cookiesVersion: "google cmp partner program sandbox-en-EU", token: "5sj42u50ta2ys8c3nhjkxi")
-        // Bad token
-        // Axeptio.shared.initialize(clientId: "5fbfa806a0787d3985c6ee5f", cookiesVersion: "google cmp partner program sandbox-en-EU", token: "5sj42u50ta2ys8c3nhjkxidlkdlkmekmdlk")
+        
+        // Initialize Axeptio with dynamic configuration
+        let config = ConfigurationManager.shared.currentConfiguration
+        
+        if let token = config.token {
+            Axeptio.shared.initialize(
+                targetService: config.targetService,
+                clientId: config.clientId,
+                cookiesVersion: config.cookiesVersion,
+                token: token
+            )
+        } else {
+            Axeptio.shared.initialize(
+                targetService: config.targetService,
+                clientId: config.clientId,
+                cookiesVersion: config.cookiesVersion
+            )
+        }
+        
+        // Log current configuration for debugging
+        print("🔧 Axeptio Configuration:")
+        print("   Service: \(config.targetService == .brands ? "Brands" : "Publisher TCF")")
+        print("   Client ID: \(config.clientId)")
+        print("   Cookies Version: \(config.cookiesVersion)")
+        print("   Token: \(config.token?.prefix(10) ?? "None")...")
+        
         FirebaseApp.configure()
         GADMobileAds.sharedInstance().start()
 

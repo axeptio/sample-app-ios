@@ -27,6 +27,13 @@ class ConsentDebugViewController: UIViewController {
         title = "Consent Debug Info"
         view.backgroundColor = .systemBackground
         
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            title: "Vendor APIs",
+            style: .plain,
+            target: self,
+            action: #selector(showVendorConsent)
+        )
+        
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             title: "Close",
             style: .done,
@@ -35,6 +42,11 @@ class ConsentDebugViewController: UIViewController {
         )
         
         setupTableView()
+    }
+    
+    @objc private func showVendorConsent() {
+        let vendorViewController = VendorConsentViewController()
+        navigationController?.pushViewController(vendorViewController, animated: true)
     }
     
     private func setupTableView() {
@@ -116,6 +128,18 @@ class ConsentDebugCell: UITableViewCell {
     func configure(key: String, value: Any?) {
         titleLabel.text = key
         
+        // Highlight vendor-related keys
+        if isVendorRelatedKey(key) {
+            titleLabel.textColor = .systemBlue
+            titleLabel.font = UIFont.boldSystemFont(ofSize: 16)
+        } else if isDateRelatedKey(key) {
+            titleLabel.textColor = .systemOrange
+            titleLabel.font = UIFont.boldSystemFont(ofSize: 16)
+        } else {
+            titleLabel.textColor = .label
+            titleLabel.font = UIFont.boldSystemFont(ofSize: 16)
+        }
+        
         if let value = value {
             // Try to pretty print JSON first
             if let prettyJson = prettyPrint(value: value) {
@@ -139,6 +163,41 @@ class ConsentDebugCell: UITableViewCell {
             }
         } else {
             valueLabel.text = "nil"
+        }
+        
+        // Add explanatory text for important keys
+        if let explanation = getKeyExplanation(key) {
+            valueLabel.text = (valueLabel.text ?? "") + "\n\n💡 " + explanation
+        }
+    }
+    
+    private func isVendorRelatedKey(_ key: String) -> Bool {
+        let vendorKeys = [
+            "IABTCF_VendorConsents",
+            "IABTCF_VendorLegitimateInterests", 
+            "IABTCF_AddtlConsent"
+        ]
+        return vendorKeys.contains(key) || key.lowercased().contains("vendor")
+    }
+    
+    private func isDateRelatedKey(_ key: String) -> Bool {
+        return key.lowercased().contains("date") || key.lowercased().contains("time")
+    }
+    
+    private func getKeyExplanation(_ key: String) -> String? {
+        switch key {
+        case "IABTCF_VendorConsents":
+            return "TCF vendor consents string. Use Vendor APIs to parse this data."
+        case "IABTCF_VendorLegitimateInterests":
+            return "TCF vendor legitimate interests string."
+        case "IABTCF_TCString":
+            return "Full TCF consent string containing all consent information."
+        case "IABTCF_AddtlConsent":
+            return "Additional consent for Google Ad Technology Providers (ATP)."
+        case let key where key.contains("Date") || key.contains("date"):
+            return "Date values are now serialized as ISO8601 strings (MSK-84 fix)."
+        default:
+            return nil
         }
     }
 
