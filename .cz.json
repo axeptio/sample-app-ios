@@ -1,0 +1,50 @@
+{
+  "path": "cz-conventional-changelog",
+  "types": {
+    "feat": {
+      "description": "New sample app features or SDK integration improvements",
+      "title": "Features"
+    },
+    "fix": {
+      "description": "Bug fixes in sample apps or SDK integration",
+      "title": "Bug Fixes"
+    },
+    "docs": {
+      "description": "Documentation changes",
+      "title": "Documentation"
+    },
+    "style": {
+      "description": "Code style changes (formatting, etc.)",
+      "title": "Styles"
+    },
+    "refactor": {
+      "description": "Code refactoring without functionality changes",
+      "title": "Code Refactoring"
+    },
+    "test": {
+      "description": "Adding or updating tests",
+      "title": "Tests"
+    },
+    "chore": {
+      "description": "Build process, dependency updates, maintenance",
+      "title": "Chores"
+    },
+    "sdk": {
+      "description": "SDK version updates or integration changes",
+      "title": "SDK Updates"
+    },
+    "ci": {
+      "description": "CI/CD configuration changes",
+      "title": "CI/CD"
+    }
+  },
+  "scopes": [
+    "sample-swift",
+    "sample-objc", 
+    "sdk-integration",
+    "build",
+    "docs",
+    "tests",
+    "deps"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "types": [
+    { "type": "feat", "section": "Features" },
+    { "type": "fix", "section": "Bug Fixes" },
+    { "type": "sdk", "section": "SDK Updates" },
+    { "type": "chore", "hidden": false, "section": "Maintenance" },
+    { "type": "docs", "hidden": false, "section": "Documentation" },
+    { "type": "style", "hidden": true },
+    { "type": "refactor", "hidden": false, "section": "Code Refactoring" },
+    { "type": "test", "hidden": false, "section": "Tests" },
+    { "type": "ci", "hidden": false, "section": "CI/CD" }
+  ],
+  "commitUrlFormat": "https://github.com/axeptio/sample-app-ios/commit/{{hash}}",
+  "compareUrlFormat": "https://github.com/axeptio/sample-app-ios/compare/{{previousTag}}...{{currentTag}}",
+  "issueUrlFormat": "https://github.com/axeptio/sample-app-ios/issues/{{id}}",
+  "scripts": {
+    "postchangelog": "npm run version:sync"
+  },
+  "skip": {
+    "tag": false
+  },
+  "tagPrefix": "",
+  "releaseCommitMessageFormat": "chore(release): {{currentTag}}",
+  "header": "# Changelog\n\nAll notable changes to the Axeptio iOS SDK Sample Apps will be documented in this file.\n\nThe format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),\nand this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).\n\nVersions in this repository correspond to the Axeptio iOS SDK version being demonstrated.\n\n"
+}
