@@ -8,9 +8,6 @@
 import UIKit
 import AxeptioSDK
 
-protocol ConfigurationViewControllerDelegate: AnyObject {
-    func configurationDidChange()
-}
 
 class ConfigurationViewController: UIViewController {
     

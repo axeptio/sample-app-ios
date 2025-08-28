@@ -24,28 +24,23 @@ echo -e "${YELLOW}This script will build and run the sample app with the test SD
 # Find a default iPhone simulator
 echo -e "${BLUE}🔍 Finding iPhone simulator...${NC}"
 
-# Try to find iPhone 14 first (known working simulator)
-SIMULATOR_INFO=$(xcrun simctl list devices iPhone | grep "iPhone 14" | grep -v Plus | grep -v Pro | head -n1)
+# Use a known working iPhone 14 simulator UDID
+SIMULATOR_UDID="E14F31CA-C05B-4FA2-98D3-662D9B0A689C"
+SIMULATOR_NAME="iPhone 14"
 
-if [ -z "$SIMULATOR_INFO" ]; then
-    # Fallback to any booted iPhone
-    SIMULATOR_INFO=$(xcrun simctl list devices iPhone | grep -E "iPhone [0-9]+" | grep "Booted" | head -n1)
+# Verify the simulator exists
+if ! xcrun simctl list devices | grep -q "$SIMULATOR_UDID"; then
+    # Fallback to first available iPhone
+    SIMULATOR_INFO=$(xcrun simctl list devices | grep -E "iPhone [0-9]+" | grep -v Plus | grep -v Pro | head -n1)
+    if [ -z "$SIMULATOR_INFO" ]; then
+        echo -e "${RED}❌ No iPhone simulators found${NC}"
+        echo "Please open Xcode and create an iPhone simulator"
+        exit 1
+    fi
+    # Extract UDID (the part in parentheses)
+    SIMULATOR_UDID=$(echo "$SIMULATOR_INFO" | sed -n 's/.*(\([^)]*\)).*/\1/p')
+    SIMULATOR_NAME=$(echo "$SIMULATOR_INFO" | sed 's/ *(.*//' | sed 's/^ *//')
 fi
-
-if [ -z "$SIMULATOR_INFO" ]; then
-    # Fallback to any available iPhone
-    SIMULATOR_INFO=$(xcrun simctl list devices iPhone | grep -E "iPhone [0-9]+" | head -n1)
-fi
-
-if [ -z "$SIMULATOR_INFO" ]; then
-    echo -e "${RED}❌ No iPhone simulators found${NC}"
-    echo "Please open Xcode and create an iPhone simulator"
-    exit 1
-fi
-
-# Extract UDID (the part in parentheses)
-SIMULATOR_UDID=$(echo "$SIMULATOR_INFO" | sed -n 's/.*(\([^)]*\)).*/\1/p')
-SIMULATOR_NAME=$(echo "$SIMULATOR_INFO" | sed 's/ *(.*//' | sed 's/^ *//')
 
 echo -e "${GREEN}✅ Using simulator: $SIMULATOR_NAME${NC}"
 

@@ -8,6 +8,10 @@
 import Foundation
 import AxeptioSDK
 
+protocol ConfigurationViewControllerDelegate: AnyObject {
+    func configurationDidChange()
+}
+
 struct CustomerConfiguration {
     let clientId: String
     let cookiesVersion: String
