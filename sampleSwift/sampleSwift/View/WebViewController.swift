@@ -36,14 +36,36 @@ class WebViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Set up navigation bar with close button
+        title = "Web View"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            title: "Close", 
+            style: .done, 
+            target: self, 
+            action: #selector(closeTapped)
+        )
 
         webView = WKWebView(frame: .zero)
-        view = webView
+        view.addSubview(webView)
+        
+        // Layout webView to fill the view
+        webView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            webView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            webView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            webView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            webView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
 
         if #available(iOS 16.4, *) { webView.isInspectable = true }
 
         let myRequest = URLRequest(url: url)
         logger.debug("Opening webview with url: \(myRequest)")
         webView.load(myRequest)
+    }
+    
+    @objc private func closeTapped() {
+        dismiss(animated: true)
     }
 }

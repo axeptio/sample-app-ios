@@ -22,7 +22,11 @@
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
-	</dict>
+		<key>CFBundleShortVersionString</key>
+	<string>2.0.13</string>
+	<key>CFBundleVersion</key>
+	<string>2.0.13</string>
+</dict>
 	<key>SKAdNetworkItems</key>
 	<array>
 		<dict>

@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		4D2D1AE42BE871C800C114EC /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D2D1AE32BE871C800C114EC /* WebViewController.swift */; };
+		5C0AD4A62E6060FD0018022E /* ConfigurationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0AD4A42E6060FD0018022E /* ConfigurationViewController.swift */; };
+		5C0AD4A72E6060FD0018022E /* VendorConsentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0AD4A52E6060FD0018022E /* VendorConsentViewController.swift */; };
 		B139B2032CAEEBD900F8C284 /* CookieFields.swift in Sources */ = {isa = PBXBuildFile; fileRef = B139B2022CAEEBD900F8C284 /* CookieFields.swift */; };
 		B1DA856D2CB7B354005A9437 /* AxeptioSDK in Frameworks */ = {isa = PBXBuildFile; productRef = B1DA856C2CB7B354005A9437 /* AxeptioSDK */; };
 		B3AA94F62E43D7B700457A2C /* ConsentDebugViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3AA94F52E43D7B700457A2C /* ConsentDebugViewController.swift */; };
@@ -38,6 +40,8 @@
 
 /* Begin PBXFileReference section */
 		4D2D1AE32BE871C800C114EC /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
+		5C0AD4A42E6060FD0018022E /* ConfigurationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationViewController.swift; sourceTree = "<group>"; };
+		5C0AD4A52E6060FD0018022E /* VendorConsentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VendorConsentViewController.swift; sourceTree = "<group>"; };
 		B139B2022CAEEBD900F8C284 /* CookieFields.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CookieFields.swift; sourceTree = "<group>"; };
 		B3AA94F52E43D7B700457A2C /* ConsentDebugViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsentDebugViewController.swift; sourceTree = "<group>"; };
 		C2AAF8CA2B85EB5500447D7B /* TCFFields.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCFFields.swift; sourceTree = "<group>"; };
@@ -69,6 +73,8 @@
 		C2AAF8D62B86034300447D7B /* View */ = {
 			isa = PBXGroup;
 			children = (
+				5C0AD4A42E6060FD0018022E /* ConfigurationViewController.swift */,
+				5C0AD4A52E6060FD0018022E /* VendorConsentViewController.swift */,
 				4D2D1AE32BE871C800C114EC /* WebViewController.swift */,
 				B3AA94F52E43D7B700457A2C /* ConsentDebugViewController.swift */,
 				C2F130F62B750EF80079B2DF /* UserDefaultsViewController.swift */,
@@ -202,6 +208,8 @@
 			files = (
 				B3AA94F62E43D7B700457A2C /* ConsentDebugViewController.swift in Sources */,
 				C2F130F72B750EF80079B2DF /* UserDefaultsViewController.swift in Sources */,
+				5C0AD4A62E6060FD0018022E /* ConfigurationViewController.swift in Sources */,
+				5C0AD4A72E6060FD0018022E /* VendorConsentViewController.swift in Sources */,
 				C2F130F32B750EF80079B2DF /* AppDelegate.swift in Sources */,
 				C2AAF8CD2B85EF0A00447D7B /* ViewController.swift in Sources */,
 				4D2D1AE42BE871C800C114EC /* WebViewController.swift in Sources */,
@@ -378,7 +386,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 2.0.13;
 				PRODUCT_BUNDLE_IDENTIFIER = io.axeptio.sampleswift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -420,7 +428,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 2.0.13;
 				PRODUCT_BUNDLE_IDENTIFIER = io.axeptio.sampleswift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
