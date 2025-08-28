@@ -411,7 +411,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func showConsentDebugInfo(_ sender: Any) {
-        
+        let consentData = Axeptio.shared.getConsentDebugInfo(preferenceKey: nil)
         let debugViewController = ConsentDebugViewController(data: (consentData as? [String: Any?]) ?? [:])
 
         let navController = UINavigationController(rootViewController: debugViewController)
