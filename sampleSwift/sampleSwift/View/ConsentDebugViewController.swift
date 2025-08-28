@@ -632,6 +632,13 @@ class VendorConsentViewController: UIViewController {
         
         setupScrollView()
         setupUI()
+        
+        // Check if we're in TCF mode
+        let config = ConfigurationManager.shared.currentConfiguration
+        if config.targetService != .publisherTcf {
+            showAlert(title: "⚠️ Not in TCF Mode", message: "Vendor consent APIs only work in Publisher TCF mode. Please go to Settings and switch to a TCF configuration first.")
+        }
+        
         loadVendorData()
     }
     
@@ -691,10 +698,26 @@ class VendorConsentViewController: UIViewController {
         resultsTextView.layer.borderWidth = 1
         resultsTextView.layer.borderColor = UIColor.systemGray4.cgColor
         
+        // Add instructions label
+        let instructionsLabel = UILabel()
+        instructionsLabel.font = UIFont.systemFont(ofSize: 14)
+        instructionsLabel.numberOfLines = 0
+        instructionsLabel.textColor = .secondaryLabel
+        instructionsLabel.text = """
+        📝 Testing Steps:
+        1. Go back and open the TCF consent dialog
+        2. Accept/refuse specific vendors
+        3. Return here and tap 'Refresh' to see updated data
+        4. Try testing specific vendor IDs below
+        
+        Note: APIs only work after consent interaction in TCF mode
+        """
+        
         // Add all elements to content view
         let stackView = UIStackView(arrangedSubviews: [
             summaryLabel,
             refreshButton,
+            instructionsLabel,
             vendorIdField,
             testVendorButton,
             resultsTextView
@@ -745,6 +768,12 @@ class VendorConsentViewController: UIViewController {
     private func loadVendorData() {
         var results = "=== VENDOR CONSENT API RESULTS ===\n\n"
         
+        // Add timestamp for debugging
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .medium
+        results += "🕐 Last Updated: \(formatter.string(from: Date()))\n\n"
+        
         // Get all vendor consents
         let allVendorConsents = Axeptio.shared.getVendorConsents()
         results += "📋 All Vendor Consents:\n"
@@ -785,6 +814,22 @@ class VendorConsentViewController: UIViewController {
         results += "Total Processed Vendors: \(totalVendors)\n"
         results += "Consented: \(consentedVendors.count) (\(totalVendors > 0 ? Int(Double(consentedVendors.count) / Double(totalVendors) * 100) : 0)%)\n"
         results += "Refused: \(refusedVendors.count) (\(totalVendors > 0 ? Int(Double(refusedVendors.count) / Double(totalVendors) * 100) : 0)%)\n\n"
+        
+        // Debug: Check what getVendorConsents actually returns
+        results += "🔍 DEBUG INFO:\n"
+        if let vendorConsentsString = allVendorConsents as? String {
+            results += "Raw vendor consents string: \(vendorConsentsString)\n"
+            results += "String length: \(vendorConsentsString.count)\n"
+        }
+        results += "getConsentedVendors() type: \(type(of: consentedVendors))\n"
+        results += "getRefusedVendors() type: \(type(of: refusedVendors))\n\n"
+        
+        // Check current consent state from main methods
+        if let axeptioToken = Axeptio.shared.axeptioToken {
+            results += "Current Axeptio Token: \(String(axeptioToken.prefix(10)))...\n"
+        } else {
+            results += "No Axeptio Token found\n"
+        }
         
         // Update UI
         summaryLabel.text = "📊 \(totalVendors) vendors processed\n✅ \(consentedVendors.count) consented | ❌ \(refusedVendors.count) refused"
