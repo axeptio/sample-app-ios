@@ -287,10 +287,10 @@ class ConfigurationViewController: UIViewController {
             targetService: serviceSegmentedControl.selectedSegmentIndex == 0 ? .brands : .publisherTcf
         )
         
-        let validationErrors = ConfigurationManager.shared.validateConfiguration(config)
-        
-        if !validationErrors.isEmpty {
-            showValidationErrors(validationErrors)
+        // Basic validation
+        guard !config.clientId.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
+              !config.cookiesVersion.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            showAlert(title: "Invalid Configuration", message: "Please fill in all required fields.")
             return
         }
         
@@ -311,7 +311,9 @@ class ConfigurationViewController: UIViewController {
         
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         alert.addAction(UIAlertAction(title: "Reset", style: .destructive) { _ in
-            ConfigurationManager.shared.resetToDefault()
+            // Reset to default configuration
+            let defaultConfig = ConfigurationManager.presetConfigurations["Default Brands"]!
+            ConfigurationManager.shared.currentConfiguration = defaultConfig
             self.loadCurrentConfiguration()
             
             self.showRestartAlert {
@@ -381,5 +383,11 @@ extension ConfigurationViewController: UITableViewDataSource, UITableViewDelegat
         
         hasUnsavedChanges = true
         updateSaveButtonState()
+    }
+    
+    private func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
     }
 }
