@@ -445,7 +445,9 @@ class VendorConsentViewController: UIViewController {
         let refusedVendors = Axeptio.shared.getRefusedVendors()
         
         // Debug logging for vendor count investigation
-        let timestamp = DateFormatter().string(from: Date())
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let timestamp = formatter.string(from: Date())
         print("🔍 [VendorConsentDebug] Vendor Count Analysis [\(timestamp)]:")
         print("   Processing state: \(isProcessingConsent ? "PROCESSING" : "STABLE")")
         print("   Total vendors: \(allVendorConsents.count)")

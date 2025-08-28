@@ -312,7 +312,10 @@ class ConfigurationViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         alert.addAction(UIAlertAction(title: "Reset", style: .destructive) { _ in
             // Reset to default configuration
-            let defaultConfig = ConfigurationManager.presetConfigurations["Default Brands"]!
+            guard let defaultConfig = ConfigurationManager.presetConfigurations["Default Brands"] else {
+                self.showAlert(title: "Error", message: "Default configuration not available")
+                return
+            }
             ConfigurationManager.shared.currentConfiguration = defaultConfig
             self.loadCurrentConfiguration()
             

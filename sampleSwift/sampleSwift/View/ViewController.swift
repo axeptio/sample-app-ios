@@ -105,7 +105,7 @@ class ViewController: UIViewController {
         sdkVersionLabel.textAlignment = .center
         sdkVersionLabel.numberOfLines = 0
         sdkVersionLabel.textColor = .tertiaryLabel
-        sdkVersionLabel.text = "Axeptio iOS SDK v2.0.14"
+        sdkVersionLabel.text = "Axeptio iOS SDK v2.0.15"
     }
     
     private func setupNewButtons() {
