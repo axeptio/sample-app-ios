@@ -51,12 +51,21 @@ class ConsentDebugViewController: UIViewController {
     }
     
     private func setupTableView() {
-        tableView = UITableView(frame: view.bounds, style: .plain)
+        tableView = UITableView(frame: .zero, style: .plain)
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(ConsentDebugCell.self, forCellReuseIdentifier: "ConsentDebugCell")
-        tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        
         view.addSubview(tableView)
+        
+        // Use Auto Layout instead of autoresizingMask
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
     }
     
     @objc private func closeTapped() {
