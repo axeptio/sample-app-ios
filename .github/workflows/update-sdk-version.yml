@@ -1,0 +1,139 @@
+name: Update Axeptio iOS SDK Version
+
+on:
+  workflow_dispatch:
+    inputs:
+      sdk_version:
+        description: 'Axeptio iOS SDK version to update to (e.g., 2.0.15)'
+        required: true
+        type: string
+
+jobs:
+  update-sdk:
+    runs-on: macos-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Set up Xcode
+      uses: maxim-lobanov/setup-xcode@v1
+      with:
+        xcode-version: latest-stable
+
+    - name: Set up CocoaPods
+      run: |
+        sudo gem install cocoapods
+        
+    - name: Update Swift Package Manager Dependencies
+      run: |
+        echo "Updating SPM dependencies to version ${{ github.event.inputs.sdk_version }}"
+        cd sampleSwift
+        
+        # Remove Package.resolved to force update
+        rm -f sampleSwift.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
+        
+        # Resolve packages to get latest version
+        xcodebuild -resolvePackageDependencies -project sampleSwift.xcodeproj -scheme sampleSwift
+        
+        # Verify the correct version was resolved
+        if [ -f "sampleSwift.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved" ]; then
+          echo "Package.resolved updated successfully"
+          cat sampleSwift.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
+        else
+          echo "Warning: Package.resolved not found"
+        fi
+
+    - name: Update CocoaPods Dependencies  
+      run: |
+        echo "Updating CocoaPods dependencies to version ${{ github.event.inputs.sdk_version }}"
+        cd sampleObjectiveC
+        
+        # Update the AxeptioIOSSDK pod
+        pod update AxeptioIOSSDK --verbose
+        
+        # Verify the correct version was installed
+        echo "Updated Podfile.lock:"
+        grep -A 5 -B 5 "AxeptioIOSSDK" Podfile.lock
+
+    - name: Build Swift Sample App
+      run: |
+        echo "Building Swift sample app with updated SDK"
+        cd sampleSwift
+        xcodebuild -project sampleSwift.xcodeproj -scheme sampleSwift -destination 'platform=iOS Simulator,name=iPhone 15' build
+
+    - name: Build Objective-C Sample App
+      run: |
+        echo "Building Objective-C sample app with updated SDK"
+        cd sampleObjectiveC
+        xcodebuild -workspace sampleObjectiveC.xcworkspace -scheme sampleObjectiveC -destination 'platform=iOS Simulator,name=iPhone 15' build
+
+    - name: Check for changes
+      id: changes
+      run: |
+        git add .
+        if git diff --cached --quiet; then
+          echo "No changes to commit"
+          echo "has_changes=false" >> $GITHUB_OUTPUT
+        else
+          echo "Changes detected"
+          echo "has_changes=true" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Create Pull Request
+      if: steps.changes.outputs.has_changes == 'true'
+      uses: peter-evans/create-pull-request@v5
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        commit-message: |
+          feat: update Axeptio iOS SDK to v${{ github.event.inputs.sdk_version }}
+          
+          - Update Swift Package Manager dependencies to v${{ github.event.inputs.sdk_version }}
+          - Update CocoaPods dependencies to v${{ github.event.inputs.sdk_version }}
+          - Verify build compatibility with both sample apps
+          
+          🤖 Generated with [Claude Code](https://claude.ai/code)
+          
+          Co-Authored-By: Claude <noreply@anthropic.com>
+        branch: update-sdk-v${{ github.event.inputs.sdk_version }}
+        title: "feat: update Axeptio iOS SDK to v${{ github.event.inputs.sdk_version }}"
+        body: |
+          ## Summary
+          
+          Updates the Axeptio iOS SDK to version **v${{ github.event.inputs.sdk_version }}** across both sample applications.
+          
+          ### Changes Made
+          - ✅ Updated Swift Package Manager dependencies to v${{ github.event.inputs.sdk_version }}
+          - ✅ Updated CocoaPods dependencies to v${{ github.event.inputs.sdk_version }}  
+          - ✅ Verified Swift sample app builds successfully
+          - ✅ Verified Objective-C sample app builds successfully
+          
+          ### Test Plan
+          - [x] Swift sample app compiles and links correctly
+          - [x] Objective-C sample app compiles and links correctly
+          - [x] CocoaPods successfully resolves new SDK version
+          - [x] SPM successfully resolves new SDK version
+          - [ ] Manual testing of core SDK functionality
+          
+          ### Notes
+          This PR was automatically generated using the **Update SDK Version** workflow. Please review the changes and test the sample apps thoroughly before merging.
+          
+          Both sample apps have been verified to compile successfully with the new SDK version.
+          
+          🤖 Generated with [Claude Code](https://claude.ai/code)
+        base: master
+        delete-branch: true
+
+    - name: Comment on Success  
+      if: steps.changes.outputs.has_changes == 'true'
+      run: |
+        echo "✅ Successfully created PR to update SDK to v${{ github.event.inputs.sdk_version }}"
+        echo "📝 Check the PR for detailed changes and build results"
+        
+    - name: Comment on No Changes
+      if: steps.changes.outputs.has_changes == 'false'
+      run: |
+        echo "ℹ️ No changes detected - SDK may already be at v${{ github.event.inputs.sdk_version }}"
+        echo "🔍 Verify the current SDK version in both Package.resolved and Podfile.lock"

@@ -20,12 +20,19 @@ import _SwiftConcurrencyShims
   @objc final public func initialize(targetService: AxeptioSDK.AxeptioService, clientId: Swift.String, cookiesVersion: Swift.String)
   @objc final public func initialize(targetService: AxeptioSDK.AxeptioService, clientId: Swift.String, cookiesVersion: Swift.String, token: Swift.String)
   @objc final public func setupUI()
-  @objc final public func setUserDeniedTracking()
+  @objc final public func setUserDeniedTracking(denied: Swift.Bool)
+  @objc final public func setDisplayPopUpOnEnterForeground(display: Swift.Bool)
   @objc final public func appendAxeptioTokenToURL(_ url: Foundation.URL, token: Swift.String) -> Foundation.URL
   @objc final public func showConsentScreen()
   @objc final public func clearConsent()
   @objc final public func setEventListener(_ listener: AxeptioSDK.AxeptioEventListener)
   @objc final public func removeEventListener(_ listener: AxeptioSDK.AxeptioEventListener)
+  @objc final public func allowPopupDisplayWithRejectedDeviceTrackingPermissions(_ allow: Swift.Bool)
+  @objc final public func getConsentDebugInfo(preferenceKey: Swift.String?) -> Foundation.NSDictionary
+  @objc final public func getVendorConsents() -> [Swift.Int : Swift.Bool]
+  @objc final public func getConsentedVendors() -> [Swift.Int]
+  @objc final public func getRefusedVendors() -> [Swift.Int]
+  @objc final public func isVendorConsented(_ vendorId: Swift.Int) -> Swift.Bool
   @objc deinit
 }
 @_hasMissingDesignatedInitializers @objc public class GoogleConsentV2 : ObjectiveC.NSObject, Swift.Decodable {
@@ -55,7 +62,7 @@ import _SwiftConcurrencyShims
 }
 @_inheritsConvenienceInitializers @objc final public class AxeptioEventListener : ObjectiveC.NSObject {
   @objc final public var onPopupClosedEvent: (() -> Swift.Void)?
-  @objc final public var onConsentChanged: (() -> Swift.Void)?
+  @objc final public var onConsentCleared: (() -> Swift.Void)?
   @objc final public var onGoogleConsentModeUpdate: ((AxeptioSDK.GoogleConsentV2) -> Swift.Void)?
   @objc override dynamic public init()
   @objc deinit

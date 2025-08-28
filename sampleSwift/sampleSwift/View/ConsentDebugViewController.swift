@@ -5,6 +5,7 @@
 //  Created by Leonardo Carrillo on 05/08/25.
 //
 import SwiftUI
+import AxeptioSDK
 
 class ConsentDebugViewController: UIViewController {
     private let data: [String: Any?]
@@ -27,6 +28,13 @@ class ConsentDebugViewController: UIViewController {
         title = "Consent Debug Info"
         view.backgroundColor = .systemBackground
         
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            title: "TCF Vendor API",
+            style: .plain,
+            target: self,
+            action: #selector(showVendorConsent)
+        )
+        
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             title: "Close",
             style: .done,
@@ -37,13 +45,27 @@ class ConsentDebugViewController: UIViewController {
         setupTableView()
     }
     
+    @objc private func showVendorConsent() {
+        let vendorViewController = VendorConsentViewController()
+        navigationController?.pushViewController(vendorViewController, animated: true)
+    }
+    
     private func setupTableView() {
-        tableView = UITableView(frame: view.bounds, style: .plain)
+        tableView = UITableView(frame: .zero, style: .plain)
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(ConsentDebugCell.self, forCellReuseIdentifier: "ConsentDebugCell")
-        tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        
         view.addSubview(tableView)
+        
+        // Use Auto Layout instead of autoresizingMask
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
     }
     
     @objc private func closeTapped() {
@@ -116,9 +138,25 @@ class ConsentDebugCell: UITableViewCell {
     func configure(key: String, value: Any?) {
         titleLabel.text = key
         
+        // Highlight vendor-related keys
+        if isVendorRelatedKey(key) {
+            titleLabel.textColor = .systemBlue
+            titleLabel.font = UIFont.boldSystemFont(ofSize: 16)
+        } else if isDateRelatedKey(key) {
+            titleLabel.textColor = .systemOrange
+            titleLabel.font = UIFont.boldSystemFont(ofSize: 16)
+        } else {
+            titleLabel.textColor = .label
+            titleLabel.font = UIFont.boldSystemFont(ofSize: 16)
+        }
+        
         if let value = value {
-            // Try to pretty print JSON first
-            if let prettyJson = prettyPrint(value: value) {
+            // Handle strings directly to avoid truncation
+            if let stringValue = value as? String {
+                valueLabel.text = stringValue
+            }
+            // Try to pretty print JSON
+            else if let prettyJson = prettyPrint(value: value) {
                 valueLabel.text = prettyJson
             } else if let array = value as? [Any] {
                 // Try to pretty print array as JSON
@@ -134,11 +172,60 @@ class ConsentDebugCell: UITableViewCell {
                 } else {
                     valueLabel.text = "Dictionary (\(dict.count) items): \(String(describing: dict))"
                 }
-            } else {
-                valueLabel.text = String(describing: value)
+            } 
+            // Handle other types - explicitly convert to avoid truncation
+            else {
+                if let data = value as? Data {
+                    valueLabel.text = String(data: data, encoding: .utf8) ?? "Binary data (\(data.count) bytes)"
+                } else if let number = value as? NSNumber {
+                    valueLabel.text = number.stringValue
+                } else if let date = value as? Date {
+                    let formatter = DateFormatter()
+                    formatter.dateStyle = .medium
+                    formatter.timeStyle = .medium
+                    valueLabel.text = formatter.string(from: date)
+                } else {
+                    // Use explicit string interpolation to avoid truncation
+                    valueLabel.text = "\(value)"
+                }
             }
         } else {
             valueLabel.text = "nil"
+        }
+        
+        // Add explanatory text for important keys
+        if let explanation = getKeyExplanation(key) {
+            valueLabel.text = (valueLabel.text ?? "") + "\n\n💡 " + explanation
+        }
+    }
+    
+    private func isVendorRelatedKey(_ key: String) -> Bool {
+        let vendorKeys = [
+            "IABTCF_VendorConsents",
+            "IABTCF_VendorLegitimateInterests", 
+            "IABTCF_AddtlConsent"
+        ]
+        return vendorKeys.contains(key) || key.lowercased().contains("vendor")
+    }
+    
+    private func isDateRelatedKey(_ key: String) -> Bool {
+        return key.lowercased().contains("date") || key.lowercased().contains("time")
+    }
+    
+    private func getKeyExplanation(_ key: String) -> String? {
+        switch key {
+        case "IABTCF_VendorConsents":
+            return "TCF vendor consents string. Use TCF Vendor API to parse this data."
+        case "IABTCF_VendorLegitimateInterests":
+            return "TCF vendor legitimate interests string."
+        case "IABTCF_TCString":
+            return "Full TCF consent string containing all consent information."
+        case "IABTCF_AddtlConsent":
+            return "Additional consent for Google Ad Technology Providers (ATP)."
+        case let key where key.contains("Date") || key.contains("date"):
+            return "Date values are displayed using localized medium date/time style."
+        default:
+            return nil
         }
     }
 

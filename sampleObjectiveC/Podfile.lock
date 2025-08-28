@@ -1,5 +1,5 @@
 PODS:
-  - AxeptioIOSSDK (2.0.2)
+  - AxeptioIOSSDK (2.0.15)
   - FirebaseAnalytics (10.22.0):
     - FirebaseAnalytics/AdIdSupport (= 10.22.0)
     - FirebaseCore (~> 10.0)
@@ -108,7 +108,7 @@ SPEC REPOS:
     - PromisesObjC
 
 SPEC CHECKSUMS:
-  AxeptioIOSSDK: 2dffc02ee21cd436a2991a6fda9cd260ec761a14
+  AxeptioIOSSDK: 1ad235e891b6ce15bc8b9b24b8a76da9548b5201
   FirebaseAnalytics: 8d0ff929c63b7f72260f332b86ccf569776b75d3
   FirebaseCore: 0326ec9b05fbed8f8716cddbf0e36894a13837f7
   FirebaseCoreInternal: bca337352024b18424a61e478460547d46c4c753
