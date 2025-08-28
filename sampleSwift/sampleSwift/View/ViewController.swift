@@ -25,6 +25,7 @@ class ViewController: UIViewController {
     // New UI elements (created programmatically)
     private let serviceTypeLabel = UILabel()
     private let configurationLabel = UILabel()
+    private let sdkVersionLabel = UILabel()
     private let settingsButton = UIButton(type: .system)
     private let vendorConsentButton = UIButton(type: .system)
     
@@ -98,6 +99,13 @@ class ViewController: UIViewController {
         configurationLabel.textAlignment = .center
         configurationLabel.numberOfLines = 0
         configurationLabel.textColor = .secondaryLabel
+        
+        // SDK Version Label
+        sdkVersionLabel.font = UIFont.systemFont(ofSize: 12)
+        sdkVersionLabel.textAlignment = .center
+        sdkVersionLabel.numberOfLines = 0
+        sdkVersionLabel.textColor = .tertiaryLabel
+        sdkVersionLabel.text = "Axeptio iOS SDK v2.0.14"
     }
     
     private func setupNewButtons() {
@@ -128,9 +136,11 @@ class ViewController: UIViewController {
         // Add labels to the top of the view
         serviceTypeLabel.translatesAutoresizingMaskIntoConstraints = false
         configurationLabel.translatesAutoresizingMaskIntoConstraints = false
+        sdkVersionLabel.translatesAutoresizingMaskIntoConstraints = false
         
         view.addSubview(serviceTypeLabel)
         view.addSubview(configurationLabel)
+        view.addSubview(sdkVersionLabel)
         
         // Add buttons to the bottom of the view
         settingsButton.translatesAutoresizingMaskIntoConstraints = false
@@ -149,6 +159,10 @@ class ViewController: UIViewController {
             configurationLabel.topAnchor.constraint(equalTo: serviceTypeLabel.bottomAnchor, constant: 4),
             configurationLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             configurationLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            
+            sdkVersionLabel.topAnchor.constraint(equalTo: configurationLabel.bottomAnchor, constant: 4),
+            sdkVersionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            sdkVersionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             
             // Buttons at bottom
             vendorConsentButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
