@@ -217,7 +217,168 @@ class ViewController: UIViewController {
 
     @IBAction func clearConsent(_ sender: Any) {
         token = Axeptio.shared.axeptioToken
+        
+        // Enhanced consent clearing with comprehensive UserDefaults cleanup
+        performComprehensiveConsentClear()
+    }
+    
+    private func performComprehensiveConsentClear() {
+        print("🧹 [ClearConsent] Starting comprehensive consent clearing...")
+        
+        // 1. Call SDK's clear method first
         Axeptio.shared.clearConsent()
+        print("   ✅ Called Axeptio.shared.clearConsent()")
+        
+        // 2. Get current configuration to determine what to clear
+        let currentConfig = ConfigurationManager.shared.currentConfiguration
+        let userDefaults = UserDefaults.standard
+        var clearedKeys: [String] = []
+        
+        print("   🔧 Current mode: \(currentConfig.targetService == .publisherTcf ? "TCF" : "Brands")")
+        print("   🎯 Configuration: \(currentConfig.cookiesVersion)")
+        
+        // 3. Clear TCF-related UserDefaults (for TCF mode)
+        let tcfKeys = TCFFields.allCases.map { $0.rawValue }
+        for key in tcfKeys {
+            if userDefaults.object(forKey: key) != nil {
+                userDefaults.removeObject(forKey: key)
+                clearedKeys.append(key)
+            }
+        }
+        
+        // 4. Clear Brands-related UserDefaults (for Brands mode)
+        let brandsKeys = CookieFields.allCases.map { $0.rawValue }
+        for key in brandsKeys {
+            if userDefaults.object(forKey: key) != nil {
+                userDefaults.removeObject(forKey: key)
+                clearedKeys.append(key)
+            }
+        }
+        
+        // 5. Clear any additional consent-related keys
+        let additionalKeys = [
+            "axeptio_consent_timestamp",
+            "axeptio_consent_version",
+            "expected_vendor_count"
+        ]
+        for key in additionalKeys {
+            if userDefaults.object(forKey: key) != nil {
+                userDefaults.removeObject(forKey: key)
+                clearedKeys.append(key)
+            }
+        }
+        
+        // 6. Force synchronize UserDefaults
+        userDefaults.synchronize()
+        
+        // 7. Log what was cleared
+        print("   🗑️ Cleared \(clearedKeys.count) UserDefaults keys:")
+        for key in clearedKeys {
+            print("      - \(key)")
+        }
+        print("   💾 UserDefaults synchronized")
+        print("🧹 [ClearConsent] Comprehensive clearing completed!")
+        
+        // 8. Show user feedback
+        showConsentClearConfirmation(clearedCount: clearedKeys.count)
+    }
+    
+    private func showConsentClearConfirmation(clearedCount: Int) {
+        // Visual feedback on button
+        let originalTitle = clearConsentButton.titleLabel?.text
+        let originalBackgroundColor = clearConsentButton.backgroundColor
+        
+        // Update button appearance temporarily
+        clearConsentButton.setTitle("✅ Cleared!", for: .normal)
+        clearConsentButton.backgroundColor = .systemGreen
+        clearConsentButton.isEnabled = false
+        
+        // Show alert with details
+        let alert = UIAlertController(
+            title: "Consent Cleared Successfully",
+            message: "✅ SDK consent cleared\n🗑️ \(clearedCount) UserDefaults keys removed\n💾 Data synchronized\n\nYou can now test fresh consent scenarios.",
+            preferredStyle: .alert
+        )
+        
+        // Add Force Clear All option for testing
+        alert.addAction(UIAlertAction(title: "Force Clear All", style: .destructive) { [weak self] _ in
+            self?.performForceClearAll()
+            // Reset button appearance after force clear
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                self?.clearConsentButton.setTitle(originalTitle, for: .normal)
+                self?.clearConsentButton.backgroundColor = originalBackgroundColor
+                self?.clearConsentButton.isEnabled = true
+            }
+        })
+        
+        alert.addAction(UIAlertAction(title: "OK", style: .default) { [weak self] _ in
+            // Reset button appearance after alert dismissal
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self?.clearConsentButton.setTitle(originalTitle, for: .normal)
+                self?.clearConsentButton.backgroundColor = originalBackgroundColor
+                self?.clearConsentButton.isEnabled = true
+            }
+        })
+        
+        present(alert, animated: true)
+        
+        print("👤 [ClearConsent] User feedback displayed")
+    }
+    
+    private func performForceClearAll() {
+        print("💥 [ForceClearAll] Starting nuclear consent clearing...")
+        
+        let userDefaults = UserDefaults.standard
+        var allClearedKeys: [String] = []
+        
+        // 1. Clear SDK consent
+        Axeptio.shared.clearConsent()
+        
+        // 2. Get all UserDefaults keys and clear any that might be consent-related
+        let allKeys = Array(userDefaults.dictionaryRepresentation().keys)
+        let consentRelatedPrefixes = ["IABTCF_", "axeptio_", "consent", "vendor", "tcf", "cmp"]
+        
+        for key in allKeys {
+            let lowercaseKey = key.lowercased()
+            let isConsentRelated = consentRelatedPrefixes.contains { prefix in
+                lowercaseKey.contains(prefix.lowercased())
+            }
+            
+            if isConsentRelated {
+                userDefaults.removeObject(forKey: key)
+                allClearedKeys.append(key)
+            }
+        }
+        
+        // 3. Force remove known consent keys (even if not found)
+        let forceRemoveKeys = (TCFFields.allCases.map { $0.rawValue }) + 
+                             (CookieFields.allCases.map { $0.rawValue }) + 
+                             ["expected_vendor_count", "axeptio_consent_timestamp", "axeptio_consent_version"]
+        
+        for key in forceRemoveKeys {
+            if !allClearedKeys.contains(key) {
+                userDefaults.removeObject(forKey: key)
+                allClearedKeys.append(key)
+            }
+        }
+        
+        // 4. Synchronize and log
+        userDefaults.synchronize()
+        
+        print("   💥 Force cleared \(allClearedKeys.count) keys:")
+        for key in allClearedKeys.sorted() {
+            print("      - \(key)")
+        }
+        print("💥 [ForceClearAll] Nuclear clearing completed!")
+        
+        // 5. Show confirmation
+        let alert = UIAlertController(
+            title: "🚀 Force Clear Completed",
+            message: "💥 ALL consent data nuked!\n🗑️ \(allClearedKeys.count) keys removed\n\nPerfect for testing fresh scenarios.",
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: "Excellent", style: .default))
+        present(alert, animated: true)
     }
 
     @IBAction func showWebView(_ sender: Any) {

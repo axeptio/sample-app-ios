@@ -25,26 +25,35 @@ class VendorConsentViewController: UIViewController {
     private let vendorTestButton = UIButton(type: .system)
     private let vendorResultLabel = UILabel()
     
+    // TCF String analysis section
+    private let tcfAnalysisButton = UIButton(type: .system)
+    private let tcfAnalysisResultLabel = UILabel()
+    
     // Vendor lists
     private let consentedVendorsTextView = UITextView()
     private let refusedVendorsTextView = UITextView()
     private let allVendorsTextView = UITextView()
     
     private var refreshTimer: Timer?
+    private var dataProcessingDelay: Timer?
+    private var isProcessingConsent = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        refreshVendorData()
+        
+        // Initial refresh with delay to ensure data is loaded
+        refreshVendorDataWithDelay()
         
         // Auto-refresh every 3 seconds when consent changes
         refreshTimer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { [weak self] _ in
-            self?.refreshVendorData()
+            self?.refreshVendorDataWithDelay()
         }
     }
     
     deinit {
         refreshTimer?.invalidate()
+        dataProcessingDelay?.invalidate()
     }
     
     private func setupUI() {
@@ -61,6 +70,7 @@ class VendorConsentViewController: UIViewController {
         setupScrollView()
         setupSummarySection()
         setupTestSection()
+        setupTCFAnalysisSection()
         setupVendorListsSections()
     }
     
@@ -203,6 +213,49 @@ class VendorConsentViewController: UIViewController {
         stackView.addArrangedSubview(testContainer)
     }
     
+    private func setupTCFAnalysisSection() {
+        let sectionLabel = createSectionLabel("TCF String Analysis")
+        stackView.addArrangedSubview(sectionLabel)
+        
+        let analysisContainer = UIView()
+        analysisContainer.backgroundColor = .secondarySystemBackground
+        analysisContainer.layer.cornerRadius = 8
+        
+        let analysisStackView = UIStackView()
+        analysisStackView.axis = .vertical
+        analysisStackView.spacing = 12
+        analysisStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        // TCF Analysis button
+        tcfAnalysisButton.setTitle("Analyze TCF Strings", for: .normal)
+        tcfAnalysisButton.backgroundColor = .systemOrange
+        tcfAnalysisButton.setTitleColor(.white, for: .normal)
+        tcfAnalysisButton.layer.cornerRadius = 8
+        tcfAnalysisButton.addTarget(self, action: #selector(analyzeTCFStrings), for: .touchUpInside)
+        tcfAnalysisButton.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        
+        // Result label
+        tcfAnalysisResultLabel.numberOfLines = 0
+        tcfAnalysisResultLabel.font = UIFont.monospacedSystemFont(ofSize: 12, weight: .regular)
+        tcfAnalysisResultLabel.textAlignment = .left
+        tcfAnalysisResultLabel.text = "Tap 'Analyze TCF Strings' to compare raw consent data"
+        tcfAnalysisResultLabel.textColor = .secondaryLabel
+        
+        analysisStackView.addArrangedSubview(tcfAnalysisButton)
+        analysisStackView.addArrangedSubview(tcfAnalysisResultLabel)
+        
+        analysisContainer.addSubview(analysisStackView)
+        
+        NSLayoutConstraint.activate([
+            analysisStackView.topAnchor.constraint(equalTo: analysisContainer.topAnchor, constant: 16),
+            analysisStackView.leadingAnchor.constraint(equalTo: analysisContainer.leadingAnchor, constant: 16),
+            analysisStackView.trailingAnchor.constraint(equalTo: analysisContainer.trailingAnchor, constant: -16),
+            analysisStackView.bottomAnchor.constraint(equalTo: analysisContainer.bottomAnchor, constant: -16)
+        ])
+        
+        stackView.addArrangedSubview(analysisContainer)
+    }
+    
     private func setupVendorListsSections() {
         // Consented Vendors
         let consentedLabel = createSectionLabel("Consented Vendors (getConsentedVendors)")
@@ -297,8 +350,92 @@ class VendorConsentViewController: UIViewController {
         vendorIdTextField.resignFirstResponder()
     }
     
+    @objc private func analyzeTCFStrings() {
+        let userDefaults = UserDefaults.standard
+        
+        // Get TCF-related values from UserDefaults
+        let tcfString = userDefaults.string(forKey: "IABTCF_TCString") ?? "Not found"
+        let vendorConsents = userDefaults.string(forKey: "IABTCF_VendorConsents") ?? "Not found"
+        let vendorLegitimateInterests = userDefaults.string(forKey: "IABTCF_VendorLegitimateInterests") ?? "Not found"
+        let gdprApplies = userDefaults.object(forKey: "IABTCF_gdprApplies")
+        let policyVersion = userDefaults.object(forKey: "IABTCF_PolicyVersion")
+        
+        // Analyze vendor consent string
+        var analysis = "🔍 TCF String Analysis:\n\n"
+        analysis += "📊 Basic Info:\n"
+        analysis += "• GDPR Applies: \(gdprApplies ?? "Not set")\n"
+        analysis += "• Policy Version: \(policyVersion ?? "Not set")\n"
+        analysis += "• TC String Length: \(tcfString.count) chars\n\n"
+        
+        analysis += "🏪 Vendor Consents String:\n"
+        if vendorConsents != "Not found" {
+            analysis += "• Length: \(vendorConsents.count) chars\n"
+            analysis += "• First 50 chars: \(String(vendorConsents.prefix(50)))...\n"
+            
+            // Try to decode basic vendor consent information
+            let consentBits = vendorConsents
+            analysis += "• Binary representation (first 100 bits): \(String(consentBits.prefix(100)))\n"
+            
+            // Count set bits (rough estimate of consented vendors)
+            let setBits = consentBits.filter { $0 == "1" }.count
+            analysis += "• Estimated consented vendors (set bits): \(setBits)\n"
+        } else {
+            analysis += "• ⚠️ IABTCF_VendorConsents not found!\n"
+        }
+        
+        analysis += "\n🔐 Vendor Legitimate Interests:\n"
+        if vendorLegitimateInterests != "Not found" {
+            analysis += "• Length: \(vendorLegitimateInterests.count) chars\n"
+            analysis += "• First 50 chars: \(String(vendorLegitimateInterests.prefix(50)))...\n"
+        } else {
+            analysis += "• ⚠️ IABTCF_VendorLegitimateInterests not found!\n"
+        }
+        
+        // Compare with API results
+        let allVendorConsents = Axeptio.shared.getVendorConsents()
+        let consentedVendors = Axeptio.shared.getConsentedVendors()
+        
+        analysis += "\n🔗 API vs TCF String Comparison:\n"
+        analysis += "• API Total Vendors: \(allVendorConsents.count)\n"
+        analysis += "• API Consented Vendors: \(consentedVendors.count)\n"
+        
+        if vendorConsents != "Not found" {
+            let setBits = vendorConsents.filter { $0 == "1" }.count
+            analysis += "• TCF String Set Bits: \(setBits)\n"
+            if setBits != consentedVendors.count {
+                analysis += "• ⚠️ DISCREPANCY: API shows \(consentedVendors.count) consented, TCF string suggests \(setBits)\n"
+            }
+        }
+        
+        // Additional debugging info
+        analysis += "\n🐛 Debug Info:\n"
+        analysis += "• Timestamp: \(Date())\n"
+        analysis += "• Vendor API refresh count: \(refreshTimer?.isValid == true ? "Active" : "Inactive")\n"
+        
+        tcfAnalysisResultLabel.text = analysis
+        tcfAnalysisResultLabel.textColor = .label
+        
+        print("📋 [TCFAnalysis] Full Analysis:\n\(analysis)")
+    }
+    
     @objc private func closeTapped() {
         dismiss(animated: true)
+    }
+    
+    private func refreshVendorDataWithDelay() {
+        // Cancel any existing delay timer
+        dataProcessingDelay?.invalidate()
+        
+        // Mark as processing
+        isProcessingConsent = true
+        
+        // Set a delay to allow consent processing to complete
+        dataProcessingDelay = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { [weak self] _ in
+            DispatchQueue.main.async {
+                self?.isProcessingConsent = false
+                self?.refreshVendorData()
+            }
+        }
     }
     
     private func refreshVendorData() {
@@ -306,6 +443,92 @@ class VendorConsentViewController: UIViewController {
         let allVendorConsents = Axeptio.shared.getVendorConsents()
         let consentedVendors = Axeptio.shared.getConsentedVendors()
         let refusedVendors = Axeptio.shared.getRefusedVendors()
+        
+        // Debug logging for vendor count investigation
+        let timestamp = DateFormatter().string(from: Date())
+        print("🔍 [VendorConsentDebug] Vendor Count Analysis [\(timestamp)]:")
+        print("   Processing state: \(isProcessingConsent ? "PROCESSING" : "STABLE")")
+        print("   Total vendors: \(allVendorConsents.count)")
+        print("   Consented vendors: \(consentedVendors.count)")  
+        print("   Refused vendors: \(refusedVendors.count)")
+        print("   Sum (consented + refused): \(consentedVendors.count + refusedVendors.count)")
+        
+        // Detailed vendor ID analysis
+        let allVendorIds = Set(allVendorConsents.keys)
+        let consentedVendorIds = Set(consentedVendors)
+        let refusedVendorIds = Set(refusedVendors)
+        
+        // Find discrepancies
+        let inAllButNotInConsentedOrRefused = allVendorIds.subtracting(consentedVendorIds).subtracting(refusedVendorIds)
+        let inConsentedButNotInAll = consentedVendorIds.subtracting(allVendorIds)
+        let inRefusedButNotInAll = refusedVendorIds.subtracting(allVendorIds)
+        
+        if !inAllButNotInConsentedOrRefused.isEmpty {
+            print("   ⚠️ Vendors in getVendorConsents() but missing from both consented/refused lists: \(Array(inAllButNotInConsentedOrRefused).sorted())")
+        }
+        if !inConsentedButNotInAll.isEmpty {
+            print("   ⚠️ Vendors in getConsentedVendors() but missing from getVendorConsents(): \(Array(inConsentedButNotInAll).sorted())")
+        }
+        if !inRefusedButNotInAll.isEmpty {
+            print("   ⚠️ Vendors in getRefusedVendors() but missing from getVendorConsents(): \(Array(inRefusedButNotInAll).sorted())")
+        }
+        
+        // Log actual vendor IDs for analysis
+        print("   All vendor IDs: \(Array(allVendorIds).sorted())")
+        print("   Consented vendor IDs: \(consentedVendors.sorted())")
+        print("   Refused vendor IDs: \(refusedVendors.sorted())")
+        
+        // Vendor ID range analysis
+        if !allVendorIds.isEmpty {
+            let sortedIds = Array(allVendorIds).sorted()
+            let minId = sortedIds.first!
+            let maxId = sortedIds.last!
+            print("   📊 Vendor ID Range Analysis:")
+            print("      Min ID: \(minId), Max ID: \(maxId)")
+            print("      ID Range: \(minId)-\(maxId) (span: \(maxId - minId + 1))")
+            print("      Actual vendor count: \(sortedIds.count)")
+            
+            // Check for gaps in vendor IDs
+            let expectedRange = Set(minId...maxId)
+            let missingIds = expectedRange.subtracting(allVendorIds)
+            if !missingIds.isEmpty {
+                print("      ⚠️ Missing vendor IDs in range: \(Array(missingIds).sorted())")
+            }
+            
+            // Analyze vendor ID distribution
+            let ranges = [
+                (1, 100, "1-100"),
+                (101, 500, "101-500"),
+                (501, 1000, "501-1000"),
+                (1001, 5000, "1001-5000"),
+                (5001, Int.max, "5000+")
+            ]
+            
+            print("      📈 Vendor ID Distribution:")
+            for (min, max, label) in ranges {
+                let count = sortedIds.filter { $0 >= min && $0 <= max }.count
+                if count > 0 {
+                    print("         \(label): \(count) vendors")
+                }
+            }
+        }
+        
+        // Check for potential edge cases
+        let vendorConsentStates = allVendorConsents.mapValues { $0 ? "✅" : "❌" }
+        print("   Detailed consent states: \(vendorConsentStates.sorted { $0.key < $1.key })")
+        
+        // Special case analysis for 25 vs 24 vendor issue
+        if allVendorConsents.count == 24 || consentedVendors.count == 24 || refusedVendors.count == 24 {
+            print("   🚨 POTENTIAL 25vs24 ISSUE DETECTED:")
+            print("      This might be the reported issue! Check for missing vendor ID.")
+            
+            // Check if we're missing exactly one vendor that should be there
+            if let expectedTotalVendors = UserDefaults.standard.object(forKey: "expected_vendor_count") as? Int {
+                print("      Expected vendors: \(expectedTotalVendors)")
+            } else {
+                print("      Expected vendors: 25 (based on configuration)")
+            }
+        }
         
         // Update summary
         consentedCountLabel.text = "\(consentedVendors.count)"
