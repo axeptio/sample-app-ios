@@ -86,7 +86,7 @@ extension ConsentDebugViewController: UITableViewDataSource, UITableViewDelegate
         let key = sortedKeys[indexPath.row]
         let value = data[key]
         
-        cell.configure(key: key, value: value)
+        cell.configure(key: key, value: value as Any?)
         
         return cell
     }
@@ -223,7 +223,7 @@ class ConsentDebugCell: UITableViewCell {
         case "IABTCF_AddtlConsent":
             return "Additional consent for Google Ad Technology Providers (ATP)."
         case let key where key.contains("Date") || key.contains("date"):
-            return "Date values are now serialized as ISO8601 strings (MSK-84 fix)."
+            return "Date values are displayed using localized medium date/time style."
         default:
             return nil
         }

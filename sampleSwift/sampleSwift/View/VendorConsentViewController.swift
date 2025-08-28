@@ -38,8 +38,8 @@ class VendorConsentViewController: UIViewController {
         refreshVendorData()
         
         // Auto-refresh every 3 seconds when consent changes
-        refreshTimer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { _ in
-            self.refreshVendorData()
+        refreshTimer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { [weak self] _ in
+            self?.refreshVendorData()
         }
     }
     

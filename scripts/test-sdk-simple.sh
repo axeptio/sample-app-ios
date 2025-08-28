@@ -30,8 +30,8 @@ SIMULATOR_NAME="iPhone 14"
 
 # Verify the simulator exists
 if ! xcrun simctl list devices | grep -q "$SIMULATOR_UDID"; then
-    # Fallback to first available iPhone
-    SIMULATOR_INFO=$(xcrun simctl list devices | grep -E "iPhone [0-9]+" | grep -v Plus | grep -v Pro | head -n1)
+    # Fallback to first available iPhone (including Pro/Plus models)
+    SIMULATOR_INFO=$(xcrun simctl list devices | grep -E "iPhone" | grep -v unavailable | head -n1)
     if [ -z "$SIMULATOR_INFO" ]; then
         echo -e "${RED}❌ No iPhone simulators found${NC}"
         echo "Please open Xcode and create an iPhone simulator"
@@ -53,7 +53,7 @@ open -a Simulator
 
 # Wait for simulator to be ready
 echo -e "${BLUE}⏳ Waiting for simulator to boot...${NC}"
-sleep 5
+xcrun simctl bootstatus "$SIMULATOR_UDID" -b
 
 # Build the app
 echo -e "${BLUE}🔨 Building sample app with SDK v2.0.14...${NC}"

@@ -4,6 +4,7 @@
 # This script builds and runs the sample app with the test SDK version for QA testing
 
 set -e  # Exit on any error
+set -o pipefail  # Exit on pipeline failures
 
 # Colors for output
 RED='\033[0;31m'

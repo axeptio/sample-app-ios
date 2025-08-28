@@ -358,7 +358,7 @@ extension ConfigurationViewController: UITableViewDataSource, UITableViewDelegat
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "PresetCell", for: indexPath)
+        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "PresetCell")
         let presetName = presetConfigurations[indexPath.row]
         
         if let config = ConfigurationManager.presetConfigurations[presetName] {
