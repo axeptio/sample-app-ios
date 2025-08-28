@@ -46,7 +46,7 @@ cd sample-app-ios
 4. ✅ Debug data should display with proper date formatting
 5. ✅ Date values should be highlighted in orange and show ISO8601 format
 
-### 🆕 Feature: Vendor Consent APIs (MSK-83)
+### 🆕 Feature: TCF Vendor API (MSK-83)
 **Purpose**: TCF v2.0 compliance with vendor consent parsing
 
 **New APIs Available**:
@@ -59,9 +59,9 @@ Axeptio.shared.isVendorConsented(123)   // Bool - Check specific vendor
 
 **Test Steps**:
 1. Configure app for **Publisher TCF** service (see Configuration Testing below)
-2. "🏪 Vendor Consent APIs" button should be visible at bottom
+2. "🏪 TCF Vendor API" button should be visible at bottom
 3. Tap button to open vendor testing interface
-4. ✅ Should show vendor consent summary and real-time data
+4. ✅ Should show TCF vendor summary and real-time data
 5. Test specific vendor IDs in the input field
 
 ### 🎛️ Enhanced Feature: Configuration Management
@@ -77,7 +77,7 @@ Axeptio.shared.isVendorConsented(123)   // Bool - Check specific vendor
 2. Try preset configurations (Default Brands, Default TCF, etc.)
 3. Create custom configuration with your customer's details
 4. ✅ App should restart and show new service type at top
-5. ✅ Vendor consent button should only appear for TCF service
+5. ✅ TCF vendor button should only appear for TCF service
 
 ## SDK Version Verification
 
@@ -110,9 +110,9 @@ The sample app is configured to use SDK v2.0.14 from the test branch:
 4. Verify dates are in ISO8601 string format
 5. Tap "Vendor APIs" button from debug view
 
-### 4. Vendor Consent APIs Testing (MSK-83)
+### 4. TCF Vendor API Testing (MSK-83)
 **Prerequisites**: Must be in TCF mode
-1. Tap "🏪 Vendor Consent APIs" button (bottom of main screen)
+1. Tap "🏪 TCF Vendor API" button (bottom of main screen)
 2. Verify summary shows vendor counts
 3. Test specific vendor ID in input field
 4. View vendor lists (consented, refused, all)
@@ -121,12 +121,12 @@ The sample app is configured to use SDK v2.0.14 from the test branch:
 ### 5. Service Differentiation Testing
 **Brands Mode**:
 - Main button: "Brands Consent Dialog"
-- No vendor consent button visible
+- No TCF vendor button visible
 - WebView opens brands-specific URL
 
 **TCF Mode**:
 - Main button: "TCF Consent Dialog"  
-- Vendor consent button visible
+- TCF vendor button visible
 - WebView opens TCF publisher URL
 - Debug view highlights TCF vendor fields in blue
 
@@ -158,7 +158,7 @@ xcrun simctl uninstall $SIMULATOR_ID io.axeptio.sampleswift
 xcrun simctl launch --console SIMULATOR_ID io.axeptio.sampleswift
 ```
 
-### Vendor consent data appears empty
+### TCF vendor data appears empty
 - Ensure you're in TCF mode (not Brands)
 - Grant consent in the TCF dialog first
 - Check that consent popup has appeared and been interacted with
@@ -174,7 +174,7 @@ xcrun simctl launch --console SIMULATOR_ID io.axeptio.sampleswift
 - **Current branch**: `test/sdk-v2.0.14`
 - **SDK version**: `2.0.14` (test release)
 - **Base branch**: `develop`
-- **Includes fixes**: MSK-84 (NSDate) + MSK-83 (Vendor Consent)
+- **Includes fixes**: MSK-84 (NSDate) + MSK-83 (TCF Vendor API)
 
 ## Support
 

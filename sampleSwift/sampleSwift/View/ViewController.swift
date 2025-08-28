@@ -110,7 +110,7 @@ class ViewController: UIViewController {
         settingsButton.addTarget(self, action: #selector(showSettings), for: .touchUpInside)
         
         // Vendor Consent Button
-        vendorConsentButton.setTitle("🏪 Vendor Consent APIs", for: .normal)
+        vendorConsentButton.setTitle("🏪 TCF Vendor API", for: .normal)
         vendorConsentButton.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         vendorConsentButton.backgroundColor = UIColor.systemBlue
         vendorConsentButton.setTitleColor(.white, for: .normal)

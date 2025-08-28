@@ -48,7 +48,7 @@ class VendorConsentViewController: UIViewController {
     }
     
     private func setupUI() {
-        title = "Vendor Consent APIs"
+        title = "TCF Vendor API"
         view.backgroundColor = .systemBackground
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(

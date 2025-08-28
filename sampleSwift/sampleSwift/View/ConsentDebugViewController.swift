@@ -29,7 +29,7 @@ class ConsentDebugViewController: UIViewController {
         view.backgroundColor = .systemBackground
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(
-            title: "Vendor APIs",
+            title: "TCF Vendor API",
             style: .plain,
             target: self,
             action: #selector(showVendorConsent)
@@ -215,7 +215,7 @@ class ConsentDebugCell: UITableViewCell {
     private func getKeyExplanation(_ key: String) -> String? {
         switch key {
         case "IABTCF_VendorConsents":
-            return "TCF vendor consents string. Use Vendor APIs to parse this data."
+            return "TCF vendor consents string. Use TCF Vendor API to parse this data."
         case "IABTCF_VendorLegitimateInterests":
             return "TCF vendor legitimate interests string."
         case "IABTCF_TCString":
