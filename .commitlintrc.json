@@ -1,0 +1,33 @@
+{
+  "extends": ["@commitlint/config-conventional"],
+  "rules": {
+    "type-enum": [
+      2,
+      "always",
+      [
+        "feat",
+        "fix",
+        "docs",
+        "style", 
+        "refactor",
+        "test",
+        "chore",
+        "sdk",
+        "ci"
+      ]
+    ],
+    "scope-enum": [
+      2,
+      "always",
+      [
+        "sample-swift",
+        "sample-objc",
+        "sdk-integration", 
+        "build",
+        "docs",
+        "tests",
+        "deps"
+      ]
+    ]
+  }
+}

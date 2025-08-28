@@ -23,7 +23,11 @@
 		<dict>
 			<key>SKAdNetworkIdentifier</key>
 			<string>cstr6suwn9.skadnetwork</string>
-		</dict>
+			<key>CFBundleShortVersionString</key>
+	<string>2.0.13</string>
+	<key>CFBundleVersion</key>
+	<string>2.0.13</string>
+</dict>
 		<dict>
 			<key>SKAdNetworkIdentifier</key>
 			<string>4fzdc2evr5.skadnetwork</string>
