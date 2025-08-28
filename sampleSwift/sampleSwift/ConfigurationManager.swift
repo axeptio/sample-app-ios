@@ -1,17 +1,12 @@
 //
-//  AppDelegate.swift
+//  ConfigurationManager.swift
 //  sampleSwift
 //
-//  Created by Noeline PAGESY on 08/02/2024.
+//  Created by Claude on 28/08/2025.
 //
 
-import UIKit
-
+import Foundation
 import AxeptioSDK
-import FirebaseCore
-import GoogleMobileAds
-
-// MARK: - Configuration Management
 
 protocol ConfigurationViewControllerDelegate: AnyObject {
     func configurationDidChange()
@@ -55,6 +50,18 @@ class ConfigurationManager {
             cookiesVersion: "google cmp partner program sandbox-en-EU",
             token: "5sj42u50ta2ys8c3nhjkxi",
             targetService: .publisherTcf
+        ),
+        "Test Brands (No Token)": CustomerConfiguration(
+            clientId: "5fbfa806a0787d3985c6ee5f",
+            cookiesVersion: "insideapp-brands",
+            token: nil,
+            targetService: .brands
+        ),
+        "Test TCF (No Token)": CustomerConfiguration(
+            clientId: "5fbfa806a0787d3985c6ee5f",
+            cookiesVersion: "google cmp partner program sandbox-en-EU",
+            token: nil,
+            targetService: .publisherTcf
         )
     ]
     
@@ -86,6 +93,60 @@ class ConfigurationManager {
         }
     }
     
+    var hasCustomConfiguration: Bool {
+        return userDefaults.bool(forKey: Keys.hasCustomConfiguration)
+    }
+    
+    // MARK: - Configuration Management
+    
+    func loadPresetConfiguration(_ presetName: String) {
+        guard let config = Self.presetConfigurations[presetName] else { return }
+        currentConfiguration = config
+    }
+    
+    func resetToDefault() {
+        userDefaults.removeObject(forKey: Keys.clientId)
+        userDefaults.removeObject(forKey: Keys.cookiesVersion)
+        userDefaults.removeObject(forKey: Keys.token)
+        userDefaults.removeObject(forKey: Keys.targetService)
+        userDefaults.removeObject(forKey: Keys.hasCustomConfiguration)
+    }
+    
+    // MARK: - Validation
+    
+    func validateConfiguration(_ config: CustomerConfiguration) -> [String] {
+        var errors: [String] = []
+        
+        if config.clientId.isEmpty {
+            errors.append("Client ID is required")
+        } else if config.clientId.count < 10 {
+            errors.append("Client ID appears to be too short")
+        }
+        
+        if config.cookiesVersion.isEmpty {
+            errors.append("Cookies Version is required")
+        }
+        
+        // Token validation is optional
+        if let token = config.token, !token.isEmpty && token.count < 10 {
+            errors.append("Token appears to be too short")
+        }
+        
+        return errors
+    }
+    
+    // MARK: - Display Helpers
+    
+    var currentServiceDisplayName: String {
+        return currentConfiguration.targetService == .brands ? "Brands" : "Publisher TCF"
+    }
+    
+    var currentServiceColor: String {
+        return currentConfiguration.targetService == .brands ? "AxeptioYellow" : "AxeptioBlueLight"
+    }
+    
+    // MARK: - WebView URLs
+    
     func getWebViewURL() -> String {
         switch currentConfiguration.targetService {
         case .brands:
@@ -93,52 +154,5 @@ class ConfigurationManager {
         case .publisherTcf:
             return "https://google-cmp-partner.axept.io/cmp-for-publishers.html"
         }
-    }
-}
-
-@UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
-
-    var window: UIWindow?
-    
-    // Dynamic target service based on configuration
-    static var targetService: AxeptioService {
-        return ConfigurationManager.shared.currentConfiguration.targetService
-    }
-    
-    func application(
-        _ application: UIApplication,
-        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
-    ) -> Bool {
-        
-        // Initialize Axeptio with dynamic configuration
-        let config = ConfigurationManager.shared.currentConfiguration
-        
-        if let token = config.token {
-            Axeptio.shared.initialize(
-                targetService: config.targetService,
-                clientId: config.clientId,
-                cookiesVersion: config.cookiesVersion,
-                token: token
-            )
-        } else {
-            Axeptio.shared.initialize(
-                targetService: config.targetService,
-                clientId: config.clientId,
-                cookiesVersion: config.cookiesVersion
-            )
-        }
-        
-        // Log current configuration for debugging
-        print("🔧 Axeptio Configuration:")
-        print("   Service: \(config.targetService == .brands ? "Brands" : "Publisher TCF")")
-        print("   Client ID: \(config.clientId)")
-        print("   Cookies Version: \(config.cookiesVersion)")
-        print("   Token: \(config.token?.prefix(10) ?? "None")...")
-        
-        FirebaseApp.configure()
-        GADMobileAds.sharedInstance().start()
-
-        return true
     }
 }
