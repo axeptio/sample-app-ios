@@ -23,6 +23,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *googleAdButton;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *googleAdSpinner;
 @property (weak, nonatomic) IBOutlet UIButton *tokenButton;
+@property (weak, nonatomic) IBOutlet UIButton *consentDebugInfoButton;
 @property (nonatomic, weak) id observer;
 
 @end
@@ -38,13 +39,14 @@
     [_clearConsentButton layer].cornerRadius = 24;
     [_googleAdButton layer].cornerRadius = 24;
     [_tokenButton layer].cornerRadius = 24;
+    [_consentDebugInfoButton layer].cornerRadius = 24;
     
     [_googleAdSpinner setHidden:true];
 
     AxeptioEventListener *axeptioEventListener = [[AxeptioEventListener alloc] init];
 
-    [axeptioEventListener setOnConsentChanged:^{
-        [self requestTrackingAuthorization];
+    [axeptioEventListener setOnConsentCleared:^{
+        NSLog(@"Consent have been cleared");
     }];
 
     [axeptioEventListener setOnGoogleConsentModeUpdate:^(GoogleConsentV2 *consents) {
@@ -123,6 +125,34 @@
     [self presentViewController:alertController animated:YES completion:^{}];
 }
 
+- (IBAction)showConsentDebugInfo:(id)sender {
+    NSDictionary *debugInfo = (NSDictionary *)[Axeptio.shared getConsentDebugInfoWithPreferenceKey:nil];
+    
+    if (!debugInfo) {
+        NSLog(@"debugInfo is not available");
+        return;
+    }
+    
+    // Simple implementation: Log the debug info for now
+    // In a full implementation, you'd want to create a debug view controller
+    NSLog(@"Consent Debug Info: %@", debugInfo);
+    
+    // Show a simple alert with debug info summary
+    UIAlertController *alertController = [UIAlertController
+        alertControllerWithTitle:@"Consent Debug Info"
+        message:[NSString stringWithFormat:@"Debug data available. Check console for details.\n\nKeys: %lu", (unsigned long)[debugInfo allKeys].count]
+        preferredStyle:UIAlertControllerStyleAlert
+    ];
+    
+    UIAlertAction *okAction = [UIAlertAction
+                               actionWithTitle:@"OK"
+                               style:UIAlertActionStyleDefault
+                               handler:nil];
+    
+    [alertController addAction:okAction];
+    [self presentViewController:alertController animated:YES completion:nil];
+}
+
 - (void)requestTrackingAuthorization {
     [self removeObserver];
 
@@ -137,9 +167,9 @@
 
             if (isAuthorized) {
                 [Axeptio.shared setupUI];
-            } else {
-                [Axeptio.shared setUserDeniedTracking];
             }
+            
+            [Axeptio.shared setUserDeniedTrackingWithDenied:!isAuthorized];
         }];
     }
 }
