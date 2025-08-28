@@ -20,6 +20,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var clearConsentButton: UIButton!
     @IBOutlet weak var googleAdButton: UIButton!
     @IBOutlet weak var googleAdSpinner: UIActivityIndicatorView!
+    @IBOutlet weak var consentDebugInfoButton: UIButton!
     
     private var interstitial: GADInterstitialAd?
     private let cornerRadius = 24.0
@@ -34,6 +35,7 @@ class ViewController: UIViewController {
         userDefaultsButton.layer.cornerRadius = cornerRadius
         clearConsentButton.layer.cornerRadius = cornerRadius
         googleAdButton.layer.cornerRadius = cornerRadius
+        consentDebugInfoButton?.layer.cornerRadius = cornerRadius
         googleAdSpinner.isHidden = true
 
         let axeptioEventListener = AxeptioEventListener()
@@ -100,6 +102,18 @@ class ViewController: UIViewController {
         alertController.addAction(.init(title: "Cancel", style: .cancel))
 
         present(alertController, animated: true)
+    }
+    
+    @IBAction func showConsentDebugInfo(_ sender: Any) {
+        
+        guard let debugInfo = Axeptio.shared.getConsentDebugInfo(preferenceKey:nil) as? [String : Any?] else {
+            print("debugInfo is not available")
+            return
+        }
+        
+        let debugViewController = ConsentDebugViewController(data: debugInfo)
+        let navController = UINavigationController(rootViewController: debugViewController)
+        self.present(navController, animated: true)
     }
 }
 
