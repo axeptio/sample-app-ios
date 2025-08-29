@@ -1,3 +1,5 @@
+<img src="https://github.com/user-attachments/assets/5799ac86-5d77-4a9e-9bdf-36d40881a449" width="600" height="300"/>
+
 # Axeptio iOS SDK Documentation
 
 Welcome to the Axeptio iOS SDK Samples project. This repository provides a comprehensive guide on how to integrate the Axeptio iOS SDK into your mobile applications. It showcases two distinct modules: one for Swift using Swift Package Manager and one for Objective-C using CocoaPods. Below you'll find detailed instructions and code examples to help you integrate and configure the SDK within your iOS app.
