@@ -2,15 +2,9 @@
 
 # Axeptio iOS SDK Documentation
 
+Welcome to the Axeptio iOS SDK Samples project. This repository provides a comprehensive guide on how to integrate the Axeptio iOS SDK into your mobile applications. It showcases two distinct modules: one for Swift using Swift Package Manager and one for Objective-C using CocoaPods. Below you'll find detailed instructions and code examples to help you integrate and configure the SDK within your iOS app.
 
-![License](https://img.shields.io/badge/license-Apache%202.0-blue) ![iOS version >= 15](https://img.shields.io/badge/iOS%20version-%3E%3D%2015-green) ![Platform](https://img.shields.io/badge/platform-iOS-blue) ![GitHub Stars](https://img.shields.io/github/stars/axeptio/sample-app-ios?style=social) ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen)
-
-
-
-
-Welcome to the **Axeptio iOS SDK Samples project!** This repository provides a comprehensive guide on how to integrate the **Axeptio iOS SDK** into your mobile applications. It showcases two distinct modules: one for **Swift** using Swift Package Manager and one for **Objective-C** using CocoaPods. Below you'll find detailed instructions and code examples to help you integrate and configure the SDK within your iOS app.
-
-## 📑 Table of Contents
+## Table of Contents
 1. [GitHub Access Token Documentation](#github-access-token-documentation)
 2. [Requirements](#requirements)
 3. [Clone the repository](#clone-the-repository)
@@ -37,11 +31,16 @@ Welcome to the **Axeptio iOS SDK Samples project!** This repository provides a c
 13. [Sharing Consent with Webviews](#sharing-consent-with-webviews)
     - [Manual Token Addition](#manual-token-addition)
     - [Automatic Token Addition](#automatic-token-addition)
-14. [Events Overview](#events-overview)
-15. [Event Descriptions](#event-descriptions)
-16. [Event source for KPI tracking](#event-source-for-kpi-tracking)
-17. [Google Consent Mode v2 Integration with Axeptio SDK](#google-consent-mode-v2-integration-with-axeptio-sdk)
-18. [Google AdMob Integration with Axeptio SDK](#google-admob-integration-with-axeptio-sdk)
+14. [TCF Vendor Management APIs](#tcf-vendor-management-apis)
+    - [Available TCF Vendor APIs](#available-tcf-vendor-apis)
+    - [Real-Time Vendor Consent Monitoring](#real-time-vendor-consent-monitoring)
+    - [Debug and Troubleshooting](#debug-and-troubleshooting)
+    - [Integration with IAB TCF Framework](#integration-with-iab-tcf-framework)
+15. [Events Overview](#events-overview)
+16. [Event Descriptions](#event-descriptions)
+17. [Event source for KPI tracking](#event-source-for-kpi-tracking)
+18. [Google Consent Mode v2 Integration with Axeptio SDK](#google-consent-mode-v2-integration-with-axeptio-sdk)
+19. [Google AdMob Integration with Axeptio SDK](#google-admob-integration-with-axeptio-sdk)
 
 <br><br>
 
@@ -53,7 +52,7 @@ As a developer, you may not be immediately aware of these requirements, which co
 By following these instructions, you'll be able to generate a GitHub Access Token smoothly, reducing any onboarding friction and avoiding potential authentication problems down the line.
 <br><br><br>
 
-## 🧐Requirements
+## Requirements
 The Axeptio iOS SDK is distributed as a pre-compiled binary package, delivered as an `XCFramework`. It supports iOS versions >= 15.
 
 Before starting, make sure you have:
@@ -74,7 +73,7 @@ Ensure the **following keys** are added to your `Info.plist` file to comply with
 </dict>
 ```
 <br><br><br>
-## 🔧Clone the Repository
+## Clone the Repository
 To get started, clone the repository to your local machine:
 
 ```bash
@@ -117,7 +116,7 @@ To integrate the Axeptio iOS SDK into your Xcode project using Swift Package Man
 - Click Add Package.
 - In the **Choose Package Products screen**, confirm the selection and click **Add Package** to complete the integration
 <br><br><br>
-## 🔧Initializing the SDK
+## Initializing the SDK
 To initialize the Axeptio SDK in your iOS project, import the `AxeptioSDK` module into your `AppDelegate` and initialize the SDK with the appropriate configuration. 
 
 ### Swift
@@ -177,7 +176,7 @@ class ViewController: UIViewController, UITableViewDataSource {
 }
 ```
 <br><br><br>
-## 🔧Set up the SDK UI
+## Set up the SDK UI
 > **[!IMPORTANT]** The `setupUI` method should be invoked **only** from your main/entry `UIViewController`, typically once during the application launch. By calling this method, the consent notice and preference views will be displayed **only if necessary** and **once the SDK is fully initialized**.
 
 In order to display the consent and preference views and interact with the user, ensure that the `setupUI` method is called from your main `UIViewController`. The consent popup and preferences management will be shown based on the SDK initialization and the user's consent requirements.
@@ -212,7 +211,7 @@ class ViewController: UIViewController {
 
 @end
 ```
-#### 🔧Issues with the Consent Popup (Objective-C)
+#### Issues with the Consent Popup (Objective-C)
 If the consent popup is not appearing as expected, follow these steps to troubleshoot and resolve the issue:
 
 ###### Ensure Correct SDK Initialization in AppDelegate:
@@ -372,7 +371,7 @@ AxeptioSDK.setDisplayPopUpOnEnterForeground(true)
 
 
 <br><br><br>
-## 🚀Axeptio SDK and App Tracking Transparency (ATT) Integration
+## Axeptio SDK and App Tracking Transparency (ATT) Integration
 
 Starting with iOS 14.5, Apple introduced the App Tracking Transparency (ATT) framework, which requires apps to request user consent before tracking their data across other apps and websites. The Axeptio SDK does **not** automatically handle ATT permission requests, and it is your responsibility to ask for user consent for tracking and manage how the Axeptio Consent Management Platform (CMP) interacts with the ATT permission.
 
@@ -523,8 +522,8 @@ To display the popup, the following conditions are now evaluated:
 
 | **Condition**                                | **Mandatory** | **Configurable** |
 |----------------------------------------------|---------------|------------------|
-| Network connectivity                         | ✅ Yes        | ❌ No            |
-| Device ATT status is “Authorized”            | ❌ No         | ✅ Yes (via `allowPopupDisplayWithRejectedDeviceTrackingPermissions`) |
+| Network connectivity                         | Yes        | No            |
+| Device ATT status is "Authorized"            | No         | Yes (via `allowPopupDisplayWithRejectedDeviceTrackingPermissions`) |
 
 ## Behavior of the `_ax_app_att_denied` flag
 - Set to `true` when ATT is denied on the device.
@@ -682,11 +681,374 @@ let updatedURL = Axeptio.shared.appendAxeptioTokenToURL("<Your URL>", token: Axe
 // Automatically append the consent token to the URL
 NSURL *updatedURL = [Axeptio.shared appendAxeptioTokenToURL:@"<Your URL>" token:[Axeptio.shared axeptioToken]];
 ```
+<br><br><br>
+## TCF Vendor Management APIs
+
+The Axeptio SDK provides comprehensive APIs for managing vendor consent in TCF (Transparency and Consent Framework) mode. These APIs allow you to query individual vendor consent states, implement vendor-specific functionality, and maintain compliance with IAB TCF requirements.
+
+#### When to Use TCF Vendor APIs
+
+Use these APIs when your app needs to:
+- Query consent status for specific advertising vendors
+- Implement vendor-specific features or ad serving logic
+- Build custom vendor management UI components
+- Debug consent collection issues in TCF mode
+- Ensure compliance with specific vendor requirements
+
+### Available TCF Vendor APIs
+
+#### 1. Get All Vendor Consents
+
+Retrieve a complete dictionary of all vendor consent states.
+
+##### Swift Implementation:
+```swift
+// Get all vendor consent states as a dictionary
+let allVendorConsents = Axeptio.shared.getVendorConsents()
+
+// Dictionary format: [vendorID: consentStatus]
+// vendorID (Int): The IAB vendor ID
+// consentStatus (Bool): true = consented, false = refused
+
+for (vendorId, hasConsent) in allVendorConsents {
+    print("Vendor \(vendorId): \(hasConsent ? "Consented" : "Refused")")
+}
+
+// Example usage for ad serving logic
+if let googleVendorConsent = allVendorConsents[755] { // Google's vendor ID
+    if googleVendorConsent {
+        // Enable Google ads
+        enableGoogleAds()
+    } else {
+        // Disable Google ads or show alternative content
+        disableGoogleAds()
+    }
+}
+```
+
+##### Objective-C Implementation:
+```objc
+// Get all vendor consent states
+NSDictionary<NSNumber *, NSNumber *> *allVendorConsents = [Axeptio.shared getVendorConsents];
+
+// Iterate through all vendor consents
+for (NSNumber *vendorId in allVendorConsents) {
+    BOOL hasConsent = [allVendorConsents[vendorId] boolValue];
+    NSLog(@"Vendor %@: %@", vendorId, hasConsent ? @"Consented" : @"Refused");
+}
+
+// Example usage for specific vendor
+NSNumber *googleVendorId = @755; // Google's vendor ID
+if (allVendorConsents[googleVendorId]) {
+    BOOL googleConsent = [allVendorConsents[googleVendorId] boolValue];
+    if (googleConsent) {
+        // Enable Google services
+        [self enableGoogleAds];
+    } else {
+        // Disable Google services
+        [self disableGoogleAds];
+    }
+}
+```
+
+#### 2. Get Consented Vendors Only
+
+Retrieve a list of vendor IDs that have been granted consent.
+
+##### Swift Implementation:
+```swift
+// Get array of vendor IDs with consent granted
+let consentedVendors = Axeptio.shared.getConsentedVendors()
+
+print("Number of consented vendors: \(consentedVendors.count)")
+print("Consented vendor IDs: \(consentedVendors)")
+
+// Check if specific vendors are consented
+let criticalVendors = [755, 32, 76] // Example vendor IDs
+let consentedCriticalVendors = criticalVendors.filter { consentedVendors.contains($0) }
+
+if consentedCriticalVendors.count == criticalVendors.count {
+    print("All critical vendors have consent")
+    enablePremiumFeatures()
+} else {
+    print("Missing consent from some critical vendors")
+    enableBasicFeatures()
+}
+```
+
+##### Objective-C Implementation:
+```objc
+// Get array of consented vendor IDs
+NSArray<NSNumber *> *consentedVendors = [Axeptio.shared getConsentedVendors];
+
+NSLog(@"Number of consented vendors: %lu", (unsigned long)consentedVendors.count);
+NSLog(@"Consented vendor IDs: %@", consentedVendors);
+
+// Check for specific vendors
+NSArray<NSNumber *> *criticalVendors = @[@755, @32, @76]; // Example vendor IDs
+NSMutableArray<NSNumber *> *consentedCriticalVendors = [[NSMutableArray alloc] init];
+
+for (NSNumber *vendorId in criticalVendors) {
+    if ([consentedVendors containsObject:vendorId]) {
+        [consentedCriticalVendors addObject:vendorId];
+    }
+}
+
+if (consentedCriticalVendors.count == criticalVendors.count) {
+    NSLog(@"All critical vendors have consent");
+    [self enablePremiumFeatures];
+} else {
+    NSLog(@"Missing consent from some critical vendors");
+    [self enableBasicFeatures];
+}
+```
+
+#### 3. Get Refused Vendors Only
+
+Retrieve a list of vendor IDs that have been refused consent.
+
+##### Swift Implementation:
+```swift
+// Get array of vendor IDs with consent refused
+let refusedVendors = Axeptio.shared.getRefusedVendors()
+
+print("Number of refused vendors: \(refusedVendors.count)")
+print("Refused vendor IDs: \(refusedVendors)")
+
+// Disable services for refused vendors
+for vendorId in refusedVendors {
+    disableVendorServices(vendorId: vendorId)
+}
+
+// Check if any essential vendors were refused
+let essentialVendors = [755, 32] // Example essential vendor IDs
+let refusedEssentialVendors = essentialVendors.filter { refusedVendors.contains($0) }
+
+if !refusedEssentialVendors.isEmpty {
+    print("Essential vendors were refused: \(refusedEssentialVendors)")
+    showAlternativeContent()
+}
+```
+
+##### Objective-C Implementation:
+```objc
+// Get array of refused vendor IDs
+NSArray<NSNumber *> *refusedVendors = [Axeptio.shared getRefusedVendors];
+
+NSLog(@"Number of refused vendors: %lu", (unsigned long)refusedVendors.count);
+NSLog(@"Refused vendor IDs: %@", refusedVendors);
+
+// Disable services for refused vendors
+for (NSNumber *vendorId in refusedVendors) {
+    [self disableVendorServicesWithVendorId:[vendorId integerValue]];
+}
+
+// Check for essential vendors
+NSArray<NSNumber *> *essentialVendors = @[@755, @32]; // Example essential vendor IDs
+NSMutableArray<NSNumber *> *refusedEssentialVendors = [[NSMutableArray alloc] init];
+
+for (NSNumber *vendorId in essentialVendors) {
+    if ([refusedVendors containsObject:vendorId]) {
+        [refusedEssentialVendors addObject:vendorId];
+    }
+}
+
+if (refusedEssentialVendors.count > 0) {
+    NSLog(@"Essential vendors were refused: %@", refusedEssentialVendors);
+    [self showAlternativeContent];
+}
+```
+
+#### 4. Check Individual Vendor Consent
+
+Check consent status for a specific vendor ID.
+
+##### Swift Implementation:
+```swift
+// Check consent for specific vendor
+let vendorId = 755 // Example: Google's vendor ID
+let isConsented = Axeptio.shared.isVendorConsented(vendorId)
+
+if isConsented {
+    print("Vendor \(vendorId) has consent")
+    enableVendorServices(vendorId: vendorId)
+} else {
+    print("Vendor \(vendorId) was refused or not found")
+    disableVendorServices(vendorId: vendorId)
+}
+
+// Example usage in ad loading logic
+func loadAdsForVendor(_ vendorId: Int) {
+    guard Axeptio.shared.isVendorConsented(vendorId) else {
+        print("Cannot load ads - vendor \(vendorId) consent denied")
+        return
+    }
+    
+    // Proceed with ad loading
+    loadVendorAds(vendorId: vendorId)
+}
+
+// Check multiple vendors efficiently
+let vendorsToCheck = [755, 32, 76, 81] // Multiple vendor IDs
+for vendorId in vendorsToCheck {
+    let hasConsent = Axeptio.shared.isVendorConsented(vendorId)
+    print("Vendor \(vendorId): \(hasConsent ? "Consented" : "Refused")")
+}
+```
+
+##### Objective-C Implementation:
+```objc
+// Check consent for specific vendor
+NSInteger vendorId = 755; // Example: Google's vendor ID
+BOOL isConsented = [Axeptio.shared isVendorConsented:vendorId];
+
+if (isConsented) {
+    NSLog(@"Vendor %ld has consent", (long)vendorId);
+    [self enableVendorServicesWithVendorId:vendorId];
+} else {
+    NSLog(@"Vendor %ld was refused or not found", (long)vendorId);
+    [self disableVendorServicesWithVendorId:vendorId];
+}
+
+// Example usage in ad loading logic
+- (void)loadAdsForVendor:(NSInteger)vendorId {
+    if (![Axeptio.shared isVendorConsented:vendorId]) {
+        NSLog(@"Cannot load ads - vendor %ld consent denied", (long)vendorId);
+        return;
+    }
+    
+    // Proceed with ad loading
+    [self loadVendorAdsWithVendorId:vendorId];
+}
+
+// Check multiple vendors
+NSArray<NSNumber *> *vendorsToCheck = @[@755, @32, @76, @81]; // Multiple vendor IDs
+for (NSNumber *vendorNumber in vendorsToCheck) {
+    NSInteger vendorId = [vendorNumber integerValue];
+    BOOL hasConsent = [Axeptio.shared isVendorConsented:vendorId];
+    NSLog(@"Vendor %ld: %@", (long)vendorId, hasConsent ? @"Consented" : @"Refused");
+}
+```
+
+### Real-Time Vendor Consent Monitoring
+
+Monitor vendor consent changes by combining the TCF APIs with event listeners:
+
+#### Swift Implementation:
+```swift
+// Set up event listener for consent changes
+let eventListener = AxeptioEventListener()
+
+eventListener.onConsentChanged = { [weak self] in
+    // Refresh vendor consent states when user changes preferences
+    self?.updateVendorBasedFeatures()
+}
+
+eventListener.onPopupClosedEvent = { [weak self] in
+    // Update UI or services after popup is closed
+    self?.refreshVendorStates()
+}
+
+Axeptio.shared.setEventListener(eventListener)
+
+func updateVendorBasedFeatures() {
+    let consentedVendors = Axeptio.shared.getConsentedVendors()
+    
+    // Update ad serving
+    updateAdConfiguration(consentedVendors: consentedVendors)
+    
+    // Update analytics
+    updateAnalyticsVendors(consentedVendors: consentedVendors)
+    
+    // Update UI elements
+    updateVendorBasedUI(consentedVendors: consentedVendors)
+}
+```
+
+#### Objective-C Implementation:
+```objc
+// Set up event listener for consent changes
+AxeptioEventListener *eventListener = [[AxeptioEventListener alloc] init];
+
+[eventListener setOnConsentChanged:^{
+    // Refresh vendor consent states when user changes preferences
+    [self updateVendorBasedFeatures];
+}];
+
+[eventListener setOnPopupClosedEvent:^{
+    // Update UI or services after popup is closed
+    [self refreshVendorStates];
+}];
+
+[Axeptio.shared setEventListener:eventListener];
+
+- (void)updateVendorBasedFeatures {
+    NSArray<NSNumber *> *consentedVendors = [Axeptio.shared getConsentedVendors];
+    
+    // Update ad serving
+    [self updateAdConfigurationWithConsentedVendors:consentedVendors];
+    
+    // Update analytics
+    [self updateAnalyticsVendorsWithConsentedVendors:consentedVendors];
+    
+    // Update UI elements
+    [self updateVendorBasedUIWithConsentedVendors:consentedVendors];
+}
+```
+
+### Debug and Troubleshooting
+
+#### Using Debug Information API
+
+```swift
+// Get detailed consent debug information
+let debugInfo = Axeptio.shared.getConsentDebugInfo(preferenceKey: nil)
+print("Consent Debug Info: \(debugInfo)")
+
+// Get debug info for specific preference
+let specificDebugInfo = Axeptio.shared.getConsentDebugInfo(preferenceKey: "IABTCF_VendorConsents")
+print("Vendor Consents Debug: \(specificDebugInfo)")
+```
+
+#### Common Issues and Solutions
+
+1. **Vendor Count Mismatch**: If the number of consented + refused vendors doesn't match the total, check for:
+   - Timing issues during consent processing
+   - Vendors that haven't been explicitly consented or refused
+   - Edge cases in vendor ID ranges
+
+2. **Missing Vendor Consent**: If a vendor appears in `getVendorConsents()` but not in `getConsentedVendors()` or `getRefusedVendors()`:
+   - Verify the vendor is part of your TCF configuration
+   - Check if consent was collected properly
+   - Review the TCF string data in UserDefaults
+
+3. **Performance Considerations**:
+   - Cache vendor consent states when possible
+   - Use `isVendorConsented()` for single vendor checks
+   - Monitor consent changes with event listeners rather than polling
+
+### Integration with IAB TCF Framework
+
+The vendor APIs work with standard IAB TCF data stored in UserDefaults:
+
+```swift
+// Access raw TCF data for advanced use cases
+let tcfString = UserDefaults.standard.string(forKey: "IABTCF_TCString")
+let vendorConsents = UserDefaults.standard.string(forKey: "IABTCF_VendorConsents")
+let vendorLegitimateInterests = UserDefaults.standard.string(forKey: "IABTCF_VendorLegitimateInterests")
+
+// The Axeptio APIs provide a higher-level interface to this data
+// But you can access the raw data when needed for compliance reporting
+```
+
+For a complete implementation example with UI, debugging, and real-time monitoring, refer to the `VendorConsentViewController.swift` in the sample application.
+
+<br><br><br>
 ### SDK Events - Handling User Consent and Tracking
 
 The Axeptio SDK provides various events to notify your application when the user interacts with the consent management platform (CMP). By subscribing to these events, you can track consent status changes, consent popup visibility, and updates to Google Consent Mode. This section explains how to subscribe to and handle these events.
 <br><br><br>
-## 🚀Events Overview
+## Events Overview
 
 #### Available Events
 1. **onPopupClosedEvent**  
@@ -756,7 +1118,7 @@ AxeptioEventListener *axeptioEventListener = [[AxeptioEventListener alloc] init]
 [Axeptio.shared setEventListener:axeptioEventListener];
 ```
 <br><br><br>
-## 🚀Event Descriptions
+## Event Descriptions
 
 #### `onPopupClosedEvent`
 - **Description**: This event is triggered when the consent popup is closed, either by the user granting or denying consent.
@@ -915,12 +1277,12 @@ To ensure proper KPI attribution in the back office, the App SDK now adds a spec
 - `sdk-app-brands` → Used when the brands widget is loaded in an app
 - `sdk-web` → Used for regular brands on the web
 
-> ⚠️ This change ensures that events triggered from the App SDK are not incorrectly counted under Web KPIs.
+This change ensures that events triggered from the App SDK are not incorrectly counted under Web KPIs.
 
 No additional configuration is needed on your side if you are using the official SDK integration.
 
 <br><br><br> -->
-## 🚀Google Consent Mode v2 Integration with Axeptio SDK
+## Google Consent Mode v2 Integration with Axeptio SDK
 
 This steps explains how to integrate Google Consent Mode v2 with the Axeptio SDK for managing user consent within your iOS application. It covers Firebase Analytics integration and provides code examples in both Swift and Objective-C.
 
@@ -1015,7 +1377,7 @@ By integrating Google Consent Mode and Firebase Analytics, you are ensuring that
 Integrating Google Consent Mode v2 with the Axeptio SDK provides a seamless way to manage user consent preferences across both Google and Firebase systems. By properly handling consent updates and syncing with Firebase Analytics, your app will remain compliant with privacy laws while respecting user preferences. Use the provided event listener and consent mapping techniques to ensure that both Google and Firebase follow the same consent flow.
 <br><br><br>
 
-## 🚀Google AdMob Integration with Axeptio SDK
+## Google AdMob Integration with Axeptio SDK
 This steps explains how to integrate Google AdMob with the Axeptio SDK in your iOS app to manage user consent and comply with privacy regulations like GDPR and CCPA.
 
 #### Prerequisites
