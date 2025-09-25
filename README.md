@@ -53,10 +53,14 @@ By following these instructions, you'll be able to generate a GitHub Access Toke
 <br><br><br>
 
 ## Requirements
-The Axeptio iOS SDK is distributed as a pre-compiled binary package, delivered as an `XCFramework`. It supports iOS versions >= 15.
+The Axeptio iOS SDK is distributed as a pre-compiled binary package, delivered as an `XCFramework`. It supports iOS versions >= 18.
+
+### iOS Version Support Policy
+This SDK follows Apple's iOS support lifecycle and only supports iOS versions that receive active security updates from Apple. As of September 2025, this includes iOS 18 and iOS 26. For the latest iOS support status, see: https://endoflife.date/ios
 
 Before starting, make sure you have:
 
+- iOS >= 18 (Apple-supported versions only)
 - Xcode >= 15
 - CocoaPods or Swift Package Manager for dependency management.
 

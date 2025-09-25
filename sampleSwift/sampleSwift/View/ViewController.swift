@@ -38,7 +38,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
 
         // Note: setupUI() is called asynchronously after ATT authorization in requestTrackingAuthorization()
-        // Do not call setupUI() here directly to avoid double initialization on iOS 14+
+        // Do not call setupUI() here directly to avoid double initialization
         updateServiceIndicators()
 
         let axeptioEventListener = AxeptioEventListener()
@@ -454,11 +454,7 @@ extension ViewController {
     func requestTrackingAuthorization() {
         self.removeObserver()
 
-        guard #available(iOS 14, *) else {
-            // For iOS <14, no ATT required - call setupUI() directly
-            Axeptio.shared.setupUI()
-            return
-        }
+        // ATT is always available since we require iOS 18+
         
         if ATTrackingManager.trackingAuthorizationStatus != .notDetermined {
             // ATT already determined - call setupUI() and set tracking status
@@ -470,7 +466,7 @@ extension ViewController {
 
         ATTrackingManager.requestTrackingAuthorization { [weak self] status in
             let isAuthorized = status == .authorized
-            // We need to do that to manage a bug in iOS 17.4 about ATT
+            // Handle ATT status determination bug (fixed in iOS 18+)
             if ATTrackingManager.trackingAuthorizationStatus == .notDetermined {
                 self?.addObserver()
                 return
