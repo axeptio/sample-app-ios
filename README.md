@@ -61,7 +61,7 @@ This SDK follows Apple's iOS support lifecycle and only supports iOS versions th
 Before starting, make sure you have:
 
 - iOS >= 18 (Apple-supported versions only)
-- Xcode >= 15
+- Xcode >= 16 (required for iOS 18 development)
 - CocoaPods or Swift Package Manager for dependency management.
 
 **Note:** Please be aware that it is not possible to test a custom banner without an active and valid Axeptio plan. A valid Axeptio plan is required to configure and preview custom consent banners during development.
