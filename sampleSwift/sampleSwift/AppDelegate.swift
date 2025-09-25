@@ -43,14 +43,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 cookiesVersion: config.cookiesVersion
             )
         }
-        
+
+        // Configure ATT popup behavior
+        Axeptio.shared.allowPopupDisplayWithRejectedDeviceTrackingPermissions(config.allowPopupWithRejectedATT)
+
         // Log current configuration for debugging
         print("🔧 Axeptio Configuration:")
         print("   Service: \(config.targetService == AxeptioService.brands ? "Brands" : "Publisher TCF")")
         print("   Client ID: \(config.clientId)")
         print("   Cookies Version: \(config.cookiesVersion)")
         print("   Token: \(config.token?.prefix(10) ?? "None")...")
-        
+        print("   Allow popup with denied ATT: \(config.allowPopupWithRejectedATT)")
+
         FirebaseApp.configure()
         GADMobileAds.sharedInstance().start()
 

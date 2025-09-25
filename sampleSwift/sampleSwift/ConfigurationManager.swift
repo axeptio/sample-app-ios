@@ -17,7 +17,8 @@ struct CustomerConfiguration {
     let cookiesVersion: String
     let token: String?
     let targetService: AxeptioService
-    
+    let allowPopupWithRejectedATT: Bool
+
     var displayName: String {
         return "\(targetService == .brands ? "Brands" : "TCF"): \(cookiesVersion)"
     }
@@ -34,6 +35,7 @@ class ConfigurationManager {
         static let cookiesVersion = "axeptio.config.cookiesVersion"
         static let token = "axeptio.config.token"
         static let targetService = "axeptio.config.targetService"
+        static let allowPopupWithRejectedATT = "axeptio.config.allowPopupWithRejectedATT"
         static let hasCustomConfiguration = "axeptio.config.hasCustom"
     }
     
@@ -43,25 +45,43 @@ class ConfigurationManager {
             clientId: "5fbfa806a0787d3985c6ee5f",
             cookiesVersion: "insideapp-brands",
             token: "5sj42u50ta2ys8c3nhjkxi",
-            targetService: .brands
+            targetService: .brands,
+            allowPopupWithRejectedATT: false
         ),
         "Default TCF": CustomerConfiguration(
             clientId: "5fbfa806a0787d3985c6ee5f",
             cookiesVersion: "google cmp partner program sandbox-en-EU",
             token: "5sj42u50ta2ys8c3nhjkxi",
-            targetService: .publisherTcf
+            targetService: .publisherTcf,
+            allowPopupWithRejectedATT: false
         ),
         "Test Brands (No Token)": CustomerConfiguration(
             clientId: "5fbfa806a0787d3985c6ee5f",
             cookiesVersion: "insideapp-brands",
             token: nil,
-            targetService: .brands
+            targetService: .brands,
+            allowPopupWithRejectedATT: false
         ),
         "Test TCF (No Token)": CustomerConfiguration(
             clientId: "5fbfa806a0787d3985c6ee5f",
             cookiesVersion: "google cmp partner program sandbox-en-EU",
             token: nil,
-            targetService: .publisherTcf
+            targetService: .publisherTcf,
+            allowPopupWithRejectedATT: false
+        ),
+        "Brands (Allow Popup w/ Denied ATT)": CustomerConfiguration(
+            clientId: "5fbfa806a0787d3985c6ee5f",
+            cookiesVersion: "insideapp-brands",
+            token: "5sj42u50ta2ys8c3nhjkxi",
+            targetService: .brands,
+            allowPopupWithRejectedATT: true
+        ),
+        "TCF (Allow Popup w/ Denied ATT)": CustomerConfiguration(
+            clientId: "5fbfa806a0787d3985c6ee5f",
+            cookiesVersion: "google cmp partner program sandbox-en-EU",
+            token: "5sj42u50ta2ys8c3nhjkxi",
+            targetService: .publisherTcf,
+            allowPopupWithRejectedATT: true
         )
     ]
     
@@ -76,12 +96,14 @@ class ConfigurationManager {
             let token = userDefaults.string(forKey: Keys.token)
             let serviceRawValue = userDefaults.integer(forKey: Keys.targetService)
             let targetService: AxeptioService = serviceRawValue == 1 ? .publisherTcf : .brands
-            
+            let allowPopupWithRejectedATT = userDefaults.bool(forKey: Keys.allowPopupWithRejectedATT)
+
             return CustomerConfiguration(
                 clientId: clientId,
                 cookiesVersion: cookiesVersion,
                 token: token?.isEmpty == false ? token : nil,
-                targetService: targetService
+                targetService: targetService,
+                allowPopupWithRejectedATT: allowPopupWithRejectedATT
             )
         }
         set {
@@ -89,6 +111,7 @@ class ConfigurationManager {
             userDefaults.set(newValue.cookiesVersion, forKey: Keys.cookiesVersion)
             userDefaults.set(newValue.token, forKey: Keys.token)
             userDefaults.set(newValue.targetService == .publisherTcf ? 1 : 0, forKey: Keys.targetService)
+            userDefaults.set(newValue.allowPopupWithRejectedATT, forKey: Keys.allowPopupWithRejectedATT)
             userDefaults.set(true, forKey: Keys.hasCustomConfiguration)
         }
     }
@@ -109,6 +132,7 @@ class ConfigurationManager {
         userDefaults.removeObject(forKey: Keys.cookiesVersion)
         userDefaults.removeObject(forKey: Keys.token)
         userDefaults.removeObject(forKey: Keys.targetService)
+        userDefaults.removeObject(forKey: Keys.allowPopupWithRejectedATT)
         userDefaults.removeObject(forKey: Keys.hasCustomConfiguration)
     }
     
