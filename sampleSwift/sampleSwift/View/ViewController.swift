@@ -37,7 +37,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setupUI()
+        // Note: setupUI() is called asynchronously after ATT authorization in requestTrackingAuthorization()
+        // Do not call setupUI() here directly to avoid double initialization
         updateServiceIndicators()
 
         let axeptioEventListener = AxeptioEventListener()
@@ -453,24 +454,25 @@ extension ViewController {
     func requestTrackingAuthorization() {
         self.removeObserver()
 
-        guard #available(iOS 14, *) else {
-            return
-        }
+        // ATT is always available since we require iOS 18+
         
         if ATTrackingManager.trackingAuthorizationStatus != .notDetermined {
+            // ATT already determined - call setupUI() and set tracking status
+            let isAuthorized = ATTrackingManager.trackingAuthorizationStatus == .authorized
+            Axeptio.shared.setupUI()  // SDK internally checks if popup should be shown based on ATT status
+            Axeptio.shared.setUserDeniedTracking(denied: !isAuthorized)
             return
         }
 
         ATTrackingManager.requestTrackingAuthorization { [weak self] status in
             let isAuthorized = status == .authorized
-            // We need to do that to manage a bug in iOS 17.4 about ATT
+            // Handle ATT status determination bug (fixed in iOS 18+)
             if ATTrackingManager.trackingAuthorizationStatus == .notDetermined {
                 self?.addObserver()
                 return
             }
-            if isAuthorized {
-                Axeptio.shared.setupUI()
-            }
+            // Always call setupUI() - SDK will decide if popup should be shown
+            Axeptio.shared.setupUI()
             
             Axeptio.shared.setUserDeniedTracking(denied: !isAuthorized)
         }
