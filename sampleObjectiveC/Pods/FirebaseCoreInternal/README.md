@@ -86,7 +86,7 @@ For details on using Firebase from a Framework or a library, refer to [firebase_
 To develop Firebase software in this repository, ensure that you have at least
 the following software:
 
-* Xcode 14.1 (or later)
+* Xcode 16.2 (or later)
 
 CocoaPods is still the canonical way to develop, but much of the repo now supports
 development with Swift Package Manager.
@@ -137,7 +137,7 @@ Alternatively, disable signing in each target:
 
 ### Adding a New Firebase Pod
 
-Refer to [AddNewPod](AddNewPod.md) Markdown file for details.
+Refer to [AddNewPod](docs/AddNewPod.md) Markdown file for details.
 
 ### Managing Headers and Imports
 
@@ -153,7 +153,7 @@ GitHub Actions will verify that any code changes are done in a style-compliant
 way. Install `clang-format` and `mint`:
 
 ```console
-brew install clang-format@17
+brew install clang-format@21
 brew install mint
 ```
 
@@ -180,6 +180,11 @@ For coverage report generation instructions, see [scripts/code_coverage_report/R
 
 ## Specific Component Instructions
 See the sections below for any special instructions for those components.
+
+### Firebase AI Logic
+
+See the [Firebase AI Logic README](FirebaseAI#development) for instructions
+about building and testing the SDK.
 
 ### Firebase Auth
 
