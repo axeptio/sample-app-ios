@@ -23,6 +23,7 @@ class ConfigurationViewController: UIViewController {
     private let cookiesVersionTextField = UITextField()
     private let tokenTextField = UITextField()
     private let serviceSegmentedControl = UISegmentedControl(items: ["Brands", "Publisher TCF"])
+    private let allowPopupSwitch = UISwitch()
     
     // Preset configurations
     private let presetTableView = UITableView()
@@ -64,6 +65,7 @@ class ConfigurationViewController: UIViewController {
             textField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         }
         serviceSegmentedControl.addTarget(self, action: #selector(segmentedControlChanged), for: .valueChanged)
+        allowPopupSwitch.addTarget(self, action: #selector(switchChanged), for: .valueChanged)
     }
     
     private func setupScrollView() {
@@ -136,6 +138,13 @@ class ConfigurationViewController: UIViewController {
             segmentedControl: serviceSegmentedControl
         )
         stackView.addArrangedSubview(serviceContainer)
+
+        // Allow Popup With Rejected ATT
+        let allowPopupContainer = createSwitchContainer(
+            label: "Allow Popup With Rejected ATT",
+            switch: allowPopupSwitch
+        )
+        stackView.addArrangedSubview(allowPopupContainer)
         
         // Add some spacing
         let spacer = UIView()
@@ -227,10 +236,38 @@ class ConfigurationViewController: UIViewController {
             segmentedControl.trailingAnchor.constraint(equalTo: container.trailingAnchor),
             segmentedControl.bottomAnchor.constraint(equalTo: container.bottomAnchor)
         ])
-        
+
         return container
     }
-    
+
+    private func createSwitchContainer(label: String, switch: UISwitch) -> UIView {
+        let container = UIView()
+
+        let labelView = UILabel()
+        labelView.text = label
+        labelView.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        labelView.numberOfLines = 0
+
+        labelView.translatesAutoresizingMaskIntoConstraints = false
+        `switch`.translatesAutoresizingMaskIntoConstraints = false
+
+        container.addSubview(labelView)
+        container.addSubview(`switch`)
+
+        NSLayoutConstraint.activate([
+            labelView.topAnchor.constraint(equalTo: container.topAnchor),
+            labelView.leadingAnchor.constraint(equalTo: container.leadingAnchor),
+            labelView.trailingAnchor.constraint(equalTo: `switch`.leadingAnchor, constant: -16),
+            labelView.centerYAnchor.constraint(equalTo: `switch`.centerYAnchor),
+
+            `switch`.topAnchor.constraint(equalTo: container.topAnchor),
+            `switch`.trailingAnchor.constraint(equalTo: container.trailingAnchor),
+            `switch`.bottomAnchor.constraint(equalTo: container.bottomAnchor)
+        ])
+
+        return container
+    }
+
     private func loadCurrentConfiguration() {
         let config = ConfigurationManager.shared.currentConfiguration
         
@@ -238,7 +275,8 @@ class ConfigurationViewController: UIViewController {
         cookiesVersionTextField.text = config.cookiesVersion
         tokenTextField.text = config.token ?? ""
         serviceSegmentedControl.selectedSegmentIndex = config.targetService == .brands ? 0 : 1
-        
+        allowPopupSwitch.isOn = config.allowPopupWithRejectedATT
+
         hasUnsavedChanges = false
         updateSaveButtonState()
     }
@@ -249,6 +287,11 @@ class ConfigurationViewController: UIViewController {
     }
     
     @objc private func segmentedControlChanged() {
+        hasUnsavedChanges = true
+        updateSaveButtonState()
+    }
+
+    @objc private func switchChanged() {
         hasUnsavedChanges = true
         updateSaveButtonState()
     }
@@ -284,7 +327,8 @@ class ConfigurationViewController: UIViewController {
                 let token = tokenTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
                 return token.isEmpty ? nil : token
             }(),
-            targetService: serviceSegmentedControl.selectedSegmentIndex == 0 ? .brands : .publisherTcf
+            targetService: serviceSegmentedControl.selectedSegmentIndex == 0 ? .brands : .publisherTcf,
+            allowPopupWithRejectedATT: allowPopupSwitch.isOn
         )
         
         // Basic validation
@@ -383,7 +427,8 @@ extension ConfigurationViewController: UITableViewDataSource, UITableViewDelegat
         cookiesVersionTextField.text = config.cookiesVersion
         tokenTextField.text = config.token ?? ""
         serviceSegmentedControl.selectedSegmentIndex = config.targetService == .brands ? 0 : 1
-        
+        allowPopupSwitch.isOn = config.allowPopupWithRejectedATT
+
         hasUnsavedChanges = true
         updateSaveButtonState()
     }
