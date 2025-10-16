@@ -34,6 +34,7 @@ class ViewController: UIViewController {
     private let cornerRadius = 24.0
     private weak var observer: NSObjectProtocol?
     private var token: String?
+    private var uiButtons: [UIButton] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,6 +42,7 @@ class ViewController: UIViewController {
         // Note: setupUI() is called asynchronously after ATT authorization in requestTrackingAuthorization()
         // Do not call setupUI() here directly to avoid double initialization
         updateServiceIndicators()
+        loadBasicButtons()
 
         let axeptioEventListener = AxeptioEventListener()
 
@@ -68,6 +70,11 @@ class ViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         updateServiceIndicators()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        styleUIButtons()
     }
     
     private func setupUI() {
@@ -112,12 +119,33 @@ class ViewController: UIViewController {
         sdkVersionLabel.textColor = .tertiaryLabel
         sdkVersionLabel.text = "Axeptio iOS SDK v2.0.15"
     }
-
+    
+    private func loadBasicButtons() {
+        uiButtons.append(contentsOf: [showConsentButton,
+                                     tokenButton,
+                                     userDefaultsButton,
+                                     clearConsentButton,
+                                     googleAdButton,
+                                     consentDebugInfoButton,
+                                     configButton])
+    }
+    
+    private func styleUIButtons() {
+        uiButtons.forEach { button in
+            button.titleLabel?.layer.shadowColor = UIColor.black.cgColor
+            button.titleLabel?.layer.shadowOffset = CGSize(width: 2.5, height: 2.0)
+            button.titleLabel?.layer.shadowRadius = 2.5
+            button.titleLabel?.layer.shadowOpacity = 0.9
+            button.titleLabel?.layer.masksToBounds = false
+            button.layer.cornerRadius = cornerRadius
+            button.layer.masksToBounds = true
+        }
+    }
     
     private func setupNewButtons() {
         // Settings Button
         settingsButton.setTitle("⚙️ Settings", for: .normal)
-        settingsButton.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+        settingsButton.titleLabel?.font = UIFont.systemFont(ofSize: 18)
         settingsButton.backgroundColor = UIColor.systemGray5
         settingsButton.setTitleColor(.label, for: .normal)
         settingsButton.layer.cornerRadius = cornerRadius
@@ -125,7 +153,7 @@ class ViewController: UIViewController {
         
         // Vendor Consent Button
         vendorConsentButton.setTitle("🏪 TCF Vendor API", for: .normal)
-        vendorConsentButton.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+        vendorConsentButton.titleLabel?.font = UIFont.systemFont(ofSize: 18)
         vendorConsentButton.backgroundColor = UIColor.systemBlue
         vendorConsentButton.setTitleColor(.white, for: .normal)
         vendorConsentButton.layer.cornerRadius = cornerRadius
