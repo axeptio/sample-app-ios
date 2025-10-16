@@ -22,7 +22,7 @@ class ConfigurationViewController: UIViewController {
     private let clientIdTextField = UITextField()
     private let cookiesVersionTextField = UITextField()
     private let tokenTextField = UITextField()
-    private let axeptioPRTextField = UITextField()
+    private let widgetPRTextField = UITextField()
     private let serviceSegmentedControl = UISegmentedControl(items: ["Brands", "Publisher TCF"])
     private let allowPopupSwitch = UISwitch()
     
@@ -62,7 +62,7 @@ class ConfigurationViewController: UIViewController {
         setupPresetConfigurationSection()
         
         // Add observers for text field changes
-        [clientIdTextField, cookiesVersionTextField, tokenTextField, axeptioPRTextField].forEach { textField in
+        [clientIdTextField, cookiesVersionTextField, tokenTextField, widgetPRTextField].forEach { textField in
             textField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         }
         serviceSegmentedControl.addTarget(self, action: #selector(segmentedControlChanged), for: .valueChanged)
@@ -136,7 +136,7 @@ class ConfigurationViewController: UIViewController {
         // Axeptio PR
         let axeptioPRContainer = createInputContainer(
             label: "Widget Version (Optional)",
-            textField: axeptioPRTextField,
+            textField: widgetPRTextField,
             placeholder: "Enter Widget PR # (e.g., 59026e8d-b110-5452-afbe-6cb99c4e202a)"
         )
         stackView.addArrangedSubview(axeptioPRContainer)
@@ -284,7 +284,7 @@ class ConfigurationViewController: UIViewController {
         clientIdTextField.text = config.clientId
         cookiesVersionTextField.text = config.cookiesVersion
         tokenTextField.text = config.token ?? ""
-        axeptioPRTextField.text = ""
+        widgetPRTextField.text = ""
         serviceSegmentedControl.selectedSegmentIndex = config.targetService == .brands ? 0 : 1
         allowPopupSwitch.isOn = config.allowPopupWithRejectedATT
 
@@ -339,7 +339,7 @@ class ConfigurationViewController: UIViewController {
                 return token.isEmpty ? nil : token
             }(),
             widgetPR: {
-                let widget = axeptioPRTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+                let widget = widgetPRTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
                 return widget.isEmpty ? nil : widget
             }(),
             targetService: serviceSegmentedControl.selectedSegmentIndex == 0 ? .brands : .publisherTcf,
@@ -441,7 +441,7 @@ extension ConfigurationViewController: UITableViewDataSource, UITableViewDelegat
         clientIdTextField.text = config.clientId
         cookiesVersionTextField.text = config.cookiesVersion
         tokenTextField.text = config.token ?? ""
-        axeptioPRTextField.text = ""
+        widgetPRTextField.text = ""
         serviceSegmentedControl.selectedSegmentIndex = config.targetService == .brands ? 0 : 1
         allowPopupSwitch.isOn = config.allowPopupWithRejectedATT
 
