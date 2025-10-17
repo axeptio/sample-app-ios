@@ -284,7 +284,7 @@ class ConfigurationViewController: UIViewController {
         clientIdTextField.text = config.clientId
         cookiesVersionTextField.text = config.cookiesVersion
         tokenTextField.text = config.token ?? ""
-        widgetPRTextField.text = ""
+        widgetPRTextField.text = config.widgetPR ?? ""
         serviceSegmentedControl.selectedSegmentIndex = config.targetService == .brands ? 0 : 1
         allowPopupSwitch.isOn = config.allowPopupWithRejectedATT
 
@@ -441,7 +441,7 @@ extension ConfigurationViewController: UITableViewDataSource, UITableViewDelegat
         clientIdTextField.text = config.clientId
         cookiesVersionTextField.text = config.cookiesVersion
         tokenTextField.text = config.token ?? ""
-        widgetPRTextField.text = ""
+        widgetPRTextField.text = config.widgetPR ?? ""
         serviceSegmentedControl.selectedSegmentIndex = config.targetService == .brands ? 0 : 1
         allowPopupSwitch.isOn = config.allowPopupWithRejectedATT
 
