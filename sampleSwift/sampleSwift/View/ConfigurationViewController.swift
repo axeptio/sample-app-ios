@@ -17,12 +17,14 @@ class ConfigurationViewController: UIViewController {
     private let scrollView = UIScrollView()
     private let contentView = UIView()
     private let stackView = UIStackView()
+    private var axeptioPRContainer = UIView()
     
     // Input fields
     private let clientIdTextField = UITextField()
     private let cookiesVersionTextField = UITextField()
     private let tokenTextField = UITextField()
     private let widgetPRTextField = UITextField()
+    private let widgetTypeSegmentedControl = UISegmentedControl(items: [WidgetType.production.title, WidgetType.staging.title, WidgetType.pr.title])
     private let serviceSegmentedControl = UISegmentedControl(items: ["Brands", "Publisher TCF"])
     private let allowPopupSwitch = UISwitch()
     
@@ -65,6 +67,7 @@ class ConfigurationViewController: UIViewController {
         [clientIdTextField, cookiesVersionTextField, tokenTextField, widgetPRTextField].forEach { textField in
             textField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         }
+        widgetTypeSegmentedControl.addTarget(self, action: #selector(segmentedControlChanged), for: .valueChanged)
         serviceSegmentedControl.addTarget(self, action: #selector(segmentedControlChanged), for: .valueChanged)
         allowPopupSwitch.addTarget(self, action: #selector(switchChanged), for: .valueChanged)
     }
@@ -133,13 +136,21 @@ class ConfigurationViewController: UIViewController {
         )
         stackView.addArrangedSubview(tokenContainer)
         
+        // Environment Selector
+        let widgetTypeContainer = createSegmentedControlContainer(
+            label: "Widget Type",
+            segmentedControl: widgetTypeSegmentedControl
+        )
+        stackView.addArrangedSubview(widgetTypeContainer)
+        
         // Axeptio PR
-        let axeptioPRContainer = createInputContainer(
+        let widgetPRContainer = createInputContainer(
             label: "Widget Version (Optional)",
             textField: widgetPRTextField,
             placeholder: "Enter Widget PR # (e.g., 59026e8d-b110-5452-afbe-6cb99c4e202a)"
         )
-        stackView.addArrangedSubview(axeptioPRContainer)
+        stackView.addArrangedSubview(widgetPRContainer)
+        self.axeptioPRContainer = widgetPRContainer
         
         
         // Service Type
@@ -286,19 +297,23 @@ class ConfigurationViewController: UIViewController {
         tokenTextField.text = config.token ?? ""
         widgetPRTextField.text = config.widgetPR ?? ""
         serviceSegmentedControl.selectedSegmentIndex = config.targetService == .brands ? 0 : 1
+        widgetTypeSegmentedControl.selectedSegmentIndex = config.widgetType.rawValue
         allowPopupSwitch.isOn = config.allowPopupWithRejectedATT
 
         hasUnsavedChanges = false
         updateSaveButtonState()
+        updateWidgetPRTextFieldVisibility()
     }
     
     @objc private func textFieldDidChange() {
         hasUnsavedChanges = true
         updateSaveButtonState()
+        
     }
     
     @objc private func segmentedControlChanged() {
         hasUnsavedChanges = true
+        updateWidgetPRTextFieldVisibility()
         updateSaveButtonState()
     }
 
@@ -309,6 +324,10 @@ class ConfigurationViewController: UIViewController {
     
     private func updateSaveButtonState() {
         navigationItem.rightBarButtonItem?.isEnabled = hasUnsavedChanges
+    }
+    
+    private func updateWidgetPRTextFieldVisibility() {
+        axeptioPRContainer.isHidden = widgetTypeSegmentedControl.selectedSegmentIndex != 2
     }
     
     @objc private func cancelTapped() {
@@ -338,9 +357,10 @@ class ConfigurationViewController: UIViewController {
                 let token = tokenTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
                 return token.isEmpty ? nil : token
             }(),
+            widgetType: WidgetType.init(rawValue: widgetTypeSegmentedControl.selectedSegmentIndex) ?? .production,
             widgetPR: {
-                let widget = widgetPRTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-                return widget.isEmpty ? nil : widget
+                let widgetPR = widgetPRTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+                return widgetPR.isEmpty ? nil : widgetPR
             }(),
             targetService: serviceSegmentedControl.selectedSegmentIndex == 0 ? .brands : .publisherTcf,
             allowPopupWithRejectedATT: allowPopupSwitch.isOn

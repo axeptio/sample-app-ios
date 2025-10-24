@@ -16,6 +16,7 @@ struct CustomerConfiguration {
     let clientId: String
     let cookiesVersion: String
     let token: String?
+    let widgetType: WidgetType
     let widgetPR: String?
     let targetService: AxeptioService
     let allowPopupWithRejectedATT: Bool
@@ -35,6 +36,7 @@ class ConfigurationManager {
         static let clientId = "axeptio.config.clientId"
         static let cookiesVersion = "axeptio.config.cookiesVersion"
         static let token = "axeptio.config.token"
+        static let widgetType = "axeptio.config.widgetType"
         static let widgetPR = "axeptio.config.widgetPR"
         static let targetService = "axeptio.config.targetService"
         static let allowPopupWithRejectedATT = "axeptio.config.allowPopupWithRejectedATT"
@@ -47,6 +49,7 @@ class ConfigurationManager {
             clientId: "5fbfa806a0787d3985c6ee5f",
             cookiesVersion: "insideapp-brands",
             token: "5sj42u50ta2ys8c3nhjkxi",
+            widgetType: .production,
             widgetPR: nil,
             targetService: .brands,
             allowPopupWithRejectedATT: false
@@ -55,6 +58,7 @@ class ConfigurationManager {
             clientId: "5fbfa806a0787d3985c6ee5f",
             cookiesVersion: "google cmp partner program sandbox-en-EU",
             token: "5sj42u50ta2ys8c3nhjkxi",
+            widgetType: .production,
             widgetPR: nil,
             targetService: .publisherTcf,
             allowPopupWithRejectedATT: false
@@ -63,6 +67,7 @@ class ConfigurationManager {
             clientId: "5fbfa806a0787d3985c6ee5f",
             cookiesVersion: "insideapp-brands",
             token: nil,
+            widgetType: .production,
             widgetPR: nil,
             targetService: .brands,
             allowPopupWithRejectedATT: false
@@ -71,6 +76,7 @@ class ConfigurationManager {
             clientId: "5fbfa806a0787d3985c6ee5f",
             cookiesVersion: "google cmp partner program sandbox-en-EU",
             token: nil,
+            widgetType: .production,
             widgetPR: nil,
             targetService: .publisherTcf,
             allowPopupWithRejectedATT: false
@@ -79,6 +85,7 @@ class ConfigurationManager {
             clientId: "5fbfa806a0787d3985c6ee5f",
             cookiesVersion: "insideapp-brands",
             token: "5sj42u50ta2ys8c3nhjkxi",
+            widgetType: .production,
             widgetPR: nil,
             targetService: .brands,
             allowPopupWithRejectedATT: true
@@ -87,6 +94,7 @@ class ConfigurationManager {
             clientId: "5fbfa806a0787d3985c6ee5f",
             cookiesVersion: "google cmp partner program sandbox-en-EU",
             token: "5sj42u50ta2ys8c3nhjkxi",
+            widgetType: .production,
             widgetPR: nil,
             targetService: .publisherTcf,
             allowPopupWithRejectedATT: true
@@ -102,6 +110,7 @@ class ConfigurationManager {
             let clientId = userDefaults.string(forKey: Keys.clientId) ?? "5fbfa806a0787d3985c6ee5f"
             let cookiesVersion = userDefaults.string(forKey: Keys.cookiesVersion) ?? "insideapp-brands"
             let token = userDefaults.string(forKey: Keys.token)
+            let widgetType = WidgetType(rawValue: userDefaults.integer(forKey: Keys.widgetType))
             let widgetPR = userDefaults.string(forKey: Keys.widgetPR)
             let serviceRawValue = userDefaults.integer(forKey: Keys.targetService)
             let targetService: AxeptioService = serviceRawValue == 1 ? .publisherTcf : .brands
@@ -111,6 +120,7 @@ class ConfigurationManager {
                 clientId: clientId,
                 cookiesVersion: cookiesVersion,
                 token: token?.isEmpty == false ? token : nil,
+                widgetType: widgetType ?? .production,
                 widgetPR: widgetPR?.isEmpty ?? false ? widgetPR : nil,
                 targetService: targetService,
                 allowPopupWithRejectedATT: allowPopupWithRejectedATT
@@ -120,6 +130,7 @@ class ConfigurationManager {
             userDefaults.set(newValue.clientId, forKey: Keys.clientId)
             userDefaults.set(newValue.cookiesVersion, forKey: Keys.cookiesVersion)
             userDefaults.set(newValue.token, forKey: Keys.token)
+            userDefaults.set(newValue.widgetType, forKey: Keys.widgetType)
             userDefaults.set(newValue.widgetPR, forKey: Keys.widgetPR)
             userDefaults.set(newValue.targetService == .publisherTcf ? 1 : 0, forKey: Keys.targetService)
             userDefaults.set(newValue.allowPopupWithRejectedATT, forKey: Keys.allowPopupWithRejectedATT)
@@ -142,6 +153,7 @@ class ConfigurationManager {
         userDefaults.removeObject(forKey: Keys.clientId)
         userDefaults.removeObject(forKey: Keys.cookiesVersion)
         userDefaults.removeObject(forKey: Keys.token)
+        userDefaults.removeObject(forKey: Keys.widgetType)
         userDefaults.removeObject(forKey: Keys.widgetPR)
         userDefaults.removeObject(forKey: Keys.targetService)
         userDefaults.removeObject(forKey: Keys.allowPopupWithRejectedATT)
