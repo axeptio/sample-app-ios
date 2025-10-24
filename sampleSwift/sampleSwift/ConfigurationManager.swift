@@ -121,7 +121,7 @@ class ConfigurationManager {
                 cookiesVersion: cookiesVersion,
                 token: token?.isEmpty == false ? token : nil,
                 widgetType: widgetType ?? .production,
-                widgetPR: widgetPR?.isEmpty ?? false ? widgetPR : nil,
+                widgetPR: widgetPR?.isEmpty == false ? widgetPR : nil,
                 targetService: targetService,
                 allowPopupWithRejectedATT: allowPopupWithRejectedATT
             )
