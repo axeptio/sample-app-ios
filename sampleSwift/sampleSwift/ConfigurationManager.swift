@@ -130,7 +130,7 @@ class ConfigurationManager {
             userDefaults.set(newValue.clientId, forKey: Keys.clientId)
             userDefaults.set(newValue.cookiesVersion, forKey: Keys.cookiesVersion)
             userDefaults.set(newValue.token, forKey: Keys.token)
-            userDefaults.set(newValue.widgetType, forKey: Keys.widgetType)
+            userDefaults.set(newValue.widgetType.rawValue, forKey: Keys.widgetType)
             userDefaults.set(newValue.widgetPR, forKey: Keys.widgetPR)
             userDefaults.set(newValue.targetService == .publisherTcf ? 1 : 0, forKey: Keys.targetService)
             userDefaults.set(newValue.allowPopupWithRejectedATT, forKey: Keys.allowPopupWithRejectedATT)
