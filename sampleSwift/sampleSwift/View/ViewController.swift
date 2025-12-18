@@ -110,7 +110,7 @@ class ViewController: UIViewController {
         sdkVersionLabel.textAlignment = .center
         sdkVersionLabel.numberOfLines = 0
         sdkVersionLabel.textColor = .tertiaryLabel
-        sdkVersionLabel.text = "Axeptio iOS SDK v2.0.15"
+        sdkVersionLabel.text = "Axeptio iOS SDK v2.1.2"
     }
 
     
@@ -427,8 +427,10 @@ class ViewController: UIViewController {
     }
     
     @IBAction func showSettings(_ sender: Any) {
+        let remainingDays = Axeptio.shared.getRemainingDaysForConsent()
         let configViewController = ConfigurationViewController()
         configViewController.delegate = self
+        configViewController.remainingDays = remainingDays
         let navController = UINavigationController(rootViewController: configViewController)
         self.present(navController, animated: true)
     }
