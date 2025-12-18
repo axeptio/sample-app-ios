@@ -509,10 +509,12 @@ extension ConfigurationViewController: UITableViewDataSource, UITableViewDelegat
         cookiesDurationSwitch.isOn = config.shouldUpdateCookiesDuration
         cookiesDurationTextfield.text = config.shouldUpdateCookiesDuration ? String(config.cookiesDuration) : ""
         widgetPRTextField.text = config.widgetPR ?? ""
+        widgetTypeSegmentedControl.selectedSegmentIndex = config.widgetType.rawValue
         serviceSegmentedControl.selectedSegmentIndex = config.targetService == .brands ? 0 : 1
         allowPopupSwitch.isOn = config.allowPopupWithRejectedATT
 
         hasUnsavedChanges = true
+        updateOptionalFieldsVisbility()
         updateSaveButtonState()
     }
 
