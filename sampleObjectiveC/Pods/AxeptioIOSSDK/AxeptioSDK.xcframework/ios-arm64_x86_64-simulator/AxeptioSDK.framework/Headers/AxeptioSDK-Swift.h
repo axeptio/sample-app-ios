@@ -301,6 +301,7 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 #if defined(__OBJC__)
 @class NSString;
 enum AxeptioService : NSInteger;
+enum WidgetType : NSInteger;
 @class NSURL;
 @class AxeptioEventListener;
 @class NSDictionary;
@@ -311,8 +312,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) Axeptio * _N
 + (Axeptio * _Nonnull)shared SWIFT_WARN_UNUSED_RESULT;
 @property (nonatomic, readonly, copy) NSString * _Nonnull keyAxeptioTokenQueryItem;
 @property (nonatomic, readonly, copy) NSString * _Nullable axeptioToken;
-- (void)initializeWithTargetService:(enum AxeptioService)targetService clientId:(NSString * _Nonnull)clientId cookiesVersion:(NSString * _Nonnull)cookiesVersion;
-- (void)initializeWithTargetService:(enum AxeptioService)targetService clientId:(NSString * _Nonnull)clientId cookiesVersion:(NSString * _Nonnull)cookiesVersion token:(NSString * _Nonnull)token;
+- (void)initializeWithTargetService:(enum AxeptioService)targetService clientId:(NSString * _Nonnull)clientId cookiesVersion:(NSString * _Nonnull)cookiesVersion token:(NSString * _Nullable)token widgetType:(enum WidgetType)widgetType widgetPR:(NSString * _Nullable)widgetPR cookiesDurationDays:(NSInteger)cookiesDurationDays shouldUpdateCookiesDuration:(BOOL)shouldUpdateCookiesDuration;
 - (void)setupUI;
 - (void)setUserDeniedTrackingWithDenied:(BOOL)denied;
 - (void)setDisplayPopUpOnEnterForegroundWithDisplay:(BOOL)display;
@@ -345,6 +345,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) Axeptio * _N
 /// returns:
 /// true if vendor has consent, false otherwise
 - (BOOL)isVendorConsented:(NSInteger)vendorId SWIFT_WARN_UNUSED_RESULT;
+- (NSInteger)getRemainingDaysForConsent SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
@@ -372,6 +373,16 @@ SWIFT_CLASS("_TtC10AxeptioSDK20AxeptioServiceHelper")
 @end
 
 
+SWIFT_CLASS("_TtC10AxeptioSDK15ConsentResponse")
+@interface ConsentResponse : NSObject
+@property (nonatomic) BOOL consented;
+@property (nonatomic, copy) NSArray<NSNumber *> * _Nonnull accepted;
+@property (nonatomic, copy) NSArray<NSNumber *> * _Nonnull denied;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
+
 typedef SWIFT_ENUM(NSInteger, GoogleConsentStatus, open) {
   GoogleConsentStatusGranted = 0,
   GoogleConsentStatusDenied = 1,
@@ -389,6 +400,12 @@ SWIFT_CLASS("_TtC10AxeptioSDK15GoogleConsentV2")
 @end
 
 
+
+typedef SWIFT_ENUM(NSInteger, WidgetType, open) {
+  WidgetTypeProduction = 0,
+  WidgetTypeStaging = 1,
+  WidgetTypePr = 2,
+};
 
 #endif
 #if __has_attribute(external_source_symbol)
@@ -701,6 +718,7 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 #if defined(__OBJC__)
 @class NSString;
 enum AxeptioService : NSInteger;
+enum WidgetType : NSInteger;
 @class NSURL;
 @class AxeptioEventListener;
 @class NSDictionary;
@@ -711,8 +729,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) Axeptio * _N
 + (Axeptio * _Nonnull)shared SWIFT_WARN_UNUSED_RESULT;
 @property (nonatomic, readonly, copy) NSString * _Nonnull keyAxeptioTokenQueryItem;
 @property (nonatomic, readonly, copy) NSString * _Nullable axeptioToken;
-- (void)initializeWithTargetService:(enum AxeptioService)targetService clientId:(NSString * _Nonnull)clientId cookiesVersion:(NSString * _Nonnull)cookiesVersion;
-- (void)initializeWithTargetService:(enum AxeptioService)targetService clientId:(NSString * _Nonnull)clientId cookiesVersion:(NSString * _Nonnull)cookiesVersion token:(NSString * _Nonnull)token;
+- (void)initializeWithTargetService:(enum AxeptioService)targetService clientId:(NSString * _Nonnull)clientId cookiesVersion:(NSString * _Nonnull)cookiesVersion token:(NSString * _Nullable)token widgetType:(enum WidgetType)widgetType widgetPR:(NSString * _Nullable)widgetPR cookiesDurationDays:(NSInteger)cookiesDurationDays shouldUpdateCookiesDuration:(BOOL)shouldUpdateCookiesDuration;
 - (void)setupUI;
 - (void)setUserDeniedTrackingWithDenied:(BOOL)denied;
 - (void)setDisplayPopUpOnEnterForegroundWithDisplay:(BOOL)display;
@@ -745,6 +762,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) Axeptio * _N
 /// returns:
 /// true if vendor has consent, false otherwise
 - (BOOL)isVendorConsented:(NSInteger)vendorId SWIFT_WARN_UNUSED_RESULT;
+- (NSInteger)getRemainingDaysForConsent SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
@@ -772,6 +790,16 @@ SWIFT_CLASS("_TtC10AxeptioSDK20AxeptioServiceHelper")
 @end
 
 
+SWIFT_CLASS("_TtC10AxeptioSDK15ConsentResponse")
+@interface ConsentResponse : NSObject
+@property (nonatomic) BOOL consented;
+@property (nonatomic, copy) NSArray<NSNumber *> * _Nonnull accepted;
+@property (nonatomic, copy) NSArray<NSNumber *> * _Nonnull denied;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
+
 typedef SWIFT_ENUM(NSInteger, GoogleConsentStatus, open) {
   GoogleConsentStatusGranted = 0,
   GoogleConsentStatusDenied = 1,
@@ -789,6 +817,12 @@ SWIFT_CLASS("_TtC10AxeptioSDK15GoogleConsentV2")
 @end
 
 
+
+typedef SWIFT_ENUM(NSInteger, WidgetType, open) {
+  WidgetTypeProduction = 0,
+  WidgetTypeStaging = 1,
+  WidgetTypePr = 2,
+};
 
 #endif
 #if __has_attribute(external_source_symbol)

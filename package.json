@@ -1,6 +1,6 @@
 {
   "name": "sample-app-ios",
-  "version": "2.0.13",
+  "version": "2.1.4",
   "description": "Axeptio iOS SDK Sample Apps",
   "repository": {
     "type": "git",
@@ -26,9 +26,9 @@
     "pre-commit": "npm run lint:check && npm run build:check && npm run test:check",
     "lint": "swiftlint --strict",
     "lint:check": "command -v swiftlint >/dev/null 2>&1 && npm run lint || echo 'SwiftLint not found, skipping lint check'",
-    "build": "xcodebuild -workspace sampleSwift/sampleSwift.xcodeproj/project.xcworkspace -scheme sampleSwift -destination 'platform=iOS Simulator,name=iPhone 16' build",
+    "build": "xcodebuild -workspace sampleSwift/sampleSwift.xcodeproj/project.xcworkspace -scheme sampleSwift -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.6' build",
     "build:check": "command -v xcodebuild >/dev/null 2>&1 && npm run build || echo 'Xcode not found, skipping build check'",
-    "test": "xcodebuild -workspace sampleSwift/sampleSwift.xcodeproj/project.xcworkspace -scheme sampleSwift -destination 'platform=iOS Simulator,name=iPhone 16' test",
+    "test": "xcodebuild -workspace sampleSwift/sampleSwift.xcodeproj/project.xcworkspace -scheme sampleSwift -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.6' test",
     "test:check": "command -v xcodebuild >/dev/null 2>&1 && npm run test || echo 'Xcode not found, skipping test check'",
     "prepare": "husky"
   },

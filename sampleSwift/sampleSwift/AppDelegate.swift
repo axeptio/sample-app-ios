@@ -43,13 +43,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Configure ATT popup behavior
         Axeptio.shared.allowPopupDisplayWithRejectedDeviceTrackingPermissions(config.allowPopupWithRejectedATT)
 
+        // Note: setForceShowConsentDebug() is not available in SDK 2.1.4
+        // This will be enabled in a future SDK version
+
         // Log current configuration for debugging
         print("🔧 Axeptio Configuration:")
         print("   Service: \(config.targetService == AxeptioService.brands ? "Brands" : "Publisher TCF")")
         print("   Client ID: \(config.clientId)")
         print("   Cookies Version: \(config.cookiesVersion)")
         print("   Token: \(config.token?.prefix(10) ?? "None")...")
+        print("   Widget Type: \(config.widgetType)")
+        print("   Widget PR: \(config.widgetPR ?? "None")")
+        print("   Cookies Duration: \(config.cookiesDuration) days")
+        print("   Should Update Duration: \(config.shouldUpdateCookiesDuration)")
         print("   Allow popup with denied ATT: \(config.allowPopupWithRejectedATT)")
+        print("   Force show consent: \(config.forceShowConsent)")
 
         FirebaseApp.configure()
         GADMobileAds.sharedInstance().start()
