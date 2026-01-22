@@ -408,7 +408,8 @@ class ConfigurationViewController: UIViewController {
             widgetType: WidgetType.init(rawValue: widgetTypeSegmentedControl.selectedSegmentIndex) ?? .production,
             widgetPR: widgetPRTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
             targetService: serviceSegmentedControl.selectedSegmentIndex == 0 ? .brands : .publisherTcf,
-            allowPopupWithRejectedATT: allowPopupSwitch.isOn
+            allowPopupWithRejectedATT: allowPopupSwitch.isOn,
+            forceShowConsent: false
         )
 
         // Basic validation

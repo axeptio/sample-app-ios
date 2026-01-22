@@ -43,8 +43,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Configure ATT popup behavior
         Axeptio.shared.allowPopupDisplayWithRejectedDeviceTrackingPermissions(config.allowPopupWithRejectedATT)
 
-        // Configure debug mode
-        Axeptio.shared.setForceShowConsentDebug(config.forceShowConsent)
+        // Note: setForceShowConsentDebug() is not available in SDK 2.1.4
+        // This will be enabled in a future SDK version
 
         // Log current configuration for debugging
         print("🔧 Axeptio Configuration:")
