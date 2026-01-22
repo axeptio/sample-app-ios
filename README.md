@@ -7,40 +7,43 @@ Welcome to the Axeptio iOS SDK Samples project. This repository provides a compr
 ## Table of Contents
 1. [GitHub Access Token Documentation](#github-access-token-documentation)
 2. [Requirements](#requirements)
-3. [Clone the repository](#clone-the-repository)
-4. [Adding the SDK](#adding-the-sdk)
+3. [SDK Version](#sdk-version)
+4. [Clone the repository](#clone-the-repository)
+5. [Adding the SDK](#adding-the-sdk)
    - [Using CocoaPods](#using-cocoapods)
    - [Using Swift Package Manager](#using-swift-package-manager)
-5. [Initializing the SDK](#initializing-the-sdk)
+6. [Initializing the SDK](#initializing-the-sdk)
    - [Swift](#swift)
    - [Objective-C](#objective-c)
-6. [Set up the SDK UI](#set-up-the-sdk-ui)
+7. [Widget Environment Configuration (SDK 2.1.0+)](#widget-environment-configuration-sdk-210)
+8. [Cookie Duration Management (SDK 2.1.0+)](#cookie-duration-management-sdk-210)
+9. [Set up the SDK UI](#set-up-the-sdk-ui)
    - [Swift](#swift)
    - [Objective-C](#objective-c)
      - [Issues with the Consent Popup (Objective-C)](#issues-with-the-consent-popup-objective-c)
    - [SwiftUI Integration](#swiftui-integration)
-7. [Additional Configuration: Show Popup When Returning from Background](#additional-configuration-show-popup-when-returning-from-background)
-8. [Axeptio SDK and App Tracking Transparency (ATT) Integration](#axeptio-sdk-and-app-tracking-transparency-att-integration)
+10. [Additional Configuration: Show Popup When Returning from Background](#additional-configuration-show-popup-when-returning-from-background)
+11. [Axeptio SDK and App Tracking Transparency (ATT) Integration](#axeptio-sdk-and-app-tracking-transparency-att-integration)
    - [Swift Integration](#swift-integration)
    - [Objective-C Integration](#objective-c-integration)
    - [Handling Changes in ATT Settings](#handling-changes-in-att-settings)
-9. [Responsibilities Mobile App vs SDK](#responsibilities-mobile-app-vs-sdk)
-10. [Retrieving Stored Consents](#retrieving-stored-consents)
-11. [Show Consent Popup on Demand](#show-consent-popup-on-demand)
-12. [Clearing Consent from `UserDefaults`](#clearing-consent-from-userdefaults)
-13. [Sharing Consent with Webviews](#sharing-consent-with-webviews)
+12. [Responsibilities Mobile App vs SDK](#responsibilities-mobile-app-vs-sdk)
+13. [Retrieving Stored Consents](#retrieving-stored-consents)
+14. [Show Consent Popup on Demand](#show-consent-popup-on-demand)
+15. [Clearing Consent from `UserDefaults`](#clearing-consent-from-userdefaults)
+16. [Sharing Consent with Webviews](#sharing-consent-with-webviews)
     - [Manual Token Addition](#manual-token-addition)
     - [Automatic Token Addition](#automatic-token-addition)
-14. [TCF Vendor Management APIs](#tcf-vendor-management-apis)
+17. [TCF Vendor Management APIs](#tcf-vendor-management-apis)
     - [Available TCF Vendor APIs](#available-tcf-vendor-apis)
     - [Real-Time Vendor Consent Monitoring](#real-time-vendor-consent-monitoring)
     - [Debug and Troubleshooting](#debug-and-troubleshooting)
     - [Integration with IAB TCF Framework](#integration-with-iab-tcf-framework)
-15. [Events Overview](#events-overview)
-16. [Event Descriptions](#event-descriptions)
-17. [Event source for KPI tracking](#event-source-for-kpi-tracking)
-18. [Google Consent Mode v2 Integration with Axeptio SDK](#google-consent-mode-v2-integration-with-axeptio-sdk)
-19. [Google AdMob Integration with Axeptio SDK](#google-admob-integration-with-axeptio-sdk)
+18. [Events Overview](#events-overview)
+19. [Event Descriptions](#event-descriptions)
+20. [Event source for KPI tracking](#event-source-for-kpi-tracking)
+21. [Google Consent Mode v2 Integration with Axeptio SDK](#google-consent-mode-v2-integration-with-axeptio-sdk)
+22. [Google AdMob Integration with Axeptio SDK](#google-admob-integration-with-axeptio-sdk)
 
 <br><br>
 
@@ -76,6 +79,16 @@ Ensure the **following keys** are added to your `Info.plist` file to comply with
     <true/>
 </dict>
 ```
+<br><br><br>
+
+## SDK Version
+
+This sample app demonstrates the **Axeptio iOS SDK**. Current version: **2.1.2**
+
+For release notes and changelog, see:
+- [SDK Releases](https://github.com/axeptio/axeptio-ios-sdk/releases)
+- [Release Notes v2.1.2](https://github.com/axeptio/axeptio-ios-sdk/releases/tag/2.1.2)
+
 <br><br><br>
 ## Clone the Repository
 To get started, clone the repository to your local machine:
@@ -121,9 +134,48 @@ To integrate the Axeptio iOS SDK into your Xcode project using Swift Package Man
 - In the **Choose Package Products screen**, confirm the selection and click **Add Package** to complete the integration
 <br><br><br>
 ## Initializing the SDK
-To initialize the Axeptio SDK in your iOS project, import the `AxeptioSDK` module into your `AppDelegate` and initialize the SDK with the appropriate configuration. 
+To initialize the Axeptio SDK in your iOS project, import the `AxeptioSDK` module into your `AppDelegate` and initialize the SDK with the appropriate configuration.
 
 ### Swift
+
+**In AppDelegate:**
+```swift
+import UIKit
+import AxeptioSDK
+
+@main
+class AppDelegate: UIResponder, UIApplicationDelegate {
+
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+
+        // Basic initialization
+        Axeptio.shared.initialize(
+            targetService: .publisherTcf,  // or .brands
+            clientId: "your-client-id",
+            cookiesVersion: "your-cookies-version",
+            token: "your-token"  // optional
+        )
+
+        return true
+    }
+}
+```
+
+**With widget environment and cookie duration (SDK 2.1.0+):**
+```swift
+Axeptio.shared.initialize(
+    targetService: .publisherTcf,
+    clientId: "your-client-id",
+    cookiesVersion: "your-cookies-version",
+    token: "your-token",
+    widgetType: .production,               // .production, .staging, or .pr
+    widgetPR: nil,                         // PR hash when using .pr
+    cookiesDurationDays: 190,              // Default: 190 days
+    shouldUpdateCookiesDuration: false     // Default: false
+)
+```
+
+**Then in your ViewController:**
 ```swift
 import UIKit
 import AxeptioSDK
@@ -137,7 +189,7 @@ class ViewController: UIViewController, UITableViewDataSource {
 
         // Register the cell identifier for UserDefaultsCell
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "UserDefaultsCell")
-        
+
         // Call setupUI to show the consent popup when appropriate
         Axeptio.shared.setupUI()
     }
@@ -170,15 +222,132 @@ class ViewController: UIViewController, UITableViewDataSource {
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
     AxeptioService targetService = AxeptioServiceBrands; // or AxeptioServicePublisherTcf
-    // sample init
-    [Axeptio.shared initializeWithTargetService:targetServiceclientId:@"<Your Client ID>" cookiesVersion:@"<Your Cookies Version>"];
 
-    // or with a token set from an other device
-    [Axeptio.shared initializeWithTargetService:targetServiceclientId:@"<Your Client ID>" cookiesVersion:@"<Your Cookies Version>" token:@"<Token>"];
+    // Basic initialization
+    [Axeptio.shared initializeWithTargetService:targetService
+                                       clientId:@"your-client-id"
+                                 cookiesVersion:@"your-cookies-version"];
+
+    // With token
+    [Axeptio.shared initializeWithTargetService:targetService
+                                       clientId:@"your-client-id"
+                                 cookiesVersion:@"your-cookies-version"
+                                          token:@"your-token"];
 
     return YES;
 }
 ```
+
+**Note:** SDK 2.1.0+ parameters (widgetType, widgetPR, cookiesDurationDays, shouldUpdateCookiesDuration) are available in the Swift API. For Objective-C projects, refer to the SDK's Objective-C bridging headers for the complete API.
+<br><br><br>
+
+## Widget Environment Configuration (SDK 2.1.0+)
+
+The SDK supports three widget environments for development and testing:
+
+### Environment Types
+
+- **Production** (`.production`) - Default production widget
+- **Staging** (`.staging`) - Staging environment for testing
+- **PR** (`.pr`) - Test specific PR deployments
+
+### Usage Examples
+
+**Production Environment (default):**
+```swift
+Axeptio.shared.initialize(
+    targetService: .publisherTcf,
+    clientId: "your-client-id",
+    cookiesVersion: "your-version",
+    widgetType: .production
+)
+```
+
+**Staging Environment:**
+```swift
+Axeptio.shared.initialize(
+    targetService: .publisherTcf,
+    clientId: "your-client-id",
+    cookiesVersion: "your-version",
+    widgetType: .staging
+)
+```
+
+**PR Environment (for testing specific changes):**
+```swift
+Axeptio.shared.initialize(
+    targetService: .publisherTcf,
+    clientId: "your-client-id",
+    cookiesVersion: "your-version",
+    widgetType: .pr,
+    widgetPR: "59026e8d-b110-5452-afbe-6cb99c4e202a"  // PR hash/version
+)
+```
+
+### When to Use Each Environment
+
+- **Production**: Live apps in production
+- **Staging**: Pre-release testing and QA
+- **PR**: Testing specific widget changes before they're merged to production
+
+## Cookie Duration Management (SDK 2.1.0+)
+
+Control how long user consent choices persist.
+
+### Configuration Options
+
+**cookiesDurationDays** (default: 190 days)
+- Sets the validity period for stored consent
+- User will be prompted again when consent expires
+
+**shouldUpdateCookiesDuration** (default: false)
+- When `true`: Duration end date is updated each time consent is saved
+- When `false`: Duration end date is set only once at first consent
+
+### Usage Examples
+
+**Default behavior (190 days, no updates):**
+```swift
+Axeptio.shared.initialize(
+    targetService: .publisherTcf,
+    clientId: "your-client-id",
+    cookiesVersion: "your-version"
+    // cookiesDurationDays: 190 (default)
+    // shouldUpdateCookiesDuration: false (default)
+)
+```
+
+**Custom duration (365 days):**
+```swift
+Axeptio.shared.initialize(
+    targetService: .publisherTcf,
+    clientId: "your-client-id",
+    cookiesVersion: "your-version",
+    cookiesDurationDays: 365
+)
+```
+
+**Update duration on each consent save:**
+```swift
+Axeptio.shared.initialize(
+    targetService: .publisherTcf,
+    clientId: "your-client-id",
+    cookiesVersion: "your-version",
+    cookiesDurationDays: 190,
+    shouldUpdateCookiesDuration: true  // Extends expiration on each consent save
+)
+```
+
+### Checking Remaining Consent Days
+
+```swift
+if let remainingDays = Axeptio.shared.getRemainingDaysForConsent() {
+    print("Consent expires in \(remainingDays) days")
+} else {
+    print("No consent stored or consent has expired")
+}
+```
+
 <br><br><br>
 ## Set up the SDK UI
 > **[!IMPORTANT]** The `setupUI` method should be invoked **only** from your main/entry `UIViewController`, typically once during the application launch. By calling this method, the consent notice and preference views will be displayed **only if necessary** and **once the SDK is fully initialized**.
