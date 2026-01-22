@@ -17,8 +17,7 @@ import _SwiftConcurrencyShims
   @objc final public var axeptioToken: Swift.String? {
     @objc get
   }
-  @objc final public func initialize(targetService: AxeptioSDK.AxeptioService, clientId: Swift.String, cookiesVersion: Swift.String)
-  @objc final public func initialize(targetService: AxeptioSDK.AxeptioService, clientId: Swift.String, cookiesVersion: Swift.String, token: Swift.String)
+  @objc final public func initialize(targetService: AxeptioSDK.AxeptioService, clientId: Swift.String, cookiesVersion: Swift.String, token: Swift.String? = nil, widgetType: AxeptioSDK.WidgetType, widgetPR: Swift.String? = nil, cookiesDurationDays: Swift.Int = 190, shouldUpdateCookiesDuration: Swift.Bool = false)
   @objc final public func setupUI()
   @objc final public func setUserDeniedTracking(denied: Swift.Bool)
   @objc final public func setDisplayPopUpOnEnterForeground(display: Swift.Bool)
@@ -33,6 +32,7 @@ import _SwiftConcurrencyShims
   @objc final public func getConsentedVendors() -> [Swift.Int]
   @objc final public func getRefusedVendors() -> [Swift.Int]
   @objc final public func isVendorConsented(_ vendorId: Swift.Int) -> Swift.Bool
+  @objc final public func getRemainingDaysForConsent() -> Swift.Int
   @objc deinit
 }
 @_hasMissingDesignatedInitializers @objc public class GoogleConsentV2 : ObjectiveC.NSObject, Swift.Decodable {
@@ -60,12 +60,41 @@ import _SwiftConcurrencyShims
   @objc override dynamic public init()
   @objc deinit
 }
+@_hasMissingDesignatedInitializers public class WidgetParamsStatus : Swift.Decodable {
+  public var scope: AxeptioSDK.ConsentScope
+  public var duration: Swift.Int
+  @objc deinit
+  required public init(from decoder: any Swift.Decoder) throws
+}
 @_inheritsConvenienceInitializers @objc final public class AxeptioEventListener : ObjectiveC.NSObject {
   @objc final public var onPopupClosedEvent: (() -> Swift.Void)?
   @objc final public var onConsentCleared: (() -> Swift.Void)?
   @objc final public var onGoogleConsentModeUpdate: ((AxeptioSDK.GoogleConsentV2) -> Swift.Void)?
   @objc override dynamic public init()
   @objc deinit
+}
+@objc public enum WidgetType : Swift.Int {
+  case production = 0
+  case staging
+  case pr
+  public var title: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+public enum ConsentScope : Swift.String, Swift.Codable {
+  case session
+  case page
+  case persistent
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
 }
 @objc public enum GoogleConsentStatus : Swift.Int, Swift.RawRepresentable, Swift.Decodable {
   public typealias RawValue = Swift.String
@@ -76,8 +105,21 @@ import _SwiftConcurrencyShims
   }
   public init?(rawValue: AxeptioSDK.GoogleConsentStatus.RawValue)
 }
+@_hasMissingDesignatedInitializers @objc public class ConsentResponse : ObjectiveC.NSObject, Swift.Decodable {
+  @objc public var consented: Swift.Bool
+  @objc public var accepted: [Swift.Int]
+  @objc public var denied: [Swift.Int]
+  @objc deinit
+  required public init(from decoder: any Swift.Decoder) throws
+}
 extension AxeptioSDK.AxeptioService : Swift.Equatable {}
 extension AxeptioSDK.AxeptioService : Swift.Hashable {}
 extension AxeptioSDK.AxeptioService : Swift.RawRepresentable {}
+extension AxeptioSDK.WidgetType : Swift.Equatable {}
+extension AxeptioSDK.WidgetType : Swift.Hashable {}
+extension AxeptioSDK.WidgetType : Swift.RawRepresentable {}
+extension AxeptioSDK.ConsentScope : Swift.Equatable {}
+extension AxeptioSDK.ConsentScope : Swift.Hashable {}
+extension AxeptioSDK.ConsentScope : Swift.RawRepresentable {}
 extension AxeptioSDK.GoogleConsentStatus : Swift.Equatable {}
 extension AxeptioSDK.GoogleConsentStatus : Swift.Hashable {}

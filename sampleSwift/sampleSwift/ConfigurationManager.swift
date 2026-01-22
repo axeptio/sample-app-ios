@@ -22,6 +22,7 @@ struct CustomerConfiguration {
     let widgetPR: String?
     let targetService: AxeptioService
     let allowPopupWithRejectedATT: Bool
+    let forceShowConsent: Bool
 
     var displayName: String {
         return "\(targetService == .brands ? "Brands" : "TCF"): \(cookiesVersion)"
@@ -44,6 +45,7 @@ class ConfigurationManager {
         static let widgetPR = "axeptio.config.widgetPR"
         static let targetService = "axeptio.config.targetService"
         static let allowPopupWithRejectedATT = "axeptio.config.allowPopupWithRejectedATT"
+        static let forceShowConsent = "axeptio.config.forceShowConsent"
         static let hasCustomConfiguration = "axeptio.config.hasCustom"
     }
 
@@ -58,7 +60,8 @@ class ConfigurationManager {
             widgetType: .production,
             widgetPR: nil,
             targetService: .brands,
-            allowPopupWithRejectedATT: false
+            allowPopupWithRejectedATT: false,
+            forceShowConsent: false
         ),
         "Default TCF": CustomerConfiguration(
             clientId: "5fbfa806a0787d3985c6ee5f",
@@ -69,7 +72,8 @@ class ConfigurationManager {
             widgetType: .production,
             widgetPR: nil,
             targetService: .publisherTcf,
-            allowPopupWithRejectedATT: false
+            allowPopupWithRejectedATT: false,
+            forceShowConsent: false
         ),
         "Test Brands (No Token)": CustomerConfiguration(
             clientId: "5fbfa806a0787d3985c6ee5f",
@@ -80,7 +84,8 @@ class ConfigurationManager {
             widgetType: .production,
             widgetPR: nil,
             targetService: .brands,
-            allowPopupWithRejectedATT: false
+            allowPopupWithRejectedATT: false,
+            forceShowConsent: false
         ),
         "Test TCF (No Token)": CustomerConfiguration(
             clientId: "5fbfa806a0787d3985c6ee5f",
@@ -91,7 +96,8 @@ class ConfigurationManager {
             widgetType: .production,
             widgetPR: nil,
             targetService: .publisherTcf,
-            allowPopupWithRejectedATT: false
+            allowPopupWithRejectedATT: false,
+            forceShowConsent: false
         ),
         "Brands (Allow Popup w/ Denied ATT)": CustomerConfiguration(
             clientId: "5fbfa806a0787d3985c6ee5f",
@@ -102,7 +108,8 @@ class ConfigurationManager {
             widgetType: .production,
             widgetPR: nil,
             targetService: .brands,
-            allowPopupWithRejectedATT: true
+            allowPopupWithRejectedATT: true,
+            forceShowConsent: false
         ),
         "TCF (Allow Popup w/ Denied ATT)": CustomerConfiguration(
             clientId: "5fbfa806a0787d3985c6ee5f",
@@ -113,7 +120,8 @@ class ConfigurationManager {
             widgetType: .production,
             widgetPR: nil,
             targetService: .publisherTcf,
-            allowPopupWithRejectedATT: true
+            allowPopupWithRejectedATT: true,
+            forceShowConsent: false
         )
     ]
 
@@ -133,6 +141,7 @@ class ConfigurationManager {
             let serviceRawValue = userDefaults.integer(forKey: Keys.targetService)
             let targetService: AxeptioService = serviceRawValue == 1 ? .publisherTcf : .brands
             let allowPopupWithRejectedATT = userDefaults.bool(forKey: Keys.allowPopupWithRejectedATT)
+            let forceShowConsent = userDefaults.bool(forKey: Keys.forceShowConsent)
 
             return CustomerConfiguration(
                 clientId: clientId,
@@ -143,7 +152,8 @@ class ConfigurationManager {
                 widgetType: widgetType ?? .production,
                 widgetPR: widgetPR?.isEmpty == false ? widgetPR : nil,
                 targetService: targetService,
-                allowPopupWithRejectedATT: allowPopupWithRejectedATT
+                allowPopupWithRejectedATT: allowPopupWithRejectedATT,
+                forceShowConsent: forceShowConsent
             )
         }
         set {
@@ -156,6 +166,7 @@ class ConfigurationManager {
             userDefaults.set(newValue.widgetPR, forKey: Keys.widgetPR)
             userDefaults.set(newValue.targetService == .publisherTcf ? 1 : 0, forKey: Keys.targetService)
             userDefaults.set(newValue.allowPopupWithRejectedATT, forKey: Keys.allowPopupWithRejectedATT)
+            userDefaults.set(newValue.forceShowConsent, forKey: Keys.forceShowConsent)
             userDefaults.set(true, forKey: Keys.hasCustomConfiguration)
         }
     }
@@ -181,6 +192,7 @@ class ConfigurationManager {
         userDefaults.removeObject(forKey: Keys.widgetPR)
         userDefaults.removeObject(forKey: Keys.targetService)
         userDefaults.removeObject(forKey: Keys.allowPopupWithRejectedATT)
+        userDefaults.removeObject(forKey: Keys.forceShowConsent)
         userDefaults.removeObject(forKey: Keys.hasCustomConfiguration)
     }
 
