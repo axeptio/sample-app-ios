@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="EtE-rI-qkY">
-                                <rect key="frame" x="16" y="179" width="361" height="494"/>
+                                <rect key="frame" x="16" y="179" width="361" height="568"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="msV-Hp-E4J">
                                         <rect key="frame" x="0.0" y="0.0" width="361" height="50"/>
@@ -119,6 +119,21 @@
                                             <action selector="showConsentDebugInfo:" destination="Vi5-Gt-zt5" eventType="touchUpInside" id="jCs-G4-TMq"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xyz-AB-123">
+                                        <rect key="frame" x="0.0" y="518" width="361" height="50"/>
+                                        <color key="backgroundColor" systemColor="systemBlueColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="cfg-height-123"/>
+                                        </constraints>
+                                        <color key="tintColor" systemColor="labelColor"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Config">
+                                            <fontDescription key="titleFontDescription" style="UICTFontTextStyleBody"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="showSettings:" destination="Vi5-Gt-zt5" eventType="touchUpInside" id="cfg-action-123"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                             </stackView>
                         </subviews>
@@ -133,6 +148,7 @@
                     <navigationItem key="navigationItem" id="SMC-ed-5gg"/>
                     <connections>
                         <outlet property="clearConsentButton" destination="ib2-tG-gcB" id="oRM-GT-bdr"/>
+                        <outlet property="configButton" destination="xyz-AB-123" id="cfg-outlet-123"/>
                         <outlet property="consentDebugInfoButton" destination="qwj-fM-hGg" id="8Nu-DY-HG2"/>
                         <outlet property="googleAdButton" destination="Mhr-jf-YF9" id="05V-pk-jN3"/>
                         <outlet property="googleAdSpinner" destination="Jhw-BM-LEO" id="a3E-DO-Lgx"/>

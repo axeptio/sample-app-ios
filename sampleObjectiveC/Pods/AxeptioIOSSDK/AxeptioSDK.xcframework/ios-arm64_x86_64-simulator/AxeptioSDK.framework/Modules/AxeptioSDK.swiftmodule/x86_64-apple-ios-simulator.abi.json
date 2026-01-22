@@ -3534,63 +3534,77 @@
     {
       "filePath": "\/Users\/runner\/work\/axeptio-ios-sdk-sources\/axeptio-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Model\/WEBInAppEvent.swift",
       "kind": "StringLiteral",
-      "offset": 552,
+      "offset": 585,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/runner\/work\/axeptio-ios-sdk-sources\/axeptio-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Model\/WEBInAppEvent.swift",
       "kind": "StringLiteral",
-      "offset": 581,
+      "offset": 614,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/runner\/work\/axeptio-ios-sdk-sources\/axeptio-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Model\/WEBInAppEvent.swift",
       "kind": "StringLiteral",
-      "offset": 640,
+      "offset": 694,
+      "length": 21,
+      "value": "\"CFBundleDisplayName\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/axeptio-ios-sdk-sources\/axeptio-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Model\/WEBInAppEvent.swift",
+      "kind": "StringLiteral",
+      "offset": 772,
+      "length": 14,
+      "value": "\"CFBundleName\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/axeptio-ios-sdk-sources\/axeptio-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Model\/WEBInAppEvent.swift",
+      "kind": "StringLiteral",
+      "offset": 855,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/runner\/work\/axeptio-ios-sdk-sources\/axeptio-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Model\/WEBInAppEvent.swift",
       "kind": "StringLiteral",
-      "offset": 750,
+      "offset": 965,
       "length": 14,
       "value": "\"io.axept.ios\""
     },
     {
       "filePath": "\/Users\/runner\/work\/axeptio-ios-sdk-sources\/axeptio-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Model\/WEBInAppEvent.swift",
       "kind": "Array",
-      "offset": 2264,
+      "offset": 4137,
       "length": 2,
       "value": "[]"
     },
     {
       "filePath": "\/Users\/runner\/work\/axeptio-ios-sdk-sources\/axeptio-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Model\/WEBInAppEvent.swift",
       "kind": "Array",
-      "offset": 2289,
+      "offset": 4162,
       "length": 2,
       "value": "[]"
     },
     {
       "filePath": "\/Users\/runner\/work\/axeptio-ios-sdk-sources\/axeptio-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Model\/WEBInAppEvent.swift",
       "kind": "StringLiteral",
-      "offset": 2498,
+      "offset": 4371,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/runner\/work\/axeptio-ios-sdk-sources\/axeptio-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Model\/WEBInAppEvent.swift",
       "kind": "StringLiteral",
-      "offset": 2523,
+      "offset": 4396,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/runner\/work\/axeptio-ios-sdk-sources\/axeptio-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/Model\/WEBInAppEvent.swift",
       "kind": "StringLiteral",
-      "offset": 2546,
+      "offset": 4419,
       "length": 2,
       "value": "\"\""
     },
@@ -3666,8 +3680,15 @@
     },
     {
       "filePath": "\/Users\/runner\/work\/axeptio-ios-sdk-sources\/axeptio-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/AxeptioViewModel.swift",
+      "kind": "FloatLiteral",
+      "offset": 2933,
+      "length": 4,
+      "value": "10.0"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/axeptio-ios-sdk-sources\/axeptio-ios-sdk-sources\/AxeptioSDK\/AxeptioSDK\/Internal\/AxeptioViewModel.swift",
       "kind": "BooleanLiteral",
-      "offset": 4508,
+      "offset": 5258,
       "length": 5,
       "value": "false"
     },

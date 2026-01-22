@@ -64,11 +64,8 @@
 
     [Axeptio.shared setEventListener:axeptioEventListener];
 
-    if (@available(iOS 14, *)) {
-        [self requestTrackingAuthorization];
-    } else {
-        [Axeptio.shared setupUI];
-    }
+    // ATT is always available since we require iOS 18+
+    [self requestTrackingAuthorization];
 
 }
 
@@ -156,22 +153,21 @@
 - (void)requestTrackingAuthorization {
     [self removeObserver];
 
-    if (@available(iOS 14, *)) {
-        [ATTrackingManager requestTrackingAuthorizationWithCompletionHandler:^(ATTrackingManagerAuthorizationStatus status) {
-            BOOL isAuthorized = (status == ATTrackingManagerAuthorizationStatusAuthorized);
-            // Nous devons faire cela pour gérer un bogue dans iOS 17.4 concernant l'ATT
-            if ([ATTrackingManager trackingAuthorizationStatus] == ATTrackingManagerAuthorizationStatusNotDetermined) {
-                [self addObserver];
-                return;
-            }
+    // ATT is always available since we require iOS 18+
+    [ATTrackingManager requestTrackingAuthorizationWithCompletionHandler:^(ATTrackingManagerAuthorizationStatus status) {
+        BOOL isAuthorized = (status == ATTrackingManagerAuthorizationStatusAuthorized);
+        // Handle ATT status determination bug (fixed in iOS 18+)
+        if ([ATTrackingManager trackingAuthorizationStatus] == ATTrackingManagerAuthorizationStatusNotDetermined) {
+            [self addObserver];
+            return;
+        }
 
-            if (isAuthorized) {
-                [Axeptio.shared setupUI];
-            }
-            
-            [Axeptio.shared setUserDeniedTrackingWithDenied:!isAuthorized];
-        }];
-    }
+        if (isAuthorized) {
+            [Axeptio.shared setupUI];
+        }
+
+        [Axeptio.shared setUserDeniedTrackingWithDenied:!isAuthorized];
+    }];
 }
 
 - (void)addObserver {

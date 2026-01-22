@@ -19,10 +19,8 @@
   "license": "MIT",
   "scripts": {
     "commit": "cz",
-    "release": "standard-version",
-    "release:minor": "standard-version --release-as minor",
-    "release:major": "standard-version --release-as major",
-    "release:patch": "standard-version --release-as patch",
+    "release": "semantic-release",
+    "release:dry-run": "semantic-release --dry-run",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "version:sync": "node scripts/sync-version.js",
     "pre-commit": "npm run lint:check && npm run build:check && npm run test:check",
@@ -32,16 +30,18 @@
     "build:check": "command -v xcodebuild >/dev/null 2>&1 && npm run build || echo 'Xcode not found, skipping build check'",
     "test": "xcodebuild -workspace sampleSwift/sampleSwift.xcodeproj/project.xcworkspace -scheme sampleSwift -destination 'platform=iOS Simulator,name=iPhone 16' test",
     "test:check": "command -v xcodebuild >/dev/null 2>&1 && npm run test || echo 'Xcode not found, skipping test check'",
-    "prepare": "husky install"
+    "prepare": "husky"
   },
   "devDependencies": {
-    "commitizen": "^4.3.0",
-    "cz-conventional-changelog": "^3.3.0",
+    "@commitlint/cli": "^19.5.0",
+    "@commitlint/config-conventional": "^19.5.0",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "commitizen": "^4.3.1",
     "conventional-changelog-cli": "^4.1.0",
-    "standard-version": "^9.5.0",
-    "husky": "^8.0.3",
-    "@commitlint/cli": "^18.4.3",
-    "@commitlint/config-conventional": "^18.4.3"
+    "cz-conventional-changelog": "^3.0.1",
+    "husky": "^9.1.7",
+    "semantic-release": "^24.2.9"
   },
   "config": {
     "commitizen": {

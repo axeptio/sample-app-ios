@@ -53,11 +53,15 @@ By following these instructions, you'll be able to generate a GitHub Access Toke
 <br><br><br>
 
 ## Requirements
-The Axeptio iOS SDK is distributed as a pre-compiled binary package, delivered as an `XCFramework`. It supports iOS versions >= 15.
+The Axeptio iOS SDK is distributed as a pre-compiled binary package, delivered as an `XCFramework`. It supports iOS versions >= 18.
+
+### iOS Version Support Policy
+This SDK follows Apple's iOS support lifecycle and only supports iOS versions that receive active security updates from Apple. As of September 2025, this includes iOS 18 and iOS 26. For the latest iOS support status, see: https://endoflife.date/ios
 
 Before starting, make sure you have:
 
-- Xcode >= 15
+- iOS >= 18 (Apple-supported versions only)
+- Xcode >= 16 (required for iOS 18 development)
 - CocoaPods or Swift Package Manager for dependency management.
 
 **Note:** Please be aware that it is not possible to test a custom banner without an active and valid Axeptio plan. A valid Axeptio plan is required to configure and preview custom consent banners during development.
@@ -86,13 +90,13 @@ The package can be added to your project using either **CocoaPods** or **Swift P
 ### Using CocoaPods
 If your project uses CocoaPods, you can easily add the Axeptio SDK by following these steps:
 ##### Prerequisites
-- Xcode version 15 or later
+- Xcode version 16 or later
 - CocoaPods version compatible with XCFrameworks (latest version recommended), if you haven' already, install the latest version of [CocoaPods](https://guides.cocoapods.org/using/getting-started.html)
 ##### Steps
 - Open your `Podfile` in the root directory of your project
 ```ruby
 source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, '15.0'
+platform :ios, '18.0'
 use_frameworks!
 
 target 'MyApp' do
@@ -385,7 +389,7 @@ This steps will show you how to:
 
 The Axeptio SDK does not ask for the user’s tracking permission using the ATT framework. It is your responsibility to request this permission, and the way in which the ATT framework and Axeptio CMP interact depends on your app's logic.
 
-In apps targeting iOS 14.5 and above, you must use the `ATTrackingManager.requestTrackingAuthorization` function to ask for tracking consent. Based on the user’s response, you can choose to show the Axeptio consent notice.
+In apps targeting iOS 18.0 and above (which includes ATT framework), you must use the `ATTrackingManager.requestTrackingAuthorization` function to ask for tracking consent. Based on the user's response, you can choose to show the Axeptio consent notice.
 
 #### Expected Flow:
 
@@ -416,13 +420,10 @@ class ViewController: UIViewController {
     }
 
     private func handleATTAndInitializeAxeptioCMP() async {
-        if #available(iOS 14, *) {
-            let status = await ATTrackingManager.requestTrackingAuthorization()
-            let isAuthorized = (status == .authorized)
-            initializeAxeptioCMPUI(granted: isAuthorized)
-        } else {
-            initializeAxeptioCMPUI(granted: true)  // ATT not required for iOS < 14
-        }
+        // ATT is always available since we require iOS 18+
+        let status = await ATTrackingManager.requestTrackingAuthorization()
+        let isAuthorized = (status == .authorized)
+        initializeAxeptioCMPUI(granted: isAuthorized)
     }
 
     private func initializeAxeptioCMPUI(granted: Bool) {
@@ -441,9 +442,9 @@ class ViewController: UIViewController {
 - `Axeptio.shared.setupUI()`: Initializes and shows the consent notice once ATT permission is granted.
 - **Fallback Handling**: If ATT permission is denied or unavailable, the Axeptio CMP can still be initialized depending on your requirements (e.g., on iOS versions before 14).
 
-#### iOS 14 and Above:
-- ATT framework is only available for iOS 14 and later.
-- If the app is running on iOS 14+, it will request the ATT permission.
+#### iOS 18 and Above:
+- ATT framework is included in all supported iOS versions (18+).
+- The app will request the ATT permission as it's always available.
 - the user grants permission, you can show the Axeptio consent notice using `Axeptio.shared.setupUI()`.
 
 ## Objective-C Integration
@@ -459,13 +460,8 @@ For Objective-C, the implementation is quite similar. You’ll request ATT permi
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    if (@available(iOS 14, *)) {
-        // Request ATT permission if on iOS >= 14
-        [self requestTrackingAuthorization];
-    } else {
-        // Initialize Axeptio CMP if on iOS < 14 (ATT not required)
-        [Axeptio.shared setupUI];
-    }
+    // ATT is always available since we require iOS 18+
+    [self requestTrackingAuthorization];
 }
 
 - (void)requestTrackingAuthorization {
@@ -494,7 +490,7 @@ For Objective-C, the implementation is quite similar. You’ll request ATT permi
 
 #### Importante Notes:
 - **ATT Request Flow**: The ATT request must be shown at an appropriate time in your app flow, typically when the user first opens the app or at a point where they can make an informed decision.
-- **IOS 14+**: The ATT framework is only available on iOS 14 and later. For earlier versions of iOS, you can proceed with displaying the Axeptio consent notice without needing ATT permission.
+- **iOS 18+**: The ATT framework is included in all supported iOS versions (18+). The app will request ATT permission as it's always available.
 - **Data Collection Disclosure**: Apple's App Store guidelines require you to disclose what data your app collects and how it uses it. Ensure your app’s privacy policy is up to date, and provide clear information on what data is being collected for tracking purposes.
 
 #### Useful Links
@@ -540,7 +536,7 @@ The integration of the Axeptio SDK into your mobile application involves clear d
 #### **Mobile Application Responsibilities:**
 
 1. **Managing App Tracking Transparency (ATT) Flow:**
-   - The mobile app is responsible for initiating and managing the ATT authorization process on iOS 14 and later. This includes presenting the ATT request prompt at an appropriate time in the app's lifecycle.
+   - The mobile app is responsible for initiating and managing the ATT authorization process on iOS 18 and later. This includes presenting the ATT request prompt at an appropriate time in the app's lifecycle.
 
 2. **Controlling the Display Sequence of ATT and CMP:**
    - The app must determine the appropriate sequence for displaying the ATT prompt and the Axeptio consent management platform (CMP). Specifically, the app should request ATT consent before invoking the Axeptio CMP.

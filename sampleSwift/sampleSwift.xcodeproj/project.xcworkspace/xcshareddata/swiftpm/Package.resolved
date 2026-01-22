@@ -24,8 +24,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/axeptio/axeptio-ios-sdk",
       "state" : {
-        "revision" : "f0e66cebd125005e86b2e355b49909f97e689e05",
-        "version" : "2.0.15"
+        "revision" : "649e9b0d7d20aa54df50baa92f7d54cba1fcac0d",
+        "version" : "2.1.2"
       }
     },
     {

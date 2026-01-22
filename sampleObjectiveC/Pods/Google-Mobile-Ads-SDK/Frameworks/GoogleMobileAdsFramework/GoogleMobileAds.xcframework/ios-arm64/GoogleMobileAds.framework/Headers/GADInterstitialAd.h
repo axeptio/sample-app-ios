@@ -25,6 +25,7 @@ typedef void (^GADInterstitialAdLoadCompletionHandler)(GADInterstitialAd *_Nulla
 /// An interstitial ad. This is a full-screen advertisement shown at natural transition points in
 /// your application such as between game levels or news stories. See
 /// https://developers.google.com/admob/ios/interstitial to get started.
+NS_SWIFT_NAME(InterstitialAd)
 @interface GADInterstitialAd : NSObject <GADFullScreenPresentingAd>
 
 /// The ad unit ID.
@@ -39,6 +40,10 @@ typedef void (^GADInterstitialAdLoadCompletionHandler)(GADInterstitialAd *_Nulla
 /// Called when the ad is estimated to have earned money. Available for allowlisted accounts only.
 @property(nonatomic, nullable, copy) GADPaidEventHandler paidEventHandler;
 
+/// An identifier for a placement in reporting. This property must be set prior to presenting the
+/// ad.
+@property(nonatomic, readwrite) int64_t placementID;
+
 /// Loads an interstitial ad.
 ///
 /// @param adUnitID An ad unit ID created in the AdMob or Ad Manager UI.
@@ -46,19 +51,35 @@ typedef void (^GADInterstitialAdLoadCompletionHandler)(GADInterstitialAd *_Nulla
 /// @param completionHandler A handler to execute when the load operation finishes or times out.
 + (void)loadWithAdUnitID:(nonnull NSString *)adUnitID
                  request:(nullable GADRequest *)request
-       completionHandler:(nonnull GADInterstitialAdLoadCompletionHandler)completionHandler;
+       completionHandler:(nonnull GADInterstitialAdLoadCompletionHandler)completionHandler
+    NS_SWIFT_NAME(load(with:request:completionHandler:));
 
-/// Returns whether the interstitial ad can be presented from the provided root view
-/// controller. Sets the error out parameter if the ad can't be presented. Must be called on the
-/// main thread. If rootViewController is nil, uses the top view controller of the application's
-/// main window.
+/// Loads an interstitial ad.
+///
+/// @param adResponseString A server-to-server ad response string.
+/// @param completionHandler A handler to execute when the load operation finishes or times out.
++ (void)loadWithAdResponseString:(nonnull NSString *)adResponseString
+               completionHandler:(nonnull GADInterstitialAdLoadCompletionHandler)completionHandler
+    NS_SWIFT_NAME(load(with:completionHandler:));
+
+/// Indicates whether the interstitial ad can be presented from the provided root view controller.
+/// Must be called on the main thread.
+///
+/// - Parameters:
+///   - rootViewController: The root view controller to present the ad from. If `rootViewController`
+/// is `nil`, uses the top view controller of the application's main window.
+///   - error: Sets the error out parameter if the ad can't be presented.
+/// - Returns: `YES` if the interstitial ad can be presented from the provided root view controller,
+/// `NO` otherwise.
 - (BOOL)canPresentFromRootViewController:(nullable UIViewController *)rootViewController
-                                   error:(NSError *_Nullable __autoreleasing *_Nullable)error;
+                                   error:(NSError *_Nullable __autoreleasing *_Nullable)error
+    NS_SWIFT_NAME(canPresent(from:)) NS_SWIFT_UI_ACTOR;
 
 /// Presents the interstitial ad. Must be called on the main thread.
 ///
 /// @param rootViewController A view controller to present the ad. If nil, attempts to present from
 /// the top view controller of the application's main window.
-- (void)presentFromRootViewController:(nullable UIViewController *)rootViewController;
+- (void)presentFromRootViewController:(nullable UIViewController *)rootViewController
+    NS_SWIFT_NAME(present(from:)) NS_SWIFT_UI_ACTOR;
 
 @end

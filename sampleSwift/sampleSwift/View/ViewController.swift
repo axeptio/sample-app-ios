@@ -21,14 +21,15 @@ class ViewController: UIViewController {
     @IBOutlet weak var googleAdButton: UIButton!
     @IBOutlet weak var googleAdSpinner: UIActivityIndicatorView!
     @IBOutlet weak var consentDebugInfoButton: UIButton!
-    
+    @IBOutlet weak var configButton: UIButton!
+
     // New UI elements (created programmatically)
     private let serviceTypeLabel = UILabel()
     private let configurationLabel = UILabel()
     private let sdkVersionLabel = UILabel()
     private let settingsButton = UIButton(type: .system)
     private let vendorConsentButton = UIButton(type: .system)
-    
+
     private var interstitial: GADInterstitialAd?
     private let cornerRadius = 24.0
     private weak var observer: NSObjectProtocol?
@@ -37,7 +38,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setupUI()
+        // Note: setupUI() is called asynchronously after ATT authorization in requestTrackingAuthorization()
+        // Do not call setupUI() here directly to avoid double initialization
         updateServiceIndicators()
 
         let axeptioEventListener = AxeptioEventListener()
@@ -70,12 +72,15 @@ class ViewController: UIViewController {
     
     private func setupUI() {
         // Apply corner radius to buttons
-        let buttons = [showConsentButton, tokenButton, userDefaultsButton, 
-                      clearConsentButton, googleAdButton, consentDebugInfoButton]
-        
+        let buttons = [showConsentButton, tokenButton, userDefaultsButton,
+                      clearConsentButton, googleAdButton, consentDebugInfoButton, configButton]
+
         buttons.compactMap { $0 }.forEach { button in
             button.layer.cornerRadius = cornerRadius
         }
+
+        // Setup programmatic labels
+        setupServiceIndicatorLabels()
         
         googleAdSpinner.isHidden = true
         
@@ -105,8 +110,9 @@ class ViewController: UIViewController {
         sdkVersionLabel.textAlignment = .center
         sdkVersionLabel.numberOfLines = 0
         sdkVersionLabel.textColor = .tertiaryLabel
-        sdkVersionLabel.text = "Axeptio iOS SDK v2.0.15"
+        sdkVersionLabel.text = "Axeptio iOS SDK v2.1.2"
     }
+
     
     private func setupNewButtons() {
         // Settings Button
@@ -149,29 +155,30 @@ class ViewController: UIViewController {
         view.addSubview(settingsButton)
         view.addSubview(vendorConsentButton)
         
-        // Setup constraints
+        // Simple constraints - Settings button always at bottom
         NSLayoutConstraint.activate([
             // Service labels at top
             serviceTypeLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
             serviceTypeLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             serviceTypeLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            
+
             configurationLabel.topAnchor.constraint(equalTo: serviceTypeLabel.bottomAnchor, constant: 4),
             configurationLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             configurationLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            
+
             sdkVersionLabel.topAnchor.constraint(equalTo: configurationLabel.bottomAnchor, constant: 4),
             sdkVersionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             sdkVersionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            
-            // Buttons at bottom
-            vendorConsentButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            vendorConsentButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            vendorConsentButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
-            
+
+            // Settings button - always visible at bottom
             settingsButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             settingsButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            settingsButton.bottomAnchor.constraint(equalTo: vendorConsentButton.topAnchor, constant: -12),
+            settingsButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
+
+            // Vendor consent button - above Settings button when visible
+            vendorConsentButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            vendorConsentButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            vendorConsentButton.bottomAnchor.constraint(equalTo: settingsButton.topAnchor, constant: -12),
         ])
     }
     
@@ -190,13 +197,14 @@ class ViewController: UIViewController {
         updateServiceSpecificButtons()
     }
     
+
     private func updateServiceSpecificButtons() {
         let config = ConfigurationManager.shared.currentConfiguration
         let isTCF = config.targetService == .publisherTcf
-        
+
         // Show vendor consent button only for TCF
         vendorConsentButton.isHidden = !isTCF
-        
+
         // Update button titles based on service
         if isTCF {
             showConsentButton?.setTitle("TCF Consent Dialog", for: .normal)
@@ -419,8 +427,10 @@ class ViewController: UIViewController {
     }
     
     @IBAction func showSettings(_ sender: Any) {
+        let remainingDays = Axeptio.shared.getRemainingDaysForConsent()
         let configViewController = ConfigurationViewController()
         configViewController.delegate = self
+        configViewController.remainingDays = remainingDays
         let navController = UINavigationController(rootViewController: configViewController)
         self.present(navController, animated: true)
     }
@@ -453,24 +463,25 @@ extension ViewController {
     func requestTrackingAuthorization() {
         self.removeObserver()
 
-        guard #available(iOS 14, *) else {
-            return
-        }
+        // ATT is always available since we require iOS 18+
         
         if ATTrackingManager.trackingAuthorizationStatus != .notDetermined {
+            // ATT already determined - call setupUI() and set tracking status
+            let isAuthorized = ATTrackingManager.trackingAuthorizationStatus == .authorized
+            Axeptio.shared.setupUI()  // SDK internally checks if popup should be shown based on ATT status
+            Axeptio.shared.setUserDeniedTracking(denied: !isAuthorized)
             return
         }
 
         ATTrackingManager.requestTrackingAuthorization { [weak self] status in
             let isAuthorized = status == .authorized
-            // We need to do that to manage a bug in iOS 17.4 about ATT
+            // Handle ATT status determination bug (fixed in iOS 18+)
             if ATTrackingManager.trackingAuthorizationStatus == .notDetermined {
                 self?.addObserver()
                 return
             }
-            if isAuthorized {
-                Axeptio.shared.setupUI()
-            }
+            // Always call setupUI() - SDK will decide if popup should be shown
+            Axeptio.shared.setupUI()
             
             Axeptio.shared.setUserDeniedTracking(denied: !isAuthorized)
         }
