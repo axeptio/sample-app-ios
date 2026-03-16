@@ -56,14 +56,13 @@ By following these instructions, you'll be able to generate a GitHub Access Toke
 <br><br><br>
 
 ## Requirements
-The Axeptio iOS SDK is distributed as a pre-compiled binary package, delivered as an `XCFramework`. It supports iOS versions >= 18.
+The Axeptio iOS SDK is distributed as a pre-compiled binary package, delivered as an `XCFramework`. It supports iOS versions >= 15.
 
-### iOS Version Support Policy
-This SDK follows Apple's iOS support lifecycle and only supports iOS versions that receive active security updates from Apple. As of September 2025, this includes iOS 18 and iOS 26. For the latest iOS support status, see: https://endoflife.date/ios
+> **Note:** The SDK supports iOS 15+. This sample app itself targets iOS 18 as its deployment target, which is a sample app requirement — not an SDK requirement. You can integrate the SDK in apps targeting iOS 15 and above.
 
 Before starting, make sure you have:
 
-- iOS >= 18 (Apple-supported versions only)
+- iOS >= 15 (SDK minimum requirement; this sample app targets iOS 18)
 - Xcode >= 16 (required for iOS 18 development)
 - CocoaPods or Swift Package Manager for dependency management.
 
@@ -558,7 +557,7 @@ This steps will show you how to:
 
 The Axeptio SDK does not ask for the user’s tracking permission using the ATT framework. It is your responsibility to request this permission, and the way in which the ATT framework and Axeptio CMP interact depends on your app's logic.
 
-In apps targeting iOS 18.0 and above (which includes ATT framework), you must use the `ATTrackingManager.requestTrackingAuthorization` function to ask for tracking consent. Based on the user's response, you can choose to show the Axeptio consent notice.
+In this sample app (targeting iOS 18.0 and above), you must use the `ATTrackingManager.requestTrackingAuthorization` function to ask for tracking consent. Based on the user's response, you can choose to show the Axeptio consent notice.
 
 #### Expected Flow:
 
@@ -589,7 +588,7 @@ class ViewController: UIViewController {
     }
 
     private func handleATTAndInitializeAxeptioCMP() async {
-        // ATT is always available since we require iOS 18+
+        // ATT is always available since this sample app targets iOS 18+
         let status = await ATTrackingManager.requestTrackingAuthorization()
         let isAuthorized = (status == .authorized)
         initializeAxeptioCMPUI(granted: isAuthorized)
@@ -611,8 +610,8 @@ class ViewController: UIViewController {
 - `Axeptio.shared.setupUI()`: Initializes and shows the consent notice once ATT permission is granted.
 - **Fallback Handling**: If ATT permission is denied or unavailable, the Axeptio CMP can still be initialized depending on your requirements (e.g., on iOS versions before 14).
 
-#### iOS 18 and Above:
-- ATT framework is included in all supported iOS versions (18+).
+#### This Sample App (iOS 18+):
+- Since this sample app targets iOS 18+, ATT is always available.
 - The app will request the ATT permission as it's always available.
 - the user grants permission, you can show the Axeptio consent notice using `Axeptio.shared.setupUI()`.
 
@@ -659,7 +658,7 @@ For Objective-C, the implementation is quite similar. You’ll request ATT permi
 
 #### Importante Notes:
 - **ATT Request Flow**: The ATT request must be shown at an appropriate time in your app flow, typically when the user first opens the app or at a point where they can make an informed decision.
-- **iOS 18+**: The ATT framework is included in all supported iOS versions (18+). The app will request ATT permission as it's always available.
+- **This sample app (iOS 18+)**: Since the sample app targets iOS 18+, the ATT framework is always available, so the app always requests ATT permission.
 - **Data Collection Disclosure**: Apple's App Store guidelines require you to disclose what data your app collects and how it uses it. Ensure your app’s privacy policy is up to date, and provide clear information on what data is being collected for tracking purposes.
 
 #### Useful Links
@@ -705,7 +704,7 @@ The integration of the Axeptio SDK into your mobile application involves clear d
 #### **Mobile Application Responsibilities:**
 
 1. **Managing App Tracking Transparency (ATT) Flow:**
-   - The mobile app is responsible for initiating and managing the ATT authorization process on iOS 18 and later. This includes presenting the ATT request prompt at an appropriate time in the app's lifecycle.
+   - The mobile app is responsible for initiating and managing the ATT authorization process on iOS 14.5 and later. This includes presenting the ATT request prompt at an appropriate time in the app's lifecycle.
 
 2. **Controlling the Display Sequence of ATT and CMP:**
    - The app must determine the appropriate sequence for displaying the ATT prompt and the Axeptio consent management platform (CMP). Specifically, the app should request ATT consent before invoking the Axeptio CMP.

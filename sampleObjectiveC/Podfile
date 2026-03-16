@@ -6,7 +6,7 @@ target 'sampleObjectiveC' do
   use_frameworks!
 
   # Pods for sampleObjectiveC
-  pod 'AxeptioIOSSDK'
+  pod 'AxeptioIOSSDK', '2.1.4'
   pod 'FirebaseCore'
   pod 'FirebaseAnalytics'
   pod 'Google-Mobile-Ads-SDK'
