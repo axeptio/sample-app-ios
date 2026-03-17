@@ -120,7 +120,17 @@ To integrate the Axeptio iOS SDK into your Xcode project using Swift Package Man
 - In the **Choose Package Products screen**, confirm the selection and click **Add Package** to complete the integration
 <br><br><br>
 ## Initializing the SDK
-To initialize the Axeptio SDK in your iOS project, import the `AxeptioSDK` module into your `AppDelegate` and initialize the SDK with the appropriate configuration. 
+To initialize the Axeptio SDK in your iOS project, import the `AxeptioSDK` module into your `AppDelegate` and initialize the SDK with the appropriate configuration.
+
+### `widgetType` parameter
+
+> **Note (v2.1.0+):** `initialize()` requires a `widgetType` parameter. Use `.production` for all production apps.
+
+| Value | Description |
+|---|---|
+| `.production` | Loads the production Axeptio widget. **Use this in all production apps.** |
+| `.staging` | Loads the staging widget (appends `?axeptio_next` to the URL). For pre-release testing only. |
+| `.pullRequest` | Loads a PR-specific widget build. Use with the `widgetPR` parameter (PR number). |
 
 ### Swift
 ```swift
@@ -136,7 +146,7 @@ class ViewController: UIViewController, UITableViewDataSource {
 
         // Register the cell identifier for UserDefaultsCell
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "UserDefaultsCell")
-        
+
         // Call setupUI to show the consent popup when appropriate
         Axeptio.shared.setupUI()
     }
@@ -153,6 +163,38 @@ class ViewController: UIViewController, UITableViewDataSource {
     }
 }
 ```
+
+In your `AppDelegate`, initialize the SDK with `widgetType`:
+
+```swift
+import AxeptioSDK
+
+// Production app (most common case)
+Axeptio.shared.initialize(
+    targetService: .brands,
+    clientId: "<Your Client ID>",
+    cookiesVersion: "<Your Cookies Version>",
+    widgetType: .production
+)
+
+// Pre-release / staging testing
+Axeptio.shared.initialize(
+    targetService: .brands,
+    clientId: "<Your Client ID>",
+    cookiesVersion: "<Your Cookies Version>",
+    widgetType: .staging
+)
+
+// PR-specific widget build
+Axeptio.shared.initialize(
+    targetService: .brands,
+    clientId: "<Your Client ID>",
+    cookiesVersion: "<Your Cookies Version>",
+    widgetType: .pullRequest,
+    widgetPR: "123"
+)
+```
+
 ### Objective-C
 ```objc
 #import "AppDelegate.h"
@@ -169,11 +211,18 @@ class ViewController: UIViewController, UITableViewDataSource {
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
     AxeptioService targetService = AxeptioServiceBrands; // or AxeptioServicePublisherTcf
-    // sample init
-    [Axeptio.shared initializeWithTargetService:targetServiceclientId:@"<Your Client ID>" cookiesVersion:@"<Your Cookies Version>"];
+    // Production app (most common case)
+    [Axeptio.shared initializeWithTargetService:targetService
+                                       clientId:@"<Your Client ID>"
+                                 cookiesVersion:@"<Your Cookies Version>"
+                                     widgetType:WidgetTypeProduction];
 
-    // or with a token set from an other device
-    [Axeptio.shared initializeWithTargetService:targetServiceclientId:@"<Your Client ID>" cookiesVersion:@"<Your Cookies Version>" token:@"<Token>"];
+    // or with a token set from another device
+    [Axeptio.shared initializeWithTargetService:targetService
+                                       clientId:@"<Your Client ID>"
+                                 cookiesVersion:@"<Your Cookies Version>"
+                                     widgetType:WidgetTypeProduction
+                                          token:@"<Token>"];
 
     return YES;
 }
@@ -328,8 +377,13 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
         
-        // Initialize the Axeptio SDK with the Client ID and cookies version
-        Axeptio.shared.initialize(clientId: "<Your Client ID>", cookiesVersion: "<Your Cookies Version>")
+        // Initialize the Axeptio SDK with the Client ID, cookies version, and widget type
+        Axeptio.shared.initialize(
+            targetService: .brands,
+            clientId: "<Your Client ID>",
+            cookiesVersion: "<Your Cookies Version>",
+            widgetType: .production
+        )
 
         return true
     }
