@@ -55,7 +55,7 @@ By following these instructions, you'll be able to generate a GitHub Access Toke
 ## Requirements
 The Axeptio iOS SDK is distributed as a pre-compiled binary package, delivered as an `XCFramework`. It supports iOS versions >= 15.
 
-> **Note:** The SDK supports iOS 15+. This sample app itself targets iOS 18 as its deployment target, which is a sample app requirement — not an SDK requirement. You can integrate the SDK in apps targeting iOS 15 and above.
+> **Note:** The SDK supports iOS 15+. The sample apps in this repository target iOS 18, so the Podfile and Xcode examples below use 18.0 as a sample-app setting — not an SDK requirement. If your app targets iOS 15 or later, keep your own deployment target instead of copying the sample target verbatim.
 
 Before starting, make sure you have:
 
