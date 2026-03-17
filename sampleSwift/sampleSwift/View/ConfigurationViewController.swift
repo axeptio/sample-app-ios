@@ -409,7 +409,7 @@ class ConfigurationViewController: UIViewController {
             widgetPR: widgetPRTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
             targetService: serviceSegmentedControl.selectedSegmentIndex == 0 ? .brands : .publisherTcf,
             allowPopupWithRejectedATT: allowPopupSwitch.isOn,
-            forceShowConsent: false
+            forceShowConsent: ConfigurationManager.shared.currentConfiguration.forceShowConsent
         )
 
         // Basic validation
