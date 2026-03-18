@@ -38,6 +38,7 @@ class ConfigurationViewController: UIViewController {
     private let presetConfigurations = Array(ConfigurationManager.presetConfigurations.keys).sorted()
 
     private var hasUnsavedChanges = false
+    private var editingForceShowConsent: Bool = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -342,6 +343,7 @@ class ConfigurationViewController: UIViewController {
         serviceSegmentedControl.selectedSegmentIndex = config.targetService == .brands ? 0 : 1
         widgetTypeSegmentedControl.selectedSegmentIndex = config.widgetType.rawValue
         allowPopupSwitch.isOn = config.allowPopupWithRejectedATT
+        editingForceShowConsent = config.forceShowConsent
 
         hasUnsavedChanges = false
         updateSaveButtonState()
@@ -409,7 +411,7 @@ class ConfigurationViewController: UIViewController {
             widgetPR: widgetPRTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
             targetService: serviceSegmentedControl.selectedSegmentIndex == 0 ? .brands : .publisherTcf,
             allowPopupWithRejectedATT: allowPopupSwitch.isOn,
-            forceShowConsent: ConfigurationManager.shared.currentConfiguration.forceShowConsent
+            forceShowConsent: editingForceShowConsent
         )
 
         // Basic validation
@@ -513,6 +515,7 @@ extension ConfigurationViewController: UITableViewDataSource, UITableViewDelegat
         widgetTypeSegmentedControl.selectedSegmentIndex = config.widgetType.rawValue
         serviceSegmentedControl.selectedSegmentIndex = config.targetService == .brands ? 0 : 1
         allowPopupSwitch.isOn = config.allowPopupWithRejectedATT
+        editingForceShowConsent = config.forceShowConsent
 
         hasUnsavedChanges = true
         updateOptionalFieldsVisbility()
