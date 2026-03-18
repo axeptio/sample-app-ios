@@ -24,9 +24,9 @@
 			<key>SKAdNetworkIdentifier</key>
 			<string>cstr6suwn9.skadnetwork</string>
 			<key>CFBundleShortVersionString</key>
-	<string>2.0.13</string>
+	<string>2.1.4</string>
 	<key>CFBundleVersion</key>
-	<string>2.0.13</string>
+	<string>2.1.4</string>
 </dict>
 		<dict>
 			<key>SKAdNetworkIdentifier</key>
