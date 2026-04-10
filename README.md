@@ -2,7 +2,18 @@
 
 # Axeptio iOS SDK Documentation
 
-Welcome to the Axeptio iOS SDK Samples project. This repository provides a comprehensive guide on how to integrate the Axeptio iOS SDK into your mobile applications. It showcases two distinct modules: one for Swift using Swift Package Manager and one for Objective-C using CocoaPods. Below you'll find detailed instructions and code examples to help you integrate and configure the SDK within your iOS app.
+> ## 🚧 Beta branch — `2.2.0-beta.1`
+>
+> You are on the `release/2.2.0-beta.1` branch of the sample app, aligned with **Axeptio iOS SDK `2.2.0-beta.1`**.
+>
+> **Breaking changes vs `2.1.x`:**
+> - The `sampleObjectiveC/` sample has been **removed**. Only the Swift sample ships in this branch. Objective-C integration snippets throughout this README are kept as reference for Obj-C consumers, but there is no compiled Obj-C sample to run.
+> - Initialization now uses the two-step `Axeptio.shared.configure(...)` + `Axeptio.shared.initialize(targetService:clientId:cookiesVersion:widgetType:)` flow (see [`AppDelegate.swift`](sampleSwift/sampleSwift/AppDelegate.swift)).
+> - A new SwiftUI integration demo is available at [`SwiftUISampleView.swift`](sampleSwift/sampleSwift/View/SwiftUISampleView.swift).
+>
+> For the stable sample and full Objective-C support, use the [`master`](https://github.com/axeptio/sample-app-ios/tree/master) branch (SDK `2.1.x`).
+
+Welcome to the Axeptio iOS SDK Samples project. This repository provides a comprehensive guide on how to integrate the Axeptio iOS SDK into your mobile applications. On this beta branch it ships a single module — the Swift sample using Swift Package Manager — aligned with SDK `2.2.0-beta.1`. Below you'll find detailed instructions and code examples to help you integrate and configure the SDK within your iOS app.
 
 ## Table of Contents
 1. [GitHub Access Token Documentation](#github-access-token-documentation)
@@ -82,11 +93,11 @@ Ensure the **following keys** are added to your `Info.plist` file to comply with
 
 ## SDK Version
 
-This sample app demonstrates the **Axeptio iOS SDK**. Current version: **2.1.2**
+This sample app demonstrates the **Axeptio iOS SDK**. Current version: **2.2.0-beta.1** (prerelease).
 
 For release notes and changelog, see:
 - [SDK Releases](https://github.com/axeptio/axeptio-ios-sdk/releases)
-- [Release Notes v2.1.2](https://github.com/axeptio/axeptio-ios-sdk/releases/tag/2.1.2)
+- [Release Notes v2.2.0-beta.1](https://github.com/axeptio/axeptio-ios-sdk/releases/tag/2.2.0-beta.1)
 
 <br><br><br>
 ## Clone the Repository

@@ -1,3 +1,18 @@
+# 2.2.0-beta.1 (2026-04-10)
+
+Beta release aligning the public sample app with Axeptio iOS SDK `2.2.0-beta.1`.
+
+### ⚠ BREAKING CHANGES
+
+* **sample-objc:** the Objective-C sample app has been removed. Consumers needing an Obj-C reference should stay on the `master` branch (SDK 2.1.x).
+
+### Features
+
+* **sdk:** bump AxeptioIOSSDK to `2.2.0-beta.1` (SPM, exact pin).
+* **sample-swift:** add SwiftUI integration demo (`SwiftUISampleView`) reachable from a new "SwiftUI Demo" entry in the main sample.
+* **sample-swift:** migrate initialization to the new two-step `configure()` + `initialize(targetService:clientId:cookiesVersion:widgetType:)` flow and re-enable `setForceShowConsentDebug()`.
+* **sample-swift:** align default `cookiesVersion` with the Flutter SDK (`google cmp partner program sandbox-en-EU`).
+
 # [2.1.0](https://github.com/axeptio/sample-app-ios/compare/v2.0.15...v2.1.0) (2026-03-18)
 
 
