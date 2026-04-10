@@ -2,6 +2,8 @@
 
 # Axeptio iOS SDK Documentation
 
+> **🚧 `2.2.0-beta.1` is available.** A beta of this sample app aligned with Axeptio iOS SDK `2.2.0-beta.1` is on the [`release/2.2.0-beta.1`](https://github.com/axeptio/sample-app-ios/tree/release/2.2.0-beta.1) branch. It drops the Objective-C sample, demonstrates the new two-step `configure()` + `initialize()` API, and adds a SwiftUI integration demo. Stable integrators should stay on `master`.
+
 Welcome to the Axeptio iOS SDK Samples project. This repository provides a comprehensive guide on how to integrate the Axeptio iOS SDK into your mobile applications. It showcases two distinct modules: one for Swift using Swift Package Manager and one for Objective-C using CocoaPods. Below you'll find detailed instructions and code examples to help you integrate and configure the SDK within your iOS app.
 
 ## Table of Contents
