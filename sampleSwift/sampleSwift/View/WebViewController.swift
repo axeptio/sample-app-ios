@@ -24,7 +24,7 @@ class WebViewController: UIViewController {
         super.init(coder: coder)
         clearLocalStorageBeforeInit()
     }
-    
+
     func clearLocalStorageBeforeInit() {
         WKWebsiteDataStore.default().fetchDataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()) { records in
             records.forEach { record in
@@ -36,19 +36,19 @@ class WebViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         // Set up navigation bar with close button
         title = "Web View"
         navigationItem.rightBarButtonItem = UIBarButtonItem(
-            title: "Close", 
-            style: .done, 
-            target: self, 
+            title: "Close",
+            style: .done,
+            target: self,
             action: #selector(closeTapped)
         )
 
         webView = WKWebView(frame: .zero)
         view.addSubview(webView)
-        
+
         // Layout webView to fill the view
         webView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -64,7 +64,7 @@ class WebViewController: UIViewController {
         logger.debug("Opening webview with url: \(myRequest)")
         webView.load(myRequest)
     }
-    
+
     @objc private func closeTapped() {
         dismiss(animated: true)
     }

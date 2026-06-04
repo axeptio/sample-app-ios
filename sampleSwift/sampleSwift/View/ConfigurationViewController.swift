@@ -1,3 +1,4 @@
+// swiftlint:disable file_length
 //
 //  ConfigurationViewController.swift
 //  sampleSwift
@@ -8,7 +9,7 @@
 import UIKit
 import AxeptioSDK
 
-
+// swiftlint:disable:next type_body_length
 class ConfigurationViewController: UIViewController {
 
     weak var delegate: ConfigurationViewControllerDelegate?
@@ -29,16 +30,18 @@ class ConfigurationViewController: UIViewController {
     private let cookiesDurationSwitch = UISwitch()
     private let cookiesDurationTextfield = UITextField()
     private let widgetPRTextField = UITextField()
-    private let widgetTypeSegmentedControl = UISegmentedControl(items: [WidgetType.production.title, WidgetType.staging.title, WidgetType.pr.title])
+    private let widgetTypeSegmentedControl = UISegmentedControl(
+        items: [WidgetType.production.title, WidgetType.staging.title, WidgetType.pr.title]
+    )
     private let serviceSegmentedControl = UISegmentedControl(items: ["Brands", "Publisher TCF"])
     private let allowPopupSwitch = UISwitch()
+    private let forceShowConsentSwitch = UISwitch()
 
     // Preset configurations
     private let presetTableView = UITableView()
     private let presetConfigurations = Array(ConfigurationManager.presetConfigurations.keys).sorted()
 
     private var hasUnsavedChanges = false
-    private var editingForceShowConsent: Bool = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,6 +80,7 @@ class ConfigurationViewController: UIViewController {
         serviceSegmentedControl.addTarget(self, action: #selector(segmentedControlChanged), for: .valueChanged)
         allowPopupSwitch.addTarget(self, action: #selector(switchChanged), for: .valueChanged)
         cookiesDurationSwitch.addTarget(self, action: #selector(switchChanged), for: .valueChanged)
+        forceShowConsentSwitch.addTarget(self, action: #selector(switchChanged), for: .valueChanged)
 
         cookiesDurationTextfield.keyboardType = .numberPad
     }
@@ -111,104 +115,6 @@ class ConfigurationViewController: UIViewController {
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16)
         ])
-    }
-
-    private func setupCustomConfigurationSection() {
-        // Section header
-        let customSectionLabel = UILabel()
-        customSectionLabel.text = "Custom Configuration"
-        customSectionLabel.font = UIFont.boldSystemFont(ofSize: 18)
-        stackView.addArrangedSubview(customSectionLabel)
-
-        // Client ID
-        let clientIdContainer = createInputContainer(
-            label: "Client ID",
-            textField: clientIdTextField,
-            placeholder: "Enter client ID (e.g., 5fbfa806a0787d3985c6ee5f)"
-        )
-        stackView.addArrangedSubview(clientIdContainer)
-
-        // Cookies Version
-        let cookiesVersionContainer = createInputContainer(
-            label: "Cookies Version",
-            textField: cookiesVersionTextField,
-            placeholder: "Enter cookies version"
-        )
-        stackView.addArrangedSubview(cookiesVersionContainer)
-
-        // Token (optional)
-        tokenTextField.isSecureTextEntry = false // Show token for debugging
-        let tokenContainer = createInputContainer(
-            label: "Token (Optional)",
-            textField: tokenTextField,
-            placeholder: "Enter token (optional)"
-        )
-        stackView.addArrangedSubview(tokenContainer)
-
-        // Cookie Duration Textfield
-
-        let shouldUpdateConsentExpiration = createSwitchContainer(
-            label: "Update Consent Expiration Date",
-            switch: cookiesDurationSwitch
-        )
-        stackView.addArrangedSubview(shouldUpdateConsentExpiration)
-
-        let durationLabel = UILabel()
-        let systemFontDescriptor = UIFont.systemFont(ofSize: 17).fontDescriptor
-        let boldItalicDescriptor = systemFontDescriptor.withSymbolicTraits([.traitBold, .traitItalic])
-        if let boldItalicDescriptor {
-            durationLabel.font = UIFont(descriptor: boldItalicDescriptor, size: 14)
-        } else {
-            durationLabel.font = UIFont.italicSystemFont(ofSize: 14)
-        }
-        durationLabel.textColor = UIColor(named: "AxeptioYellow")
-        stackView.addArrangedSubview(durationLabel)
-        self.cookiesDurationRemainingLabel = durationLabel
-
-        let cookiesDurationContainer = createInputContainer(
-            label: "Consent Expiration (# of Days)",
-            textField: cookiesDurationTextfield,
-            placeholder: "Default expiration will be set to 190 days."
-        )
-        stackView.addArrangedSubview(cookiesDurationContainer)
-        self.cookiesDurationTextfieldContainer = cookiesDurationContainer
-
-        // Environment Selector
-        let widgetTypeContainer = createSegmentedControlContainer(
-            label: "Widget Type",
-            segmentedControl: widgetTypeSegmentedControl
-        )
-        stackView.addArrangedSubview(widgetTypeContainer)
-
-        // Axeptio PR
-        let widgetPRContainer = createInputContainer(
-            label: "Widget Version (Optional)",
-            textField: widgetPRTextField,
-            placeholder: "Enter Widget PR # (e.g., 59026e8d-b110-5452-afbe-6cb99c4e202a)"
-        )
-        stackView.addArrangedSubview(widgetPRContainer)
-        self.axeptioPRContainer = widgetPRContainer
-
-
-        // Service Type
-        let serviceContainer = createSegmentedControlContainer(
-            label: "Service Type",
-            segmentedControl: serviceSegmentedControl
-        )
-        stackView.addArrangedSubview(serviceContainer)
-
-        // Allow Popup With Rejected ATT
-        let allowPopupContainer = createSwitchContainer(
-            label: "Allow Popup With Rejected ATT",
-            switch: allowPopupSwitch
-        )
-        stackView.addArrangedSubview(allowPopupContainer)
-
-        // Add some spacing
-        let spacer = UIView()
-        spacer.translatesAutoresizingMaskIntoConstraints = false
-        spacer.heightAnchor.constraint(equalToConstant: 24).isActive = true
-        stackView.addArrangedSubview(spacer)
     }
 
     private func setupPresetConfigurationSection() {
@@ -334,16 +240,18 @@ class ConfigurationViewController: UIViewController {
         cookiesVersionTextField.text = config.cookiesVersion
         tokenTextField.text = config.token ?? ""
 
-        // Cookies duration be always set to false, so in case it wants to be overrided, then we turn the switch and set new value for duration
-        cookiesDurationSwitch.isOn = config.shouldUpdateCookiesDuration
-        cookiesDurationTextfield.text = config.shouldUpdateCookiesDuration ? String(config.cookiesDuration) : ""
-        cookiesDurationRemainingLabel.text = (days > 0) ? "Consent expires in \(days) days" : "Consent duration has expired"
+            cookiesDurationSwitch.isOn = config.shouldUpdateCookiesDuration
+        cookiesDurationTextfield.text = config.shouldUpdateCookiesDuration
+            ? String(config.cookiesDuration) : ""
+        cookiesDurationRemainingLabel.text = (days > 0)
+            ? "Consent expires in \(days) days"
+            : "Consent duration has expired"
 
         widgetPRTextField.text = config.widgetPR ?? ""
         serviceSegmentedControl.selectedSegmentIndex = config.targetService == .brands ? 0 : 1
         widgetTypeSegmentedControl.selectedSegmentIndex = config.widgetType.rawValue
         allowPopupSwitch.isOn = config.allowPopupWithRejectedATT
-        editingForceShowConsent = config.forceShowConsent
+        forceShowConsentSwitch.isOn = config.forceShowConsent
 
         hasUnsavedChanges = false
         updateSaveButtonState()
@@ -411,7 +319,7 @@ class ConfigurationViewController: UIViewController {
             widgetPR: widgetPRTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
             targetService: serviceSegmentedControl.selectedSegmentIndex == 0 ? .brands : .publisherTcf,
             allowPopupWithRejectedATT: allowPopupSwitch.isOn,
-            forceShowConsent: editingForceShowConsent
+            forceShowConsent: forceShowConsentSwitch.isOn
         )
 
         // Basic validation
@@ -480,6 +388,104 @@ class ConfigurationViewController: UIViewController {
     }
 }
 
+// MARK: - Custom Configuration Setup
+
+private extension ConfigurationViewController {
+    func setupCustomConfigurationSection() {
+        let customSectionLabel = UILabel()
+        customSectionLabel.text = "Custom Configuration"
+        customSectionLabel.font = UIFont.boldSystemFont(ofSize: 18)
+        stackView.addArrangedSubview(customSectionLabel)
+
+        setupTextFieldInputs()
+        setupCookiesDurationSection()
+        setupWidgetAndServiceControls()
+        setupToggleSwitches()
+
+        let spacer = UIView()
+        spacer.translatesAutoresizingMaskIntoConstraints = false
+        spacer.heightAnchor.constraint(equalToConstant: 24).isActive = true
+        stackView.addArrangedSubview(spacer)
+    }
+
+    func setupTextFieldInputs() {
+        stackView.addArrangedSubview(createInputContainer(
+            label: "Client ID",
+            textField: clientIdTextField,
+            placeholder: "Enter client ID (e.g., 5fbfa806a0787d3985c6ee5f)"
+        ))
+
+        stackView.addArrangedSubview(createInputContainer(
+            label: "Cookies Version",
+            textField: cookiesVersionTextField,
+            placeholder: "Enter cookies version"
+        ))
+
+        tokenTextField.isSecureTextEntry = false
+        stackView.addArrangedSubview(createInputContainer(
+            label: "Token (Optional)",
+            textField: tokenTextField,
+            placeholder: "Enter token (optional)"
+        ))
+    }
+
+    func setupCookiesDurationSection() {
+        stackView.addArrangedSubview(createSwitchContainer(
+            label: "Update Consent Expiration Date",
+            switch: cookiesDurationSwitch
+        ))
+
+        let durationLabel = UILabel()
+        let descriptor = UIFont.systemFont(ofSize: 17).fontDescriptor
+        let boldItalic = descriptor.withSymbolicTraits([.traitBold, .traitItalic])
+        durationLabel.font = boldItalic.map { UIFont(descriptor: $0, size: 14) }
+            ?? UIFont.italicSystemFont(ofSize: 14)
+        durationLabel.textColor = UIColor(named: "AxeptioYellow")
+        stackView.addArrangedSubview(durationLabel)
+        self.cookiesDurationRemainingLabel = durationLabel
+
+        let container = createInputContainer(
+            label: "Consent Expiration (# of Days)",
+            textField: cookiesDurationTextfield,
+            placeholder: "Default expiration will be set to 190 days."
+        )
+        stackView.addArrangedSubview(container)
+        self.cookiesDurationTextfieldContainer = container
+    }
+
+    func setupWidgetAndServiceControls() {
+        stackView.addArrangedSubview(createSegmentedControlContainer(
+            label: "Widget Type",
+            segmentedControl: widgetTypeSegmentedControl
+        ))
+
+        let widgetPRContainer = createInputContainer(
+            label: "Widget Version (Optional)",
+            textField: widgetPRTextField,
+            placeholder: "Enter Widget PR #"
+        )
+        stackView.addArrangedSubview(widgetPRContainer)
+        self.axeptioPRContainer = widgetPRContainer
+
+        stackView.addArrangedSubview(createSegmentedControlContainer(
+            label: "Service Type",
+            segmentedControl: serviceSegmentedControl
+        ))
+    }
+
+    func setupToggleSwitches() {
+        stackView.addArrangedSubview(createSwitchContainer(
+            label: "Allow Popup With Rejected ATT",
+            switch: allowPopupSwitch
+        ))
+
+        stackView.addArrangedSubview(createSwitchContainer(
+            label: "Force Show Consent (Debug)",
+            switch: forceShowConsentSwitch
+        ))
+    }
+}
+
 // MARK: - UITableViewDataSource & UITableViewDelegate
 
 extension ConfigurationViewController: UITableViewDataSource, UITableViewDelegate {
@@ -512,13 +518,11 @@ extension ConfigurationViewController: UITableViewDataSource, UITableViewDelegat
         cookiesDurationSwitch.isOn = config.shouldUpdateCookiesDuration
         cookiesDurationTextfield.text = config.shouldUpdateCookiesDuration ? String(config.cookiesDuration) : ""
         widgetPRTextField.text = config.widgetPR ?? ""
-        widgetTypeSegmentedControl.selectedSegmentIndex = config.widgetType.rawValue
         serviceSegmentedControl.selectedSegmentIndex = config.targetService == .brands ? 0 : 1
         allowPopupSwitch.isOn = config.allowPopupWithRejectedATT
-        editingForceShowConsent = config.forceShowConsent
+        forceShowConsentSwitch.isOn = config.forceShowConsent
 
         hasUnsavedChanges = true
-        updateOptionalFieldsVisbility()
         updateSaveButtonState()
     }
 

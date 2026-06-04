@@ -1,3 +1,4 @@
+// swiftlint:disable file_length
 //
 //  ViewController.swift
 //  sampleSwift
@@ -7,6 +8,7 @@
 
 import AppTrackingTransparency
 import Foundation
+import SwiftUI
 import UIKit
 
 import AxeptioSDK
@@ -20,6 +22,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var clearConsentButton: UIButton!
     @IBOutlet weak var googleAdButton: UIButton!
     @IBOutlet weak var googleAdSpinner: UIActivityIndicatorView!
+    @IBOutlet weak var tcfVendorTestButton: UIButton!
     @IBOutlet weak var consentDebugInfoButton: UIButton!
     @IBOutlet weak var configButton: UIButton!
 
@@ -29,11 +32,13 @@ class ViewController: UIViewController {
     private let sdkVersionLabel = UILabel()
     private let settingsButton = UIButton(type: .system)
     private let vendorConsentButton = UIButton(type: .system)
+    private let swiftUIDemoButton = UIButton(type: .system)
 
     private var interstitial: GADInterstitialAd?
     private let cornerRadius = 24.0
     private weak var observer: NSObjectProtocol?
     private var token: String?
+    private var uiButtons: [UIButton] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,6 +46,7 @@ class ViewController: UIViewController {
         // Note: setupUI() is called asynchronously after ATT authorization in requestTrackingAuthorization()
         // Do not call setupUI() here directly to avoid double initialization
         updateServiceIndicators()
+        loadBasicButtons()
 
         let axeptioEventListener = AxeptioEventListener()
 
@@ -64,139 +70,31 @@ class ViewController: UIViewController {
         Axeptio.shared.setEventListener(axeptioEventListener)
         requestTrackingAuthorization()
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         updateServiceIndicators()
     }
-    
-    private func setupUI() {
-        // Apply corner radius to buttons
-        let buttons = [showConsentButton, tokenButton, userDefaultsButton,
-                      clearConsentButton, googleAdButton, consentDebugInfoButton, configButton]
 
-        buttons.compactMap { $0 }.forEach { button in
-            button.layer.cornerRadius = cornerRadius
-        }
-
-        // Setup programmatic labels
-        setupServiceIndicatorLabels()
-        
-        googleAdSpinner.isHidden = true
-        
-        // Setup programmatically created UI elements
-        setupServiceIndicatorLabels()
-        setupNewButtons()
-        addElementsToView()
-        
-        // Setup service-specific button visibility
-        updateServiceSpecificButtons()
-    }
-    
-    private func setupServiceIndicatorLabels() {
-        // Service Type Label
-        serviceTypeLabel.font = UIFont.boldSystemFont(ofSize: 18)
-        serviceTypeLabel.textAlignment = .center
-        serviceTypeLabel.numberOfLines = 0
-        
-        // Configuration Label  
-        configurationLabel.font = UIFont.systemFont(ofSize: 14)
-        configurationLabel.textAlignment = .center
-        configurationLabel.numberOfLines = 0
-        configurationLabel.textColor = .secondaryLabel
-        
-        // SDK Version Label
-        sdkVersionLabel.font = UIFont.systemFont(ofSize: 12)
-        sdkVersionLabel.textAlignment = .center
-        sdkVersionLabel.numberOfLines = 0
-        sdkVersionLabel.textColor = .tertiaryLabel
-        sdkVersionLabel.text = "Axeptio iOS SDK v2.1.2"
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        styleUIButtons()
     }
 
-    
-    private func setupNewButtons() {
-        // Settings Button
-        settingsButton.setTitle("⚙️ Settings", for: .normal)
-        settingsButton.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-        settingsButton.backgroundColor = UIColor.systemGray5
-        settingsButton.setTitleColor(.label, for: .normal)
-        settingsButton.layer.cornerRadius = cornerRadius
-        settingsButton.addTarget(self, action: #selector(showSettings), for: .touchUpInside)
-        
-        // Vendor Consent Button
-        vendorConsentButton.setTitle("🏪 TCF Vendor API", for: .normal)
-        vendorConsentButton.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-        vendorConsentButton.backgroundColor = UIColor.systemBlue
-        vendorConsentButton.setTitleColor(.white, for: .normal)
-        vendorConsentButton.layer.cornerRadius = cornerRadius
-        vendorConsentButton.addTarget(self, action: #selector(showVendorConsent), for: .touchUpInside)
-        
-        // Set height constraints
-        [settingsButton, vendorConsentButton].forEach { button in
-            button.translatesAutoresizingMaskIntoConstraints = false
-            button.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        }
-    }
-    
-    private func addElementsToView() {
-        // Add labels to the top of the view
-        serviceTypeLabel.translatesAutoresizingMaskIntoConstraints = false
-        configurationLabel.translatesAutoresizingMaskIntoConstraints = false
-        sdkVersionLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        view.addSubview(serviceTypeLabel)
-        view.addSubview(configurationLabel)
-        view.addSubview(sdkVersionLabel)
-        
-        // Add buttons to the bottom of the view
-        settingsButton.translatesAutoresizingMaskIntoConstraints = false
-        vendorConsentButton.translatesAutoresizingMaskIntoConstraints = false
-        
-        view.addSubview(settingsButton)
-        view.addSubview(vendorConsentButton)
-        
-        // Simple constraints - Settings button always at bottom
-        NSLayoutConstraint.activate([
-            // Service labels at top
-            serviceTypeLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
-            serviceTypeLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            serviceTypeLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-
-            configurationLabel.topAnchor.constraint(equalTo: serviceTypeLabel.bottomAnchor, constant: 4),
-            configurationLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            configurationLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-
-            sdkVersionLabel.topAnchor.constraint(equalTo: configurationLabel.bottomAnchor, constant: 4),
-            sdkVersionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            sdkVersionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-
-            // Settings button - always visible at bottom
-            settingsButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            settingsButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            settingsButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
-
-            // Vendor consent button - above Settings button when visible
-            vendorConsentButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            vendorConsentButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            vendorConsentButton.bottomAnchor.constraint(equalTo: settingsButton.topAnchor, constant: -12),
-        ])
-    }
-    
     private func updateServiceIndicators() {
         let config = ConfigurationManager.shared.currentConfiguration
-        
+
         // Update service type label
         serviceTypeLabel.text = "Service: \(config.targetService == .brands ? "Brands" : "Publisher TCF")"
         serviceTypeLabel.textColor = config.targetService == .brands ? .systemOrange : .systemBlue
-        
+
         // Update configuration label
         let tokenStatus = config.token != nil ? "with token" : "no token"
         configurationLabel.text = "Client: \(config.clientId.prefix(8))... (\(tokenStatus))"
         configurationLabel.textColor = .secondaryLabel
-        
+
         updateServiceSpecificButtons()
     }
-    
 
     private func updateServiceSpecificButtons() {
         let config = ConfigurationManager.shared.currentConfiguration
@@ -214,9 +112,11 @@ class ViewController: UIViewController {
     }
 
     @IBAction func showConsent(_ sender: Any) {
+        print("[TEST] Manually calling showConsentScreen() at \(Date())")
         Axeptio.shared.showConsentScreen()
+        print("[TEST] showConsentScreen() call completed")
     }
-    
+
     @IBAction func showGoogleAd(_ sender: Any) {
         if interstitial != nil {
             interstitial?.present(fromRootViewController: self)
@@ -225,168 +125,7 @@ class ViewController: UIViewController {
 
     @IBAction func clearConsent(_ sender: Any) {
         token = Axeptio.shared.axeptioToken
-        
-        // Enhanced consent clearing with comprehensive UserDefaults cleanup
         performComprehensiveConsentClear()
-    }
-    
-    private func performComprehensiveConsentClear() {
-        print("🧹 [ClearConsent] Starting comprehensive consent clearing...")
-        
-        // 1. Call SDK's clear method first
-        Axeptio.shared.clearConsent()
-        print("   ✅ Called Axeptio.shared.clearConsent()")
-        
-        // 2. Get current configuration to determine what to clear
-        let currentConfig = ConfigurationManager.shared.currentConfiguration
-        let userDefaults = UserDefaults.standard
-        var clearedKeys: [String] = []
-        
-        print("   🔧 Current mode: \(currentConfig.targetService == .publisherTcf ? "TCF" : "Brands")")
-        print("   🎯 Configuration: \(currentConfig.cookiesVersion)")
-        
-        // 3. Clear TCF-related UserDefaults (for TCF mode)
-        let tcfKeys = TCFFields.allCases.map { $0.rawValue }
-        for key in tcfKeys {
-            if userDefaults.object(forKey: key) != nil {
-                userDefaults.removeObject(forKey: key)
-                clearedKeys.append(key)
-            }
-        }
-        
-        // 4. Clear Brands-related UserDefaults (for Brands mode)
-        let brandsKeys = CookieFields.allCases.map { $0.rawValue }
-        for key in brandsKeys {
-            if userDefaults.object(forKey: key) != nil {
-                userDefaults.removeObject(forKey: key)
-                clearedKeys.append(key)
-            }
-        }
-        
-        // 5. Clear any additional consent-related keys
-        let additionalKeys = [
-            "axeptio_consent_timestamp",
-            "axeptio_consent_version",
-            "expected_vendor_count"
-        ]
-        for key in additionalKeys {
-            if userDefaults.object(forKey: key) != nil {
-                userDefaults.removeObject(forKey: key)
-                clearedKeys.append(key)
-            }
-        }
-        
-        // 6. Force synchronize UserDefaults
-        userDefaults.synchronize()
-        
-        // 7. Log what was cleared
-        print("   🗑️ Cleared \(clearedKeys.count) UserDefaults keys:")
-        for key in clearedKeys {
-            print("      - \(key)")
-        }
-        print("   💾 UserDefaults synchronized")
-        print("🧹 [ClearConsent] Comprehensive clearing completed!")
-        
-        // 8. Show user feedback
-        showConsentClearConfirmation(clearedCount: clearedKeys.count)
-    }
-    
-    private func showConsentClearConfirmation(clearedCount: Int) {
-        // Visual feedback on button
-        let originalTitle = clearConsentButton.titleLabel?.text
-        let originalBackgroundColor = clearConsentButton.backgroundColor
-        
-        // Update button appearance temporarily
-        clearConsentButton.setTitle("✅ Cleared!", for: .normal)
-        clearConsentButton.backgroundColor = .systemGreen
-        clearConsentButton.isEnabled = false
-        
-        // Show alert with details
-        let alert = UIAlertController(
-            title: "Consent Cleared Successfully",
-            message: "✅ SDK consent cleared\n🗑️ \(clearedCount) UserDefaults keys removed\n💾 Data synchronized\n\nYou can now test fresh consent scenarios.",
-            preferredStyle: .alert
-        )
-        
-        // Add Force Clear All option for testing
-        alert.addAction(UIAlertAction(title: "Force Clear All", style: .destructive) { [weak self] _ in
-            self?.performForceClearAll()
-            // Reset button appearance after force clear
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                self?.clearConsentButton.setTitle(originalTitle, for: .normal)
-                self?.clearConsentButton.backgroundColor = originalBackgroundColor
-                self?.clearConsentButton.isEnabled = true
-            }
-        })
-        
-        alert.addAction(UIAlertAction(title: "OK", style: .default) { [weak self] _ in
-            // Reset button appearance after alert dismissal
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                self?.clearConsentButton.setTitle(originalTitle, for: .normal)
-                self?.clearConsentButton.backgroundColor = originalBackgroundColor
-                self?.clearConsentButton.isEnabled = true
-            }
-        })
-        
-        present(alert, animated: true)
-        
-        print("👤 [ClearConsent] User feedback displayed")
-    }
-    
-    private func performForceClearAll() {
-        print("💥 [ForceClearAll] Starting nuclear consent clearing...")
-        
-        let userDefaults = UserDefaults.standard
-        var allClearedKeys: [String] = []
-        
-        // 1. Clear SDK consent
-        Axeptio.shared.clearConsent()
-        
-        // 2. Get all UserDefaults keys and clear any that might be consent-related
-        let allKeys = Array(userDefaults.dictionaryRepresentation().keys)
-        let consentRelatedPrefixes = ["IABTCF_", "axeptio_", "consent", "vendor", "tcf", "cmp"]
-        
-        for key in allKeys {
-            let lowercaseKey = key.lowercased()
-            let isConsentRelated = consentRelatedPrefixes.contains { prefix in
-                lowercaseKey.contains(prefix.lowercased())
-            }
-            
-            if isConsentRelated {
-                userDefaults.removeObject(forKey: key)
-                allClearedKeys.append(key)
-            }
-        }
-        
-        // 3. Force remove known consent keys (even if not found)
-        let forceRemoveKeys = (TCFFields.allCases.map { $0.rawValue }) + 
-                             (CookieFields.allCases.map { $0.rawValue }) + 
-                             ["expected_vendor_count", "axeptio_consent_timestamp", "axeptio_consent_version"]
-        
-        for key in forceRemoveKeys {
-            if !allClearedKeys.contains(key) {
-                userDefaults.removeObject(forKey: key)
-                allClearedKeys.append(key)
-            }
-        }
-        
-        // 4. Synchronize and log
-        userDefaults.synchronize()
-        
-        print("   💥 Force cleared \(allClearedKeys.count) keys:")
-        for key in allClearedKeys.sorted() {
-            print("      - \(key)")
-        }
-        print("💥 [ForceClearAll] Nuclear clearing completed!")
-        
-        // 5. Show confirmation
-        let alert = UIAlertController(
-            title: "🚀 Force Clear Completed",
-            message: "💥 ALL consent data nuked!\n🗑️ \(allClearedKeys.count) keys removed\n\nPerfect for testing fresh scenarios.",
-            preferredStyle: .alert
-        )
-        alert.addAction(UIAlertAction(title: "Excellent", style: .default))
-        present(alert, animated: true)
     }
 
     @IBAction func showWebView(_ sender: Any) {
@@ -417,7 +156,7 @@ class ViewController: UIViewController {
 
         present(alertController, animated: true)
     }
-    
+
     @IBAction func showConsentDebugInfo(_ sender: Any) {
         let consentData = Axeptio.shared.getConsentDebugInfo(preferenceKey: nil)
         let debugViewController = ConsentDebugViewController(data: (consentData as? [String: Any?]) ?? [:])
@@ -425,7 +164,7 @@ class ViewController: UIViewController {
         let navController = UINavigationController(rootViewController: debugViewController)
         self.present(navController, animated: true)
     }
-    
+
     @IBAction func showSettings(_ sender: Any) {
         let remainingDays = Axeptio.shared.getRemainingDaysForConsent()
         let configViewController = ConfigurationViewController()
@@ -434,11 +173,157 @@ class ViewController: UIViewController {
         let navController = UINavigationController(rootViewController: configViewController)
         self.present(navController, animated: true)
     }
-    
+
     @IBAction func showVendorConsent(_ sender: Any) {
         let vendorViewController = VendorConsentViewController()
         let navController = UINavigationController(rootViewController: vendorViewController)
         self.present(navController, animated: true)
+    }
+
+    @objc func showSwiftUIDemo() {
+        let hostingController = UIHostingController(rootView: SwiftUISampleView())
+        let navController = UINavigationController(rootViewController: hostingController)
+        self.present(navController, animated: true)
+    }
+}
+
+// MARK: - UI Setup
+
+private extension ViewController {
+    func setupUI() {
+        let buttons = [showConsentButton, tokenButton, userDefaultsButton,
+                       clearConsentButton, googleAdButton, tcfVendorTestButton,
+                       consentDebugInfoButton, configButton]
+
+        buttons.compactMap { $0 }.forEach { button in
+            button.layer.cornerRadius = cornerRadius
+        }
+
+        setupServiceIndicatorLabels()
+        googleAdSpinner.isHidden = true
+        setupServiceIndicatorLabels()
+        setupNewButtons()
+        addElementsToView()
+        updateServiceSpecificButtons()
+    }
+
+    func setupServiceIndicatorLabels() {
+        serviceTypeLabel.font = UIFont.boldSystemFont(ofSize: 18)
+        serviceTypeLabel.textAlignment = .center
+        serviceTypeLabel.numberOfLines = 0
+
+        configurationLabel.font = UIFont.systemFont(ofSize: 14)
+        configurationLabel.textAlignment = .center
+        configurationLabel.numberOfLines = 0
+        configurationLabel.textColor = .secondaryLabel
+
+        sdkVersionLabel.font = UIFont.systemFont(ofSize: 12)
+        sdkVersionLabel.textAlignment = .center
+        sdkVersionLabel.numberOfLines = 0
+        sdkVersionLabel.textColor = .tertiaryLabel
+        sdkVersionLabel.text = "Axeptio iOS SDK v2.0.15"
+    }
+
+    func loadBasicButtons() {
+        uiButtons.append(contentsOf: [showConsentButton,
+                                      tokenButton,
+                                      userDefaultsButton,
+                                      clearConsentButton,
+                                      googleAdButton,
+                                      tcfVendorTestButton,
+                                      consentDebugInfoButton,
+                                      configButton])
+    }
+
+    func styleUIButtons() {
+        uiButtons.forEach { button in
+            button.titleLabel?.layer.shadowColor = UIColor.black.cgColor
+            button.titleLabel?.layer.shadowOffset = CGSize(width: 2.5, height: 2.0)
+            button.titleLabel?.layer.shadowRadius = 2.5
+            button.titleLabel?.layer.shadowOpacity = 0.9
+            button.titleLabel?.layer.masksToBounds = false
+            button.layer.cornerRadius = cornerRadius
+            button.layer.masksToBounds = true
+        }
+    }
+
+    func setupNewButtons() {
+        settingsButton.setTitle("⚙️ Settings", for: .normal)
+        settingsButton.titleLabel?.font = UIFont.systemFont(ofSize: 18)
+        settingsButton.backgroundColor = UIColor.systemGray5
+        settingsButton.setTitleColor(.label, for: .normal)
+        settingsButton.layer.cornerRadius = cornerRadius
+        settingsButton.addTarget(self, action: #selector(showSettings), for: .touchUpInside)
+
+        vendorConsentButton.setTitle("🏪 TCF Vendor API", for: .normal)
+        vendorConsentButton.titleLabel?.font = UIFont.systemFont(ofSize: 18)
+        vendorConsentButton.backgroundColor = UIColor.systemBlue
+        vendorConsentButton.setTitleColor(.white, for: .normal)
+        vendorConsentButton.layer.cornerRadius = cornerRadius
+        vendorConsentButton.addTarget(
+            self, action: #selector(showVendorConsent), for: .touchUpInside
+        )
+
+        swiftUIDemoButton.setTitle("🔷 SwiftUI Demo", for: .normal)
+        swiftUIDemoButton.titleLabel?.font = UIFont.systemFont(ofSize: 18)
+        swiftUIDemoButton.backgroundColor = UIColor.systemIndigo
+        swiftUIDemoButton.setTitleColor(.white, for: .normal)
+        swiftUIDemoButton.layer.cornerRadius = cornerRadius
+        swiftUIDemoButton.addTarget(self, action: #selector(showSwiftUIDemo), for: .touchUpInside)
+
+        [settingsButton, vendorConsentButton, swiftUIDemoButton].forEach { button in
+            button.translatesAutoresizingMaskIntoConstraints = false
+            button.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        }
+    }
+
+    func addElementsToView() {
+        serviceTypeLabel.translatesAutoresizingMaskIntoConstraints = false
+        configurationLabel.translatesAutoresizingMaskIntoConstraints = false
+        sdkVersionLabel.translatesAutoresizingMaskIntoConstraints = false
+
+        view.addSubview(serviceTypeLabel)
+        view.addSubview(configurationLabel)
+        view.addSubview(sdkVersionLabel)
+
+        settingsButton.translatesAutoresizingMaskIntoConstraints = false
+        vendorConsentButton.translatesAutoresizingMaskIntoConstraints = false
+
+        view.addSubview(settingsButton)
+        view.addSubview(vendorConsentButton)
+        view.addSubview(swiftUIDemoButton)
+
+        NSLayoutConstraint.activate([
+            serviceTypeLabel.topAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
+            serviceTypeLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            serviceTypeLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+
+            configurationLabel.topAnchor.constraint(
+                equalTo: serviceTypeLabel.bottomAnchor, constant: 4),
+            configurationLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            configurationLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+
+            sdkVersionLabel.topAnchor.constraint(
+                equalTo: configurationLabel.bottomAnchor, constant: 4),
+            sdkVersionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            sdkVersionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+
+            settingsButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            settingsButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            settingsButton.bottomAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
+
+            vendorConsentButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            vendorConsentButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            vendorConsentButton.bottomAnchor.constraint(
+                equalTo: settingsButton.topAnchor, constant: -12),
+
+            swiftUIDemoButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            swiftUIDemoButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            swiftUIDemoButton.bottomAnchor.constraint(
+                equalTo: vendorConsentButton.topAnchor, constant: -12)
+        ])
     }
 }
 
@@ -447,7 +332,7 @@ class ViewController: UIViewController {
 extension ViewController: ConfigurationViewControllerDelegate {
     func configurationDidChange() {
         updateServiceIndicators()
-        
+
         // Show alert that app needs restart for changes to take full effect
         let alert = UIAlertController(
             title: "Configuration Updated",
@@ -464,12 +349,12 @@ extension ViewController {
         self.removeObserver()
 
         // ATT is always available since we require iOS 18+
-        
+
         if ATTrackingManager.trackingAuthorizationStatus != .notDetermined {
-            // ATT already determined - call setupUI() and set tracking status
+            // ATT already determined - set tracking status BEFORE setupUI so Row J detection works
             let isAuthorized = ATTrackingManager.trackingAuthorizationStatus == .authorized
-            Axeptio.shared.setupUI()  // SDK internally checks if popup should be shown based on ATT status
             Axeptio.shared.setUserDeniedTracking(denied: !isAuthorized)
+            Axeptio.shared.setupUI()
             return
         }
 
@@ -480,10 +365,9 @@ extension ViewController {
                 self?.addObserver()
                 return
             }
-            // Always call setupUI() - SDK will decide if popup should be shown
-            Axeptio.shared.setupUI()
-            
+            // Set tracking status BEFORE setupUI so Row J detection works
             Axeptio.shared.setUserDeniedTracking(denied: !isAuthorized)
+            Axeptio.shared.setupUI()
         }
     }
 
@@ -506,6 +390,151 @@ extension ViewController {
     }
 }
 
+// MARK: - Consent Clearing
+
+private extension ViewController {
+    func performComprehensiveConsentClear() {
+        print("🧹 [ClearConsent] Starting comprehensive consent clearing...")
+
+        Axeptio.shared.clearConsent()
+        print("   ✅ Called Axeptio.shared.clearConsent()")
+
+        let currentConfig = ConfigurationManager.shared.currentConfiguration
+        let userDefaults = UserDefaults.standard
+        var clearedKeys: [String] = []
+
+        print("   🔧 Current mode: \(currentConfig.targetService == .publisherTcf ? "TCF" : "Brands")")
+        print("   🎯 Configuration: \(currentConfig.cookiesVersion)")
+
+        let tcfKeys = TCFFields.allCases.map { $0.rawValue }
+        for key in tcfKeys where userDefaults.object(forKey: key) != nil {
+            userDefaults.removeObject(forKey: key)
+            clearedKeys.append(key)
+        }
+
+        let brandsKeys = CookieFields.allCases.map { $0.rawValue }
+        for key in brandsKeys where userDefaults.object(forKey: key) != nil {
+            userDefaults.removeObject(forKey: key)
+            clearedKeys.append(key)
+        }
+
+        let additionalKeys = [
+            "axeptio_consent_timestamp",
+            "axeptio_consent_version",
+            "expected_vendor_count"
+        ]
+        for key in additionalKeys where userDefaults.object(forKey: key) != nil {
+            userDefaults.removeObject(forKey: key)
+            clearedKeys.append(key)
+        }
+
+        userDefaults.synchronize()
+
+        print("   🗑️ Cleared \(clearedKeys.count) UserDefaults keys:")
+        for key in clearedKeys {
+            print("      - \(key)")
+        }
+        print("   💾 UserDefaults synchronized")
+        print("🧹 [ClearConsent] Comprehensive clearing completed!")
+
+        showConsentClearConfirmation(clearedCount: clearedKeys.count)
+    }
+
+    func showConsentClearConfirmation(clearedCount: Int) {
+        let originalTitle = clearConsentButton.titleLabel?.text
+        let originalBackgroundColor = clearConsentButton.backgroundColor
+
+        clearConsentButton.setTitle("✅ Cleared!", for: .normal)
+        clearConsentButton.backgroundColor = .systemGreen
+        clearConsentButton.isEnabled = false
+
+        let alert = UIAlertController(
+            title: "Consent Cleared Successfully",
+            message: """
+                ✅ SDK consent cleared
+                🗑️ \(clearedCount) UserDefaults keys removed
+                💾 Data synchronized
+
+                You can now test fresh consent scenarios.
+                """,
+            preferredStyle: .alert
+        )
+
+        alert.addAction(UIAlertAction(title: "Force Clear All", style: .destructive) { [weak self] _ in
+            self?.performForceClearAll()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                self?.clearConsentButton.setTitle(originalTitle, for: .normal)
+                self?.clearConsentButton.backgroundColor = originalBackgroundColor
+                self?.clearConsentButton.isEnabled = true
+            }
+        })
+
+        alert.addAction(UIAlertAction(title: "OK", style: .default) { [weak self] _ in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self?.clearConsentButton.setTitle(originalTitle, for: .normal)
+                self?.clearConsentButton.backgroundColor = originalBackgroundColor
+                self?.clearConsentButton.isEnabled = true
+            }
+        })
+
+        present(alert, animated: true)
+    }
+
+    func performForceClearAll() {
+        print("💥 [ForceClearAll] Starting nuclear consent clearing...")
+
+        let userDefaults = UserDefaults.standard
+        var allClearedKeys: [String] = []
+
+        Axeptio.shared.clearConsent()
+
+        let allKeys = Array(userDefaults.dictionaryRepresentation().keys)
+        let consentRelatedPrefixes = ["IABTCF_", "axeptio_", "consent", "vendor", "tcf", "cmp"]
+
+        for key in allKeys {
+            let lowercaseKey = key.lowercased()
+            let isConsentRelated = consentRelatedPrefixes.contains { prefix in
+                lowercaseKey.contains(prefix.lowercased())
+            }
+
+            if isConsentRelated {
+                userDefaults.removeObject(forKey: key)
+                allClearedKeys.append(key)
+            }
+        }
+
+        let forceRemoveKeys = (TCFFields.allCases.map { $0.rawValue }) +
+            (CookieFields.allCases.map { $0.rawValue }) +
+            ["expected_vendor_count", "axeptio_consent_timestamp", "axeptio_consent_version"]
+
+        for key in forceRemoveKeys where !allClearedKeys.contains(key) {
+            userDefaults.removeObject(forKey: key)
+            allClearedKeys.append(key)
+        }
+
+        userDefaults.synchronize()
+
+        print("   💥 Force cleared \(allClearedKeys.count) keys:")
+        for key in allClearedKeys.sorted() {
+            print("      - \(key)")
+        }
+        print("💥 [ForceClearAll] Nuclear clearing completed!")
+
+        let alert = UIAlertController(
+            title: "Force Clear Completed",
+            message: """
+                ALL consent data cleared!
+                \(allClearedKeys.count) keys removed
+
+                Perfect for testing fresh scenarios.
+                """,
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: "Excellent", style: .default))
+        present(alert, animated: true)
+    }
+}
+
 // swiftlint:disable identifier_name
 extension ViewController: GADFullScreenContentDelegate {
     func loadAd() {
@@ -518,20 +547,20 @@ extension ViewController: GADFullScreenContentDelegate {
         GADInterstitialAd.load(
             withAdUnitID: "ca-app-pub-3940256099942544/4411468910",
             request: request) { [weak self] ad, error in
-                guard let self else { return }
-                self.googleAdSpinner.stopAnimating()
-                self.googleAdSpinner.isHidden = true
+            guard let self else { return }
+            self.googleAdSpinner.stopAnimating()
+            self.googleAdSpinner.isHidden = true
 
-                if error != nil {
-                    self.googleAdButton.isEnabled = false
-                    self.googleAdButton.isHidden = false
-                    return
-                }
-                self.interstitial = ad
-                self.interstitial?.fullScreenContentDelegate = self
-                self.googleAdButton.isEnabled = true
+            if error != nil {
+                self.googleAdButton.isEnabled = false
                 self.googleAdButton.isHidden = false
+                return
             }
+            self.interstitial = ad
+            self.interstitial?.fullScreenContentDelegate = self
+            self.googleAdButton.isEnabled = true
+            self.googleAdButton.isHidden = false
+        }
     }
 
     func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {

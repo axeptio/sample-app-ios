@@ -53,7 +53,7 @@ class ConfigurationManager {
     static let presetConfigurations: [String: CustomerConfiguration] = [
         "Default Brands": CustomerConfiguration(
             clientId: "5fbfa806a0787d3985c6ee5f",
-            cookiesVersion: "insideapp-brands",
+            cookiesVersion: "google cmp partner program sandbox-en-EU",
             token: "5sj42u50ta2ys8c3nhjkxi",
             cookiesDuration: 190,
             shouldUpdateCookiesDuration: false,
@@ -77,7 +77,7 @@ class ConfigurationManager {
         ),
         "Test Brands (No Token)": CustomerConfiguration(
             clientId: "5fbfa806a0787d3985c6ee5f",
-            cookiesVersion: "insideapp-brands",
+            cookiesVersion: "google cmp partner program sandbox-en-EU",
             token: nil,
             cookiesDuration: 190,
             shouldUpdateCookiesDuration: false,
@@ -101,7 +101,7 @@ class ConfigurationManager {
         ),
         "Brands (Allow Popup w/ Denied ATT)": CustomerConfiguration(
             clientId: "5fbfa806a0787d3985c6ee5f",
-            cookiesVersion: "insideapp-brands",
+            cookiesVersion: "google cmp partner program sandbox-en-EU",
             token: "5sj42u50ta2ys8c3nhjkxi",
             cookiesDuration: 190,
             shouldUpdateCookiesDuration: false,
@@ -132,7 +132,7 @@ class ConfigurationManager {
     var currentConfiguration: CustomerConfiguration {
         get {
             let clientId = userDefaults.string(forKey: Keys.clientId) ?? "5fbfa806a0787d3985c6ee5f"
-            let cookiesVersion = userDefaults.string(forKey: Keys.cookiesVersion) ?? "insideapp-brands"
+            let cookiesVersion = userDefaults.string(forKey: Keys.cookiesVersion) ?? "google cmp partner program sandbox-en-EU"
             let token = userDefaults.string(forKey: Keys.token)
             let cookiesDuration = userDefaults.object(forKey: Keys.cookiesDuration) as? Int ?? 190
             let shouldUpdateCookiesDuration = userDefaults.bool(forKey: Keys.shouldUpdateCookiesDuration)
