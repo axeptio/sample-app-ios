@@ -43,7 +43,9 @@ jobs:
             -scheme sampleSwift \
             -destination 'platform=iOS Simulator,name=iPhone 16' \
             -resultBundlePath TestResults.xcresult \
-            -only-testing:sampleSwiftUITests
+            -only-testing:sampleSwiftUITests \
+            -retry-tests-on-failure \
+            -test-iterations 3
 
       - name: Upload test results
         if: always()

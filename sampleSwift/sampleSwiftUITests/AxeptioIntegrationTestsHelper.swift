@@ -84,8 +84,11 @@ class AxeptioIntegrationTestsHelper {
             "clear consent"
         ]
 
-        // Debug: Print all available buttons
-        print("  [Debug] Available buttons: \(app.buttons.allElementsBoundByIndex.map { $0.label }.joined(separator: ", "))")
+        // Debug: report only the button count. Enumerating allElementsBoundByIndex
+        // and reading each .label takes a fresh accessibility snapshot per element,
+        // which throws "No matches found for Element at index N" whenever an element
+        // goes stale mid-iteration (common once the consent webview is on screen).
+        print("  [Debug] Available buttons: \(app.buttons.count)")
 
         for label in buttonLabels {
             let button = app.buttons[label]
