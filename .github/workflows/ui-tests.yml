@@ -1,13 +1,15 @@
 name: UI Tests
 
 # Runs the sampleSwiftUITests XCUITest suite against the sampleSwift app.
+# Runs nightly (and on manual dispatch), not as a PR gate: the suite drives the
+# live Axeptio consent webview over the network and takes ~30 min, which is too
+# slow/flaky to block PRs.
 # Kept fully inline (no reusable workflow): this repo is public and cannot call
 # Axeptio's internal/private reusable workflows.
 
 on:
-  pull_request:
-    branches: [develop, master]
-    types: [opened, synchronize, reopened, ready_for_review]
+  schedule:
+    - cron: '0 3 * * *' # nightly at 03:00 UTC, on the default branch
   workflow_dispatch:
 
 permissions:
