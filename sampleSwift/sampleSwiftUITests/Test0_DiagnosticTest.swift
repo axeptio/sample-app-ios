@@ -17,9 +17,10 @@ class Test0_DiagnosticTest: XCTestCase {
     var helper: AxeptioIntegrationTestsHelper!
 
     override func setUpWithError() throws {
-        // These tests deliberately assert nothing — they exist to print what the accessibility
-        // tree looks like when something else is failing. Run as part of the nightly suite they
-        // add launches and screenshots while producing no pass/fail signal, so they are opt-in.
+        // These exist to print what the accessibility tree looks like when something else is
+        // failing. Apart from the portrait-orientation check, their assertions are deliberately
+        // commented out, so in the nightly suite they mostly add launches and screenshots
+        // without contributing a pass/fail signal. Opt in when diagnosing a failure.
         try XCTSkipUnless(
             ProcessInfo.processInfo.environment["AXEPTIO_RUN_DIAGNOSTICS"] == "1",
             "Set AXEPTIO_RUN_DIAGNOSTICS=1 to run the diagnostic (non-asserting) tests."
