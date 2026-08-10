@@ -1,5 +1,16 @@
 name: Validate PR Title
 
+# Enforces a Conventional Commits PR title, since PRs land as squash/merge commits.
+#
+# Kept fully inline rather than calling axeptio/tech-scripts: this repo is public and
+# cannot access Axeptio's internal reusable workflows, so the `uses:` form failed at the
+# workflow level (0s, no jobs) on every PR. Same reasoning as ui-tests.yml.
+#
+# Ported from tech-scripts validate-pull-request-title-v1.0.0, with one deliberate
+# difference: `sdk` is added to the allowed types. It is a valid type in this repo's
+# .commitlintrc.json and CONTRIBUTING.md documents `sdk(deps): ...` as an example, so
+# without it a documented, hook-approved title would fail CI.
+
 on:
   pull_request:
     types: [opened, edited, synchronize, reopened, ready_for_review]
@@ -8,6 +19,82 @@ permissions:
   pull-requests: write
   contents: read
 
+concurrency:
+  group: validate-pr-title-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
 jobs:
   validate:
-    uses: axeptio/tech-scripts/.github/workflows/validate-pull-request-title.yml@validate-pull-request-title-v1.0.0
+    name: Normalize and validate PR title
+    runs-on: ubuntu-latest
+    steps:
+      - name: Normalize PR title format
+        uses: actions/github-script@v7
+        env:
+          # Read inside the script via process.env rather than interpolated into it —
+          # the PR title is attacker-controlled on fork PRs and must never be treated
+          # as code.
+          ALLOWED_TYPES: 'build,chore,ci,docs,feat,fix,hotfix,perf,refactor,release,revert,sdk,style,test'
+        with:
+          github-token: ${{ github.token }}
+          script: |
+            const allowed = process.env.ALLOWED_TYPES.split(',').map(s => s.trim());
+            const pr = context.payload.pull_request;
+            if (!pr) return;
+
+            const original = (pr.title || '').trim();
+            let next = original;
+
+            const alreadyConventional = /^[a-z]+(\([^)]+\))?!?:\s+\S/.test(original);
+            if (alreadyConventional) {
+              core.info('Title already conventional, skipping normalization.');
+            } else {
+              const m =
+                original.match(/^([A-Za-z]+)[/\\]\s*(.+)$/) ||
+                original.match(/^([A-Za-z]+)\s*:\s*(.+)$/) ||
+                original.match(/^([A-Za-z]+)\s*[-–—]\s*(.+)$/);
+
+              if (m) {
+                const t = m[1].toLowerCase();
+                const s = m[2].trim().replace(/\s+/g, ' ');
+                if (allowed.includes(t) && s) next = `${t}: ${s}`;
+              }
+            }
+
+            if (next !== original) {
+              core.info(`Updating title: "${original}" -> "${next}"`);
+              try {
+                await github.rest.pulls.update({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  pull_number: pr.number,
+                  title: next,
+                });
+              } catch (err) {
+                // Fork PRs get a read-only token, so the update is expected to fail there.
+                core.warning(`Could not update PR title (possibly a fork PR): ${err.message}`);
+              }
+            }
+
+      - name: Enforce semantic PR title
+        uses: amannn/action-semantic-pull-request@v5
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          wip: false
+          requireScope: false
+          types: |
+            build
+            chore
+            ci
+            docs
+            feat
+            fix
+            hotfix
+            perf
+            refactor
+            release
+            revert
+            sdk
+            style
+            test
