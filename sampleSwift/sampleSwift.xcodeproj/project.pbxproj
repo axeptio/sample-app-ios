@@ -525,7 +525,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1.4;
+				MARKETING_VERSION = 2.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.axeptio.sampleswift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -567,7 +567,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1.4;
+				MARKETING_VERSION = 2.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.axeptio.sampleswift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -640,7 +640,7 @@
 			repositoryURL = "https://github.com/axeptio/axeptio-ios-sdk";
 			requirement = {
 				kind = exactVersion;
-				version = 2.2.0;
+				version = "2.4.0";
 			};
 		};
 		C2AAF8D02B85F42A00447D7B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {

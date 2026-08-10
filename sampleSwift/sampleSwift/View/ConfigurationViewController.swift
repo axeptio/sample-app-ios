@@ -31,7 +31,7 @@ class ConfigurationViewController: UIViewController {
     private let cookiesDurationTextfield = UITextField()
     private let widgetPRTextField = UITextField()
     private let widgetTypeSegmentedControl = UISegmentedControl(
-        items: [WidgetType.production.title, WidgetType.staging.title, WidgetType.pr.title]
+        items: [WidgetType.production.title, WidgetType.staging.title, WidgetType.pullRequest.title]
     )
     private let serviceSegmentedControl = UISegmentedControl(items: ["Brands", "Publisher TCF"])
     private let allowPopupSwitch = UISwitch()

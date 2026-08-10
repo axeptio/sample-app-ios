@@ -12,7 +12,6 @@ import SwiftUI
 import UIKit
 
 import AxeptioSDK
-import FirebaseAnalytics
 import GoogleMobileAds
 
 class ViewController: UIViewController {
@@ -34,6 +33,18 @@ class ViewController: UIViewController {
     private let vendorConsentButton = UIButton(type: .system)
     private let swiftUIDemoButton = UIButton(type: .system)
 
+    /// The Axeptio SDK version this sample demonstrates.
+    ///
+    /// Read from the app's own `CFBundleShortVersionString`: this repo's version tracks the SDK
+    /// version it demonstrates (CONTRIBUTING.md, "Versioning Strategy"), so the release bump keeps
+    /// this label in step instead of it drifting as a hardcoded string. It cannot be read from the
+    /// SDK itself — `AxeptioSDK` exposes no version symbol and its framework `Info.plist` is not
+    /// maintained. The authoritative pin is the `axeptio-ios-sdk` XCRemoteSwiftPackageReference
+    /// in `project.pbxproj`.
+    static var axeptioSDKVersion: String {
+        Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "unknown"
+    }
+
     private var interstitial: GADInterstitialAd?
     private let cornerRadius = 24.0
     private weak var observer: NSObjectProtocol?
@@ -50,21 +61,30 @@ class ViewController: UIViewController {
 
         let axeptioEventListener = AxeptioEventListener()
 
-        axeptioEventListener.onGoogleConsentModeUpdate = { consents in
-            Analytics.setConsent([
-                .analyticsStorage: consents.analyticsStorage == GoogleConsentStatus.granted ? .granted : .denied,
-                .adStorage: consents.adStorage == GoogleConsentStatus.granted ? .granted : .denied,
-                .adUserData: consents.adUserData == GoogleConsentStatus.granted ? .granted : .denied,
-                .adPersonalization: consents.adPersonalization == GoogleConsentStatus.granted ? .granted : .denied
-            ])
-        }
+        // Since SDK 2.3.0, Firebase consent is forwarded codelessly by the SDK's
+        // FirebaseConsentForwarder (it detects FIRAnalytics via the Objective-C runtime and
+        // calls setConsent itself). A host-app `onGoogleConsentModeUpdate { Analytics.setConsent(...) }`
+        // relay is no longer needed here — keeping one would set every GCM v2 signal twice.
+        // The same applies to AppsFlyer, Adjust and Singular: link the partner SDK and the
+        // SDK forwards consent to it automatically. See README "Codeless consent forwarding".
 
         axeptioEventListener.onConsentCleared = {
             print("Consent have been cleared")
         }
 
-        axeptioEventListener.onPopupClosedEvent = {
-            self.loadAd()
+        axeptioEventListener.onPopupClosedEvent = { [weak self] in
+            // Since SDK 2.3.0 this fires at least once after every setupUI() / showConsentScreen()
+            // call, even when no popup is shown — so it is a safe place to dismiss a host overlay
+            // and integrators no longer need a watchdog timer. Overlapping flows resolved by a
+            // single popup dismissal are coalesced into one callback.
+            print("[Axeptio] Consent flow resolved — host overlay can be dismissed now")
+            self?.loadAd()
+        }
+
+        axeptioEventListener.onError = { message in
+            // Since SDK 2.4.0 webview load failures are reported here instead of failing
+            // silently; invalid configuration (empty clientId / cookiesVersion) also surfaces here.
+            print("[Axeptio] SDK error: \(message)")
         }
 
         Axeptio.shared.setEventListener(axeptioEventListener)
@@ -221,7 +241,7 @@ private extension ViewController {
         sdkVersionLabel.textAlignment = .center
         sdkVersionLabel.numberOfLines = 0
         sdkVersionLabel.textColor = .tertiaryLabel
-        sdkVersionLabel.text = "Axeptio iOS SDK v2.0.15"
+        sdkVersionLabel.text = "Axeptio iOS SDK v\(Self.axeptioSDKVersion)"
     }
 
     func loadBasicButtons() {
@@ -233,6 +253,17 @@ private extension ViewController {
                                       tcfVendorTestButton,
                                       consentDebugInfoButton,
                                       configButton])
+
+        // Stable identifiers for UI tests: button titles change between TCF and Brands
+        // (see updateServiceSpecificButtons), so tests address the controls by identifier.
+        showConsentButton?.accessibilityIdentifier = "ax_showConsent"
+        tokenButton?.accessibilityIdentifier = "ax_token"
+        userDefaultsButton?.accessibilityIdentifier = "ax_userDefaults"
+        clearConsentButton?.accessibilityIdentifier = "ax_clearConsent"
+        googleAdButton?.accessibilityIdentifier = "ax_googleAd"
+        tcfVendorTestButton?.accessibilityIdentifier = "ax_tcfVendorTest"
+        consentDebugInfoButton?.accessibilityIdentifier = "ax_consentDebugInfo"
+        configButton?.accessibilityIdentifier = "ax_config"
     }
 
     func styleUIButtons() {
