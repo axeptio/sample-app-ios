@@ -206,6 +206,7 @@ dist
 
 # TernJS port file
 .tern-port
+
 # Code signing material — never commit to this public repo
 *.p12
 *.cer
@@ -213,3 +214,6 @@ dist
 *.key
 *.certSigningRequest
 *.mobileprovision
+
+# Build artifacts
+build.log
