@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		20418CC8FF6A336BFA7EDD34 /* Test2_ConsentFlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ECC2AC04396067BC238F21B /* Test2_ConsentFlowTests.swift */; };
 		2D3DBF3EB8979EFF061D10B2 /* sampleSwiftUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550778A01D2C1E74652633FB /* sampleSwiftUITests.swift */; };
-		2F5E764B8C7FB4D6853EFB02 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F44A27F34A1D1E5198AFA0F4 /* Foundation.framework */; };
 		44F2AE902CE87B661427D9C9 /* Test1_WidgetDisplayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD2FE39A92DB28C1FBD05EA /* Test1_WidgetDisplayTests.swift */; };
 		4D2D1AE42BE871C800C114EC /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D2D1AE32BE871C800C114EC /* WebViewController.swift */; };
 		5C0AD4A62E6060FD0018022E /* ConfigurationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0AD4A42E6060FD0018022E /* ConfigurationViewController.swift */; };
@@ -86,7 +85,6 @@
 		D01A4E45CCDEE08C898B7393 /* AxeptioIntegrationTestsHelper.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AxeptioIntegrationTestsHelper.swift; sourceTree = "<group>"; };
 		E2AE64F7CB52569AE78E490E /* Test3_PersistenceTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Test3_PersistenceTests.swift; sourceTree = "<group>"; };
 		EECA945D43D0FFB90466EF39 /* Test4_RowJScenarioTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Test4_RowJScenarioTests.swift; sourceTree = "<group>"; };
-		F44A27F34A1D1E5198AFA0F4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,7 +102,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2F5E764B8C7FB4D6853EFB02 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -114,7 +111,6 @@
 		054939361E5E18E18ECC6B6D /* iOS */ = {
 			isa = PBXGroup;
 			children = (
-				F44A27F34A1D1E5198AFA0F4 /* Foundation.framework */,
 			);
 			name = iOS;
 			sourceTree = "<group>";
