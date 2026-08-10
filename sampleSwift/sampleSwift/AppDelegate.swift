@@ -8,6 +8,7 @@
 import UIKit
 import AxeptioSDK
 import FirebaseCore
+import FirebaseAnalytics
 import GoogleMobileAds
 
 @UIApplicationMain
@@ -57,6 +58,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print("   Force show consent (Debug): \(config.forceShowConsent)")
 
         FirebaseApp.configure()
+        // The SDK's codeless Firebase consent forwarder finds FIRAnalytics through the
+        // Objective-C runtime (NSClassFromString). That class ships in the static
+        // GoogleAppMeasurement archive and is only realized once the app actually references
+        // Firebase Analytics — FirebaseApp.configure() and the import alone are not enough.
+        // A real Firebase integrator uses Analytics anyway; this call makes the demo
+        // representative so the forwarder can fire.
+        Analytics.setAnalyticsCollectionEnabled(true)
         GADMobileAds.sharedInstance().start()
 
         return true

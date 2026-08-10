@@ -71,7 +71,7 @@ echo -e "${BLUE}⏳ Waiting for simulator to be ready...${NC}"
 sleep 5
 
 # Build the app
-echo -e "${BLUE}🔨 Building sample app with SDK v2.0.14...${NC}"
+echo -e "${BLUE}🔨 Building sample app with the pinned SDK version...${NC}"
 echo -e "${YELLOW}This may take a few minutes on first build...${NC}"
 
 xcodebuild -project "$PROJECT_PATH" \
@@ -100,5 +100,5 @@ echo -e "${GREEN}🎉 Sample app is now running!${NC}"
 echo -e "\n${BLUE}📋 Testing Instructions:${NC}"
 echo -e "1. ${YELLOW}NSDate Fix Test:${NC} Tap 'Consent Debug Info' button - should not crash"
 echo -e "2. ${YELLOW}TCF Vendor API:${NC} Test the new vendor consent methods"
-echo -e "3. ${YELLOW}SDK Version:${NC} Check that SDK v2.0.14 is being used"
+echo -e "3. ${YELLOW}SDK Version:${NC} Check that the expected SDK version is being used"
 echo -e "\n${BLUE}💡 Pro tip:${NC} Use 'xcrun simctl launch --console $SIMULATOR_UDID $BUNDLE_ID' to see console logs"

@@ -5,7 +5,6 @@
 //  Created by Leonardo Carrillo on 05/08/25.
 //
 import SwiftUI
-import AxeptioSDK
 
 class ConsentDebugViewController: UIViewController {
     private let data: [String: Any?]

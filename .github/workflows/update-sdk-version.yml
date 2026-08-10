@@ -4,14 +4,18 @@ on:
   workflow_dispatch:
     inputs:
       sdk_version:
-        description: 'Axeptio iOS SDK version to update to (e.g., 2.0.15)'
+        description: 'Axeptio iOS SDK version to update to (e.g., 2.4.0) — no "v" prefix'
         required: true
         type: string
+
+permissions:
+  contents: write
+  pull-requests: write
 
 jobs:
   update-sdk:
     runs-on: macos-latest
-    
+
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
@@ -24,34 +28,61 @@ jobs:
         xcode-version: latest-stable
 
     - name: Update Swift Package Manager Dependencies
+      env:
+        SDK_VERSION: ${{ github.event.inputs.sdk_version }}
       run: |
-        echo "Updating SPM dependencies to version ${{ github.event.inputs.sdk_version }}"
-        cd sampleSwift
-        
-        # Remove Package.resolved to force update
-        rm -f sampleSwift.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
-        
-        # Resolve packages to get latest version
-        xcodebuild -resolvePackageDependencies -project sampleSwift.xcodeproj -scheme sampleSwift
-        
-        # Verify the correct version was resolved
-        if [ -f "sampleSwift.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved" ]; then
-          echo "Package.resolved updated successfully"
-          cat sampleSwift.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
-        else
-          echo "Warning: Package.resolved not found"
+        set -euo pipefail
+        echo "Updating SPM dependencies to version ${SDK_VERSION}"
+
+        # Validate strictly before the value reaches any command. This rejects a
+        # leading "v" (tags carry it from 2.3.0 onward, but the pbxproj requirement
+        # must hold the bare semver or SPM will not resolve it) and, just as
+        # importantly, refuses anything containing shell or regex metacharacters.
+        if ! [[ "${SDK_VERSION}" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.]+)?$ ]]; then
+          echo "::error::Invalid version '${SDK_VERSION}'. Expected bare semver such as 2.4.0 or 2.4.0-beta.1 (no 'v' prefix)."
+          exit 1
+        fi
+
+        PBXPROJ=sampleSwift/sampleSwift.xcodeproj/project.pbxproj
+        RESOLVED=sampleSwift/sampleSwift.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
+
+        # The pin is `kind = exactVersion`, so the requirement itself has to be
+        # rewritten. Deleting Package.resolved and re-resolving on its own just
+        # re-resolves the same version, which is why this workflow used to be a no-op.
+        # Narrow the edit to the axeptio-ios-sdk package reference block only.
+        # SDK_VERSION is read from %ENV inside perl rather than spliced into the
+        # expression, so its contents can never be parsed as code.
+        perl -0pi -e 's{(XCRemoteSwiftPackageReference "axeptio-ios-sdk".*?kind = exactVersion;\s*version = )"?[^";]+"?;}{$1 . "\"" . $ENV{SDK_VERSION} . "\";"}se' "$PBXPROJ"
+
+        if ! grep -q "\"${SDK_VERSION}\"" "$PBXPROJ"; then
+          echo "::error::Failed to rewrite the axeptio-ios-sdk pin in ${PBXPROJ}."
+          exit 1
+        fi
+
+        rm -f "$RESOLVED"
+        xcodebuild -resolvePackageDependencies -project sampleSwift/sampleSwift.xcodeproj -scheme sampleSwift
+
+        # Confirm the resolved graph actually landed on the requested version.
+        RESOLVED_VERSION=$(python3 -c "import json,sys;d=json.load(open('$RESOLVED'));print(next(p['state']['version'] for p in d['pins'] if p['identity']=='axeptio-ios-sdk'))")
+        echo "Resolved AxeptioSDK: ${RESOLVED_VERSION}"
+        if [ "$RESOLVED_VERSION" != "${SDK_VERSION}" ]; then
+          echo "::error::Resolved ${RESOLVED_VERSION} but expected ${SDK_VERSION}."
+          exit 1
         fi
 
     - name: Build Swift Sample App
       run: |
         echo "Building Swift sample app with updated SDK"
         cd sampleSwift
-        xcodebuild -project sampleSwift.xcodeproj -scheme sampleSwift -destination 'platform=iOS Simulator,name=iPhone 15' build
+        xcodebuild -project sampleSwift.xcodeproj -scheme sampleSwift -destination 'platform=iOS Simulator,name=iPhone 16' build
 
     - name: Check for changes
       id: changes
       run: |
-        git add .
+        # Stage only the two files this workflow is allowed to touch. A blanket
+        # `git add .` would sweep in anything else left in the workspace.
+        git add sampleSwift/sampleSwift.xcodeproj/project.pbxproj \
+                sampleSwift/sampleSwift.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
         if git diff --cached --quiet; then
           echo "No changes to commit"
           echo "has_changes=false" >> $GITHUB_OUTPUT
@@ -62,8 +93,11 @@ jobs:
 
     - name: Create Pull Request
       if: steps.changes.outputs.has_changes == 'true'
-      uses: peter-evans/create-pull-request@v5
+      uses: peter-evans/create-pull-request@v7
       with:
+        # Note: a PR opened with GITHUB_TOKEN does not trigger downstream workflow
+        # runs, so checks on the generated PR must be kicked off manually (e.g. by
+        # pushing an empty commit) or by swapping in a PAT / GitHub App token.
         token: ${{ secrets.GITHUB_TOKEN }}
         commit-message: |
           feat: update Axeptio iOS SDK to v${{ github.event.inputs.sdk_version }}
@@ -96,7 +130,7 @@ jobs:
           The Swift sample app has been verified to compile successfully with the new SDK version.
           
           🤖 Generated with [Claude Code](https://claude.ai/code)
-        base: master
+        base: develop
         delete-branch: true
 
     - name: Comment on Success  

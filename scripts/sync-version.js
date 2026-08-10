@@ -9,35 +9,50 @@ const version = packageJson.version;
 
 console.log(`Syncing version ${version} across project files...`);
 
+// Matches a semver version, including prerelease/build identifiers such as
+// "2.4.0-beta.1". A bare [\d.]+ silently fails to match those, which is how
+// MARKETING_VERSION previously got stuck several releases behind.
+const VERSION_PATTERN = '[0-9]+\\.[0-9]+\\.[0-9]+(?:-[0-9A-Za-z.-]+)?(?:\\+[0-9A-Za-z.-]+)?';
+
 // Update Info.plist files
 const infoPlistPaths = [
-  'sampleSwift/sampleSwift/Info.plist',
-  'sampleObjectiveC/sampleObjectiveC/Info.plist'
+  'sampleSwift/sampleSwift/Info.plist'
 ];
 
 for (const plistPath of infoPlistPaths) {
   if (fs.existsSync(plistPath)) {
     let content = fs.readFileSync(plistPath, 'utf8');
-    
-    // Check if CFBundleShortVersionString exists, if not add it
+
     if (!content.includes('<key>CFBundleShortVersionString</key>')) {
-      // Add version keys before the closing </dict> tag
-      const versionSection = `\t<key>CFBundleShortVersionString</key>\n\t<string>${version}</string>\n\t<key>CFBundleVersion</key>\n\t<string>${version}</string>\n</dict>`;
-      content = content.replace('</dict>', versionSection);
+      // Insert into the ROOT dict, i.e. the last </dict> before </plist>.
+      // Replacing the first </dict> instead would bury the version keys inside
+      // whichever nested dict happens to come first (e.g. NSAppTransportSecurity),
+      // producing a structurally valid plist whose version keys iOS never reads.
+      const versionSection =
+        `\t<key>CFBundleShortVersionString</key>\n\t<string>${version}</string>\n` +
+        `\t<key>CFBundleVersion</key>\n\t<string>${version}</string>\n</dict>`;
+
+      const rootDictClose = content.lastIndexOf('</dict>');
+      if (rootDictClose === -1) {
+        console.error(`✗ ${plistPath} has no closing </dict>; skipping`);
+        continue;
+      }
+      content =
+        content.slice(0, rootDictClose) +
+        versionSection +
+        content.slice(rootDictClose + '</dict>'.length);
     } else {
-      // Update CFBundleShortVersionString
       content = content.replace(
-        /<key>CFBundleShortVersionString<\/key>\s*<string>[\d.]+<\/string>/g,
-        `<key>CFBundleShortVersionString</key>\n\t<string>${version}</string>`
+        new RegExp(`(<key>CFBundleShortVersionString</key>\\s*<string>)${VERSION_PATTERN}(</string>)`, 'g'),
+        `$1${version}$2`
       );
-      
-      // Update CFBundleVersion
+
       content = content.replace(
-        /<key>CFBundleVersion<\/key>\s*<string>[\d.]+<\/string>/g,
-        `<key>CFBundleVersion</key>\n\t<string>${version}</string>`
+        new RegExp(`(<key>CFBundleVersion</key>\\s*<string>)${VERSION_PATTERN}(</string>)`, 'g'),
+        `$1${version}$2`
       );
     }
-    
+
     fs.writeFileSync(plistPath, content);
     console.log(`✓ Updated ${plistPath}`);
   } else {
@@ -47,20 +62,22 @@ for (const plistPath of infoPlistPaths) {
 
 // Update Xcode project versions
 const projectPaths = [
-  'sampleSwift/sampleSwift.xcodeproj/project.pbxproj',
-  'sampleObjectiveC/sampleObjectiveC.xcodeproj/project.pbxproj'
+  'sampleSwift/sampleSwift.xcodeproj/project.pbxproj'
 ];
 
 for (const projectPath of projectPaths) {
   if (fs.existsSync(projectPath)) {
     let content = fs.readFileSync(projectPath, 'utf8');
-    
-    // Update MARKETING_VERSION
+
+    // pbxproj only accepts a bare token for simple values; anything containing a
+    // hyphen (i.e. any prerelease version) has to be quoted.
+    const marketingValue = /^[0-9.]+$/.test(version) ? version : `"${version}"`;
+
     content = content.replace(
-      /MARKETING_VERSION = [\d.]+;/g,
-      `MARKETING_VERSION = ${version};`
+      new RegExp(`MARKETING_VERSION = "?${VERSION_PATTERN}"?;`, 'g'),
+      `MARKETING_VERSION = ${marketingValue};`
     );
-    
+
     fs.writeFileSync(projectPath, content);
     console.log(`✓ Updated ${projectPath}`);
   } else {
