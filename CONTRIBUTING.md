@@ -97,11 +97,12 @@ npm run release
 ### What Happens During Release
 1. Commits since the last tag are analysed to determine the next version
 2. `CHANGELOG.md` is generated from the conventional commits
-3. A git tag is created (e.g. `v2.4.0`)
-4. A GitHub release is published
-5. The changelog commit is pushed back to the release branch
+3. `package.json` / `package-lock.json` are updated to the new version
+4. A git tag is created (e.g. `v2.4.0`)
+5. A GitHub release is published
+6. The release commit — `CHANGELOG.md`, `package.json`, `package-lock.json` — is pushed back to the release branch
 
-> ⚠️ `@semantic-release/git` commits **only `CHANGELOG.md`**. It does *not* write `package.json` or the iOS project files, so the four version sites listed above still have to be updated in the PR that precedes the release.
+> ⚠️ `@semantic-release/git` commits those three files **only**. It does not touch the iOS project files, so `MARKETING_VERSION`, `Info.plist` and the SDK pin from the list above still have to be updated in the PR that precedes the release. Run `npm run version:sync` after bumping `package.json` to propagate the first two.
 
 ## Pre-commit Validation
 
