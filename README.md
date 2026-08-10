@@ -2,9 +2,12 @@
 
 # Axeptio iOS SDK Documentation
 
-Welcome to the Axeptio iOS SDK Samples project. This repository provides a comprehensive guide on how to integrate the Axeptio iOS SDK into your mobile applications. It ships a single Swift module using Swift Package Manager, aligned with Axeptio iOS SDK `2.2.0`. Objective-C integration snippets throughout this README are kept as reference for Obj-C consumers, but there is no compiled Obj-C sample to run. Below you'll find detailed instructions and code examples to help you integrate and configure the SDK within your iOS app.
+Welcome to the Axeptio iOS SDK Samples project. This repository provides a comprehensive guide on how to integrate the Axeptio iOS SDK into your mobile applications. It ships a single Swift module using Swift Package Manager, aligned with Axeptio iOS SDK `2.4.0`. Objective-C integration snippets throughout this README are kept as reference for Obj-C consumers, but there is no compiled Obj-C sample to run. Below you'll find detailed instructions and code examples to help you integrate and configure the SDK within your iOS app.
+
+> **Upgrading from 2.2.x or earlier?** Read [Migrating to 2.4.0](#migrating-to-240) first. One change alters behaviour **without a compile error**: the consent banner is now shown to ATT-denied users by default.
 
 ## Table of Contents
+0. [Migrating to 2.4.0](#migrating-to-240)
 1. [GitHub Access Token Documentation](#github-access-token-documentation)
 2. [Requirements](#requirements)
 3. [SDK Version](#sdk-version)
@@ -43,9 +46,71 @@ Welcome to the Axeptio iOS SDK Samples project. This repository provides a compr
 19. [Event Descriptions](#event-descriptions)
 20. [Event source for KPI tracking](#event-source-for-kpi-tracking)
 21. [Google Consent Mode v2 Integration with Axeptio SDK](#google-consent-mode-v2-integration-with-axeptio-sdk)
-22. [Google AdMob Integration with Axeptio SDK](#google-admob-integration-with-axeptio-sdk)
+22. [Codeless consent forwarding to attribution partners](#codeless-consent-forwarding-to-attribution-partners)
+23. [Diagnosing consent display in the field](#diagnosing-consent-display-in-the-field)
+24. [Google AdMob Integration with Axeptio SDK](#google-admob-integration-with-axeptio-sdk)
 
 <br><br>
+
+## Migrating to 2.4.0
+
+Everything below applies when moving from **2.2.x or earlier** to **2.4.0**. There are **no source-breaking API changes** — every public symbol in 2.2.0 is present and unchanged in 2.4.0, so your code keeps compiling. The changes that matter are behavioural.
+
+### 1. The consent banner is now shown to ATT-denied users by default
+
+This is the only change that can alter production behaviour **without a compile error**.
+
+`allowPopupDisplayWithRejectedDeviceTrackingPermissions` changed its default from `false` to `true`. ATT and GDPR consent are legally independent — declining Apple's tracking prompt is not a refusal of cookie consent — so the SDK no longer suppresses the banner for users who denied ATT.
+
+- **If you never call this method**, users who denied ATT will now see the consent banner where previously they did not.
+- **To keep the old behaviour**, opt out explicitly:
+
+```swift
+Axeptio.shared.allowPopupDisplayWithRejectedDeviceTrackingPermissions(false)
+```
+
+ATT still gates what happens *after* consent: third-party signal forwarding, web analytics and in-app lifecycle analytics remain ATT-gated regardless of this flag.
+
+### 2. Remove your own Google Consent Mode relay
+
+If you forward consent to Firebase yourself, **delete that code**. Since 2.3.0 the SDK forwards Firebase consent itself, so keeping your relay sets every signal twice:
+
+```swift
+// DELETE THIS — the SDK now does it for you
+axeptioEventListener.onGoogleConsentModeUpdate = { consents in
+    Analytics.setConsent([...])
+}
+```
+
+See [Codeless consent forwarding](#codeless-consent-forwarding-to-attribution-partners). The same applies to AppsFlyer, Adjust and Singular.
+
+### 3. You can delete your `onPopupClosedEvent` watchdog
+
+`onPopupClosedEvent` is now guaranteed to fire **at least once** after every `setupUI()` / `showConsentScreen()` call, including the paths where no popup is ever displayed (already consented, ATT denied, widget declined to show, presentation failure, JS error). Previously several of those paths returned silently, so integrators that gated their own UI on this callback could deadlock and defended themselves with a timeout. That workaround is no longer needed.
+
+Coalescing rule: overlapping calls resolved by a *single* popup dismissal produce **one** callback; calls resolved by no-popup paths each produce their own.
+
+### 4. Wire up `onError`
+
+`onError` has existed since 2.2.0 but is easy to miss. As of 2.4.0 it is where webview load failures are reported — previously they failed silently — and where invalid configuration (empty `clientId` or `cookiesVersion`) surfaces.
+
+```swift
+axeptioEventListener.onError = { message in
+    print("[Axeptio] SDK error: \(message)")
+}
+```
+
+### 5. Behaviour you get for free
+
+No action needed, but worth knowing when comparing against 2.2.x:
+
+- `initialize()` and `setupUI()` are **idempotent** — duplicate calls are silent no-ops, and `setupUI()` only proceeds after a successful `initialize()`.
+- A **10-second watchdog** bounds the wait on the consent widget, with one cache-bypassing retry.
+- Vendor-consent maths corrected: legitimate interest now counts as consent on the summary tier, and unparseable vendor data fails closed. **Vendor counts your app displays may change.**
+- A partial `IABTCF_*` payload no longer deletes stored consent, and a single unusable Google consent value no longer discards the whole update.
+- `appendAxeptioTokenToURL` no longer appends duplicate query items when called repeatedly.
+
+<br><br><br>
 
 ## GitHub Access Token Documentation
 When setting up your project or accessing certain GitHub services, you may be prompted to create a GitHub Access Token. However, it's important to note that generating a GitHub access token requires a valid GitHub account and the enabling of two-factor authentication (2FA).
@@ -82,11 +147,14 @@ Ensure the **following keys** are added to your `Info.plist` file to comply with
 
 ## SDK Version
 
-This sample app demonstrates the **Axeptio iOS SDK**. Current version: **2.2.0**.
+This sample app demonstrates the **Axeptio iOS SDK**. Current version: **2.4.0**.
 
 For release notes and changelog, see:
 - [SDK Releases](https://github.com/axeptio/axeptio-ios-sdk/releases)
-- [Release Notes v2.2.0](https://github.com/axeptio/axeptio-ios-sdk/releases/tag/2.2.0)
+- [Release Notes v2.4.0](https://github.com/axeptio/axeptio-ios-sdk/releases/tag/v2.4.0)
+- [Release Notes v2.3.0](https://github.com/axeptio/axeptio-ios-sdk/releases/tag/v2.3.0) — note the substance of the 2.3.0 line is documented in [v2.3.0-beta.2](https://github.com/axeptio/axeptio-ios-sdk/releases/tag/v2.3.0-beta.2)
+
+> Release tags carry a `v` prefix from 2.3.0 onward (`v2.3.0`, `v2.4.0`); earlier releases do not (`2.2.0`). Swift Package Manager normalizes this, so pinning `2.4.0` resolves tag `v2.4.0` correctly.
 
 <br><br><br>
 ## Clone the Repository
@@ -108,17 +176,21 @@ If your project uses CocoaPods, you can easily add the Axeptio SDK by following 
 - Open your `Podfile` in the root directory of your project
 ```ruby
 source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, '18.0'
+platform :ios, '15.0'
 use_frameworks!
 
 target 'MyApp' do
-  pod 'AxeptioIOSSDK'
+  pod 'AxeptioIOSSDK', '~> 2.4.0'
 end
 ```
 - run the following command to install the dependency:
 ```bash
 pod install
 ```
+
+> `platform :ios, '15.0'` is the SDK's actual minimum. Set this to whatever your own app targets — this sample happens to target iOS 18, but that is a choice of the sample, not a requirement of the SDK.
+>
+> Pre-release versions (`2.3.0-beta.1`, etc.) are **not published to CocoaPods**, since CocoaPods does not support semver pre-release identifiers. Use Swift Package Manager to evaluate a beta.
 
 ### Using Swift Package Manager
 To integrate the Axeptio iOS SDK into your Xcode project using Swift Package Manager, follow these steps:
@@ -129,8 +201,17 @@ To integrate the Axeptio iOS SDK into your Xcode project using Swift Package Man
 - Click the **+** button to add a new package dependency
 - In the search bar, paste the following package URL: `https://github.com/axeptio/axeptio-ios-sdk`
 - Select the **AxeptioIOSSDK** package from the list of available packages
+- Choose a version rule — this sample pins **Exact Version `2.4.0`**
 - Click Add Package.
 - In the **Choose Package Products screen**, confirm the selection and click **Add Package** to complete the integration
+
+Or declare it in a `Package.swift`:
+
+```swift
+dependencies: [
+    .package(url: "https://github.com/axeptio/axeptio-ios-sdk.git", from: "2.4.0")
+]
+```
 <br><br><br>
 ## Initializing the SDK
 To initialize the Axeptio SDK in your iOS project, import the `AxeptioSDK` module into your `AppDelegate` and initialize the SDK with the appropriate configuration.
@@ -161,8 +242,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Axeptio.shared.initialize(
             targetService: .publisherTcf,  // or .brands
             clientId: "your-client-id",
-            cookiesVersion: "your-cookies-version",
-            token: "your-token"  // optional
+            cookiesVersion: "your-cookies-version"
         )
 
         return true
@@ -170,19 +250,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 }
 ```
 
-**With widget environment and cookie duration (SDK 2.1.0+):**
+**With a token, widget environment and cookie duration:**
+
+Initialization is a **two-step** call. `configure(...)` supplies the optional token, PR hash and cookie-duration settings; `initialize(...)` then starts the SDK. Call `configure(...)` **before** `initialize(...)` — every parameter it takes has a default, so pass only what you need.
+
 ```swift
-Axeptio.shared.initialize(
-    targetService: .publisherTcf,
-    clientId: "your-client-id",
-    cookiesVersion: "your-cookies-version",
-    token: "your-token",
-    widgetType: .production,               // .production, .staging, or .pr
-    widgetPR: nil,                         // PR hash when using .pr
+Axeptio.shared.configure(
+    token: "your-token",                   // optional
+    widgetPR: nil,                         // PR hash, required when widgetType is .pullRequest
     cookiesDurationDays: 190,              // Default: 190 days
     shouldUpdateCookiesDuration: false     // Default: false
 )
+
+Axeptio.shared.initialize(
+    targetService: .publisherTcf,          // or .brands
+    clientId: "your-client-id",
+    cookiesVersion: "your-cookies-version",
+    widgetType: .production                // .production, .staging, or .pullRequest
+)
 ```
+
+> Calling `initialize()` more than once is a safe no-op from 2.3.0 onward, and `setupUI()` only proceeds once `initialize()` has succeeded.
 
 **Then in your ViewController:**
 ```swift
@@ -567,6 +655,41 @@ struct YourSwiftUIApp: App {
 }
 ```
 By following these steps, the Axeptio SDK will be correctly integrated into a SwiftUI app, and the logic for displaying the consent popup will be handled inside `viewDidAppear()` within the custom `UIViewController`
+
+##### Native SwiftUI API: `AxeptioStore` and `.axeptioConsent()`
+
+The `UIViewControllerRepresentable` route above works, but the SDK also ships a **native SwiftUI API** that removes the UIKit bridging entirely.
+
+Attach `.axeptioConsent()` to a view to host the consent screen, and observe `AxeptioStore` for consent state:
+
+```swift
+import SwiftUI
+import AxeptioSDK
+
+struct ContentView: View {
+    @StateObject private var axeptio = AxeptioStore()
+
+    var body: some View {
+        VStack(spacing: 16) {
+            Text("Consent saved: \(axeptio.consentSaved ? "Yes" : "No")")
+
+            if let google = axeptio.googleConsentV2 {
+                Text("Analytics: \(google.analyticsStorage.rawValue)")
+                Text("Ad storage: \(google.adStorage.rawValue)")
+            }
+
+            Button("Show consent") { Axeptio.shared.showConsentScreen() }
+            Button("Clear consent") { Axeptio.shared.clearConsent() }
+        }
+        .axeptioConsent()
+    }
+}
+```
+
+`AxeptioStore` is an `ObservableObject`, so the view updates automatically as consent changes — no event listener wiring required for UI state. You still call `Axeptio.shared.configure(...)` / `initialize(...)` at app start as shown above.
+
+A runnable version of this lives in [`SwiftUISampleView.swift`](sampleSwift/sampleSwift/View/SwiftUISampleView.swift) in this repository.
+
 <br><br><br>
 
 ## Additional Configuration Show Popup When Returning from Background
@@ -576,10 +699,10 @@ You can set this property after the SDK has been initialized.
 #### Example Usage:
 ```swift
 // Initialize the SDK as usual
-AxeptioSDK.initialize(...)
+Axeptio.shared.initialize(...)
 
 // Configure the popup behavior when returning from background
-AxeptioSDK.setDisplayPopUpOnEnterForeground(true)
+Axeptio.shared.setDisplayPopUpOnEnterForeground(display: true)
 ```
 #### Behavior:
 - The user is in the main app that includes the SDK.
@@ -719,23 +842,36 @@ The SDK introduces improved handling of the App Tracking Transparency (ATT) flow
 
 The SDK offers a new setup option to control whether the consent banner should be displayed even if ATT is denied on the device.
 
-### New Configuration Flag
+### Configuration Flag
 
 ```swift
-allowPopupDisplayWithRejectedDeviceTrackingPermissions: Bool
+Axeptio.shared.allowPopupDisplayWithRejectedDeviceTrackingPermissions(_ allow: Bool)
 ```
-- Default: `false`
-- If set to `true`, the SDK bypasses the ATT check and allows the consent popup to be displayed even if ATT tracking is denied at the OS level.
-This flag must be set during the Axeptio SDK setup phase.
+
+> ⚠️ **The default changed in 2.3.0: it is now `true`** (it was `false` in 2.2.x and earlier).
+>
+> ATT and GDPR consent are legally independent — declining Apple's tracking prompt is not a refusal of cookie consent — so the SDK no longer suppresses the consent banner for ATT-denied users.
+>
+> If you never call this method, **users who denied ATT now see the consent banner where previously they did not**. There is no compile error signalling this. To keep the previous behaviour, opt out explicitly:
+>
+> ```swift
+> Axeptio.shared.allowPopupDisplayWithRejectedDeviceTrackingPermissions(false)
+> ```
+
+When set to `false`, the SDK suppresses the consent popup while ATT tracking is denied at the OS level. This is a method call, not a property, and must be called during the Axeptio SDK setup phase.
+
+Whatever you choose here, ATT continues to gate what happens *after* consent: third-party signal forwarding, web analytics and in-app lifecycle analytics remain ATT-gated.
 
 ### Logic to Display the Consent Popup
 
-To display the popup, the following conditions are now evaluated:
+To display the popup, the following conditions are evaluated:
 
 | **Condition**                                | **Mandatory** | **Configurable** |
 |----------------------------------------------|---------------|------------------|
 | Network connectivity                         | Yes        | No            |
-| Device ATT status is "Authorized"            | No         | Yes (via `allowPopupDisplayWithRejectedDeviceTrackingPermissions`) |
+| Device ATT status is "Authorized"            | No         | Yes (via `allowPopupDisplayWithRejectedDeviceTrackingPermissions`, **default `true` since 2.3.0**) |
+
+When the popup is suppressed because ATT was denied, the SDK records a `blocked_att` outcome in its decision log — see [Diagnosing consent display in the field](#diagnosing-consent-display-in-the-field).
 
 ## Behavior of the `_ax_app_att_denied` flag
 - Set to `true` when ATT is denied on the device.
@@ -1376,110 +1512,6 @@ Some of the events Axeptio can send include:
  ```
 These events are sent by the system to notify the host app that the user has interacted with the consent system or that an action related to consent has been completed.
 <br><br><br>
-<!--  
-## How to Receive Events
-
-To listen for events sent by the SDK, you can use one of the following approaches:
-
-#### Callback (Closure)
-The simplest way to receive events is by using a closure callback. You can define a property of type closure to handle the event and its associated payload.
-**Implementation Example:**
-```swift
-public class Axeptio {
-    public var onEventReceived: ((Result<Payload, Error>) -> Void)?
-    
-    func someMethod() {
-        // Send success event
-        onEventReceived?(.success(payloadObject))
-        
-        // Send failure event
-        onEventReceived?(.failure(error))
-    }
-}
-
-// *** Usage in host app:
-Axeptio.shared.onEventReceived = { [weak self] result in
-    switch result {
-    case .success(let payload):
-        // Handle the received payload
-    case .failure(let error):
-        // Handle the error
-    }
-}
-```
-In this example, the host app can listen to the event and respond accordingly, either by handling the payload or managing errors.
-#### Publisher (Combine Framework)
-If your app uses the Combine framework, you can take advantage of a PassthroughSubject to send and receive events. This approach is helpful if your app is already designed to use Combine.
-**Implementation Example**
-```swift
-import Combine
-
-public class Axeptio {
-    public static let shared = Axeptio()
-    public var onConsentEvent = PassthroughSubject<Payload, Never>()
-    
-    func someMethod() {
-        // Send the event via publisher
-        onConsentEvent.send(payloadObject)
-    }
-}
-
-// *** Usage in host app:
-Axeptio.shared.onConsentEvent
-    .sink { [weak self] event in
-        // Handle the received event
-    }
-```
-In this case, the host app uses the `sink` method to receive the payload and handle the event.
-#### Delegate (Protocol)
-Another possible approach is to use a **delegate protocol** to receive events. This method is particularly useful if you want to centralize event management in a delegate object.
-
-**Implementation Example:**
-```swift
-public protocol AxeptioEventDelegate: AnyObject {
-    func didReceiveEvent(_ event: Payload)
-    func didFailWithError(_ error: Error)
-}
-
-public class Axeptio {
-    public static let shared = Axeptio()
-    public weak var delegate: AxeptioEventDelegate?
-    
-    func someMethod() {
-        // Notify the delegate of the event
-        delegate?.didReceiveEvent(payloadObject)
-        
-        // Notify the delegate of an error
-        delegate?.didFailWithError(error)
-    }
-}
-
-// *** Usage in host app:
-class ViewController: UIViewController {
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Set the delegate
-        Axeptio.shared.delegate = self
-    }
-}
-
-// MARK: - AxeptioEventDelegate methods
-extension ViewController: AxeptioEventDelegate {
-    func didReceiveEvent(_ event: Payload) {
-        // Handle the received event
-    }
-    
-    func didFailWithError(_ error: Error) {
-        // Handle the error
-    }
-}
-```
-In this example, the host app implements the AxeptioEventDelegate protocol and receives events through the delegate.
-
-
-
-
-<br><br><br> -->
 
 ## Event source for KPI tracking
 To ensure proper KPI attribution in the back office, the App SDK now adds a specific `event_source` value when emitting TCF events from the WebView.
@@ -1493,7 +1525,7 @@ This change ensures that events triggered from the App SDK are not incorrectly c
 
 No additional configuration is needed on your side if you are using the official SDK integration.
 
-<br><br><br> -->
+<br><br><br>
 ## Google Consent Mode v2 Integration with Axeptio SDK
 
 This steps explains how to integrate Google Consent Mode v2 with the Axeptio SDK for managing user consent within your iOS application. It covers Firebase Analytics integration and provides code examples in both Swift and Objective-C.
@@ -1514,55 +1546,42 @@ When user consent is collected through your Consent Management Platform (CMP), t
 
 The integration allows the app to send consent preferences to both Google and Firebase systems. The Google Consent Mode is updated whenever the user modifies their consent preferences via the CMP, and this information is sent to Firebase for analytics tracking.
 
-#### Key Steps to Integrate Google Consent Mode v2 with Axeptio SDK
+#### Since SDK 2.3.0 this is automatic — do not write the relay yourself
 
-##### 1. **Register for Google Consent Updates**
-   
-You need to listen for consent updates that come from the user interaction with the Axeptio SDK. These events will notify your application when a user's consent preferences change, especially regarding Google-related services like Google Analytics, Ad Storage, and others.
+The SDK forwards Google Consent Mode v2 signals to Firebase Analytics **on your behalf**. It detects `FIRAnalytics` through the Objective-C runtime and calls `setConsent` itself whenever consent changes, and replays stored consent at `initialize()`.
 
-- The Axeptio SDK will automatically set the `IABTCF_EnableAdvertiserConsentMode` key in `UserDefaults` to `true` once the user has consented to advertising data collection.
+**You do not need an `onGoogleConsentModeUpdate` handler for Firebase.** If you are upgrading from 2.2.x or earlier and already have one, **delete it** — otherwise every signal is set twice, once by the SDK and once by your code.
 
-###### 2. **Map Consent Types and Status**
-   
-The Google Consent Mode v2 categorizes consent statuses into different types like `analyticsStorage`, `adStorage`, and `adPersonalization`. You must map these consent statuses to the corresponding Firebase Analytics consent models. This ensures that Firebase respects the user’s privacy choices.
-
-##### 3. **Update Firebase Analytics Consent Statuses**
-
-Once the Google Consent update is received from the Axeptio SDK, you must update the consent statuses in Firebase Analytics. Use the `setConsent()` method provided by Firebase to sync the user’s preferences.
-
-##### 4. **Set Up the Event Listener for Google Consent Updates**
-
-The Axeptio SDK triggers events, allowing you to listen for changes in Google’s consent status. You can then map the updates and forward the consent status to Firebase Analytics.
-
-#### Code Examples
-
-##### Swift
+All you need is a Firebase Analytics integration that is actually referenced by your app:
 
 ```swift
-// Set up the listener for Google Consent Mode updates
+import FirebaseCore
+import FirebaseAnalytics
+
+FirebaseApp.configure()
+// Required: FIRAnalytics ships in the static GoogleAppMeasurement archive and is only
+// realized once your app references Firebase Analytics. FirebaseApp.configure() and the
+// import alone are not enough for the SDK's runtime lookup to find it.
+Analytics.setAnalyticsCollectionEnabled(true)
+```
+
+The SDK also sets the `IABTCF_EnableAdvertiserConsentMode` key in `UserDefaults` to `true` once the user has consented to advertising data collection.
+
+#### Reading the consent values yourself
+
+`onGoogleConsentModeUpdate` still exists, and remains useful for **observing** consent — driving your own UI, logging, or forwarding to a system the SDK does not know about. Just don't use it to relay to Firebase:
+
+```swift
 axeptioEventListener.onGoogleConsentModeUpdate = { consents in
-    // Mapping Axeptio consent statuses to Firebase Analytics consent types
-    Analytics.setConsent([
-        .analyticsStorage: consents.analyticsStorage == GoogleConsentStatus.granted ? ConsentStatus.granted : ConsentStatus.denied,
-        .adStorage: consents.adStorage == GoogleConsentStatus.denied ? ConsentStatus.granted : ConsentStatus.denied,
-        .adUserData: consents.adUserData == GoogleConsentStatus.denied ? ConsentStatus.granted : ConsentStatus.denied,
-        .adPersonalization: consents.adPersonalization == GoogleConsentStatus.denied ? ConsentStatus.granted : ConsentStatus.denied
-    ])
+    print("analyticsStorage: \(consents.analyticsStorage)")
+    print("adStorage: \(consents.adStorage)")
+    print("adUserData: \(consents.adUserData)")
+    print("adPersonalization: \(consents.adPersonalization)")
 }
 ```
-##### Objective-C
-```objc
-// Set up the listener for Google Consent Mode updates
-[axeptioEventListener setOnGoogleConsentModeUpdate:^(GoogleConsentV2 *consents) {
-    // Mapping Axeptio consent statuses to Firebase Analytics consent types
-    [FIRAnalytics setConsent:@{
-        FIRConsentTypeAnalyticsStorage : [consents analyticsStorage] ? FIRConsentStatusGranted : FIRConsentStatusDenied,
-        FIRConsentTypeAdStorage : [consents adStorage] ? FIRConsentStatusGranted : FIRConsentStatusDenied,
-        FIRConsentTypeAdUserData : [consents adUserData] ? FIRConsentStatusGranted : FIRConsentStatusDenied,
-        FIRConsentTypeAdPersonalization : [consents adPersonalization] ? FIRConsentStatusGranted : FIRConsentStatusDenied
-    }];
-}];
-```
+
+Each value is a `GoogleConsentStatus` (`.granted` / `.denied`). From 2.3.0 the SDK decodes these defensively: each key degrades independently and fails closed to `.denied`, so one malformed value no longer discards the entire consent update.
+
 #### Explanation of Consent Types
 
 - **Analytics Storage**: Consent for storing analytics data.
@@ -1581,12 +1600,80 @@ Ensure that the consent popup is shown at the appropriate time in your app's flo
 Track changes in user consent preferences with the `onConsentChanged` event. This allows your app to react dynamically to changes and adjust its data collection and processing accordingly.
 
 ##### 3. **Google Consent Mode Updates**
-The `onGoogleConsentModeUpdate` event informs you of changes in Google’s consent status. It is essential to ensure your app stays aligned with Google's tracking and data collection policies by updating Firebase Analytics’ consent preferences when this event occurs.
+The `onGoogleConsentModeUpdate` event informs you of changes in Google's consent status. Since 2.3.0 the SDK already forwards these to Firebase Analytics for you, so treat this event as **observational** — use it to drive your own UI or logging, not to call `Analytics.setConsent` a second time.
 
 ##### 4. **Compliance with Privacy Regulations**
 By integrating Google Consent Mode and Firebase Analytics, you are ensuring that your app complies with privacy regulations like the GDPR and CCPA. Both systems will respect the user’s preferences, ensuring data is only processed in accordance with the user’s consent.
 
-Integrating Google Consent Mode v2 with the Axeptio SDK provides a seamless way to manage user consent preferences across both Google and Firebase systems. By properly handling consent updates and syncing with Firebase Analytics, your app will remain compliant with privacy laws while respecting user preferences. Use the provided event listener and consent mapping techniques to ensure that both Google and Firebase follow the same consent flow.
+Integrating Google Consent Mode v2 with the Axeptio SDK provides a seamless way to manage user consent preferences across both Google and Firebase systems. Because the SDK performs the Firebase forwarding itself, your app stays compliant without maintaining any consent-mapping code of its own.
+<br><br><br>
+
+## Codeless consent forwarding to attribution partners
+
+Since SDK 2.3.0, the Axeptio SDK forwards consent signals to supported attribution and analytics partners **automatically**. This is the foundation of Axeptio's Google **App Excellence** / App Attribution Partner (AAP) support.
+
+### Supported partners
+
+| Partner | Detected class | What is forwarded |
+|---|---|---|
+| Firebase Analytics | `FIRAnalytics` | All four Google Consent Mode v2 signals |
+| AppsFlyer | `AppsFlyerLib` | Consent payload for attribution |
+| Adjust | `Adjust` | Consent signals on the Adjust 5.x init selector |
+| Singular | `Singular` | Consent payload for attribution |
+
+### What you have to do
+
+**Nothing beyond linking the partner SDK.** There is no Axeptio API to call, no registration step and no mapping code.
+
+The SDK looks each partner class up at runtime (`NSClassFromString`) behind a method-signature guard. If the partner SDK is not linked into your app, the forwarder is a **safe no-op** — there is no crash, no warning and no runtime cost. If it is linked, consent is forwarded on every change and replayed at `initialize()` so a partner SDK that starts later still receives the stored decision.
+
+> **Important when upgrading:** if you already forward consent to any of these partners from your own code, remove it. The SDK now does it too, so keeping your version sets consent twice. From 2.4.0 the SDK additionally de-duplicates, so unchanged consent is not re-forwarded.
+
+### Caveat for Firebase
+
+Firebase is the one partner needing a nudge, because `FIRAnalytics` lives in a static archive and is only realized once your app references Firebase Analytics. Add the reference shown in [Google Consent Mode v2](#google-consent-mode-v2-integration-with-axeptio-sdk).
+
+### Web view continuity
+
+Consent also follows the user into web content. The SDK injects the stored Google Consent Mode v2 state into the consent web view as `window.axeptioGoogleConsent` using a `WKUserScript` at `.atDocumentStart`, so web-side tags see the same decision as native code without a round trip. To carry consent into **your own** web views, see [Sharing Consent with Webviews](#sharing-consent-with-webviews).
+
+> This sample app deliberately does **not** bundle AppsFlyer, Adjust or Singular — they would add heavy third-party dependencies and require partner credentials to exercise. Firebase is included because the sample already demonstrates Google Consent Mode v2.
+
+<br><br><br>
+
+## Diagnosing consent display in the field
+
+"The banner didn't show" is the hardest class of report to act on, because by the time it is reported the moment has passed. Since 2.3.0 the SDK writes one structured line per display decision, which you can pull from a user's device without a debugger attached.
+
+Each line is logged at `.notice` level with `.public` privacy, contains **no personal data**, and is tagged `AXEPTIO_CMP_DECISION`.
+
+### Reading the log
+
+From a connected device or simulator:
+
+```bash
+log stream --predicate 'eventMessage CONTAINS "AXEPTIO_CMP_DECISION"'
+```
+
+From a sysdiagnose a customer sent you:
+
+```bash
+log show --predicate 'eventMessage CONTAINS "AXEPTIO_CMP_DECISION"' --last 1h
+```
+
+### What the outcomes mean
+
+The decision codes are stable, so they are safe to grep for and to quote in a support ticket. The ones you will see most often:
+
+| Outcome | Meaning |
+|---|---|
+| `presented` | The consent screen was shown |
+| `blocked_att` | Suppressed because ATT was denied — see [Migrating to 2.4.0](#migrating-to-240), this is now off by default |
+| `widget_declined` | The widget itself decided no consent was needed (e.g. consent already valid) |
+| `present_failed_busy` | Another view controller was already being presented; the SDK retries |
+| `load_failed` | The consent web view failed to load — also surfaced via `onError` |
+| `watchdog_boot_timeout` | The widget did not become ready within the 10-second budget |
+
 <br><br><br>
 
 ## Google AdMob Integration with Axeptio SDK
@@ -1619,7 +1706,7 @@ In your app, set up an event listener to capture the consent updates and propaga
 ###### Swift
 ```swift
 import GoogleMobileAds
-import Axeptio
+import AxeptioSDK
 
 // Set up event listener
 let axeptioEventListener = AxeptioEventListener()

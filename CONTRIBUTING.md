@@ -7,7 +7,7 @@ This repository follows [Conventional Commits](https://www.conventionalcommits.o
 ### Prerequisites
 - Node.js 22+ (use `nvm use` to switch to the correct version)
 - npm 10+
-- Xcode 15+
+- Xcode 16+ (the sample app targets iOS 18; the SDK itself only requires iOS 15)
 - SwiftLint (optional)
 
 ### Getting Started
@@ -51,7 +51,7 @@ Or follow the conventional commit format manually:
 
 ### Scopes
 - `sample-swift`: Swift sample app changes
-- `sample-objc`: Objective-C sample app changes
+- `sample-objc`: *(legacy)* the Objective-C sample was removed in 2.2.0; the scope remains accepted by commitlint for historical commits
 - `sdk-integration`: SDK integration changes
 - `build`: Build system changes
 - `docs`: Documentation changes
@@ -61,48 +61,51 @@ Or follow the conventional commit format manually:
 ### Examples
 ```bash
 feat(sample-swift): add vendor consent API testing interface
-fix(sdk-integration): resolve build issues with Xcode 15
-sdk(deps): upgrade to Axeptio SDK 2.0.14
+fix(sdk-integration): resolve build issues with Xcode 16
+sdk(deps): upgrade to Axeptio SDK 2.4.0
 docs(readme): update setup instructions for new SDK version
 ```
+
+> A scope is **mandatory** — commitlint rejects a scopeless message such as `docs: bump SDK to 2.4.0`.
 
 ## Versioning Strategy
 
 This repository's version tracks the Axeptio iOS SDK version it demonstrates:
-- Sample app v2.0.13 → demonstrates SDK v2.0.13
-- Sample app v2.0.14 → demonstrates SDK v2.0.14
+- Sample app v2.2.0 → demonstrates SDK v2.2.0
+- Sample app v2.4.0 → demonstrates SDK v2.4.0
+
+Concretely, a version bump must be applied in **four** places, which are easy to let drift apart:
+- `package.json` → `version`
+- `sampleSwift/sampleSwift.xcodeproj/project.pbxproj` → `MARKETING_VERSION` (Debug **and** Release)
+- `sampleSwift/sampleSwift/Info.plist` → `CFBundleShortVersionString` and `CFBundleVersion`
+- the SDK pin itself: `project.pbxproj` → the `axeptio-ios-sdk` `XCRemoteSwiftPackageReference` (`kind = exactVersion`)
+
+The on-screen "Axeptio iOS SDK vX.Y.Z" label in the app reads `CFBundleShortVersionString` at runtime, so it follows the bump automatically.
 
 ## Release Process
 
-### Creating a Release
+Releases are produced by **semantic-release**, configured in `.releaserc.json`, driven by the conventional-commit history:
+
 ```bash
-# Patch release (bug fixes)
-npm run release:patch
+# Preview what would be released without publishing
+npm run release:dry-run
 
-# Minor release (new features)
-npm run release:minor
-
-# Major release (breaking changes)
-npm run release:major
-
-# Custom release
+# Perform the release
 npm run release
 ```
 
 ### What Happens During Release
-1. Version bumped in `package.json`
-2. `CHANGELOG.md` generated from conventional commits
-3. Version synced across iOS project files and Info.plist files
-4. Git tag created (e.g., `2.0.14`)
-5. Release commit created
+1. Commits since the last tag are analysed to determine the next version
+2. `CHANGELOG.md` is generated from the conventional commits
+3. A git tag is created (e.g. `v2.4.0`)
+4. A GitHub release is published
+5. The changelog commit is pushed back to the release branch
+
+> ⚠️ `@semantic-release/git` commits **only `CHANGELOG.md`**. It does *not* write `package.json` or the iOS project files, so the four version sites listed above still have to be updated in the PR that precedes the release.
 
 ## Pre-commit Validation
 
-The following checks run automatically before each commit:
-- SwiftLint validation (if available)
-- Xcode build verification (if available)
-- Unit tests execution (if available)
-- Commit message format validation
+`.husky/pre-commit` runs `npm run build:check` — an Xcode build of the sample app. Note this does **not** currently run SwiftLint or tests, despite `npm run pre-commit` being defined to do so. `.husky/commit-msg` validates the commit message format via commitlint.
 
 ## Version Synchronization
 
