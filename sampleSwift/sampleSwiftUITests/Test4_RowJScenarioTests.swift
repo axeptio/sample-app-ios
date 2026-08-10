@@ -111,13 +111,14 @@ class Test4_RowJScenarioTests: XCTestCase {
         // and no crash/freeze occurs. Actual consent submission verification requires
         // either network monitoring or backend integration.
 
-        // When: User accepts consent
-        print("  Simulating user consent action...")
-        // Note: Actual button interaction depends on widget configuration
-        // This is a placeholder for future implementation when we can interact with webview buttons
-
-        print("⚠️  Test 4.2: Partial verification only - full test requires webview button interaction")
-        print("✅ Test 4.2: Widget displayed without auto-sending consent")
+        // The defining assertion of this test — that consent is NOT transmitted before the
+        // user acts — cannot be made from a UI test: it needs network interception or
+        // backend verification. Reporting a pass here would claim Row J coverage the suite
+        // does not actually have, so skip explicitly once the verifiable part is done.
+        throw XCTSkip(
+            "Partial verification only: widget displayed without crash, but 'no automatic "
+            + "consent submission' requires network or backend verification."
+        )
     }
 
     // MARK: - Row J Manual Display: Button Click Should Work

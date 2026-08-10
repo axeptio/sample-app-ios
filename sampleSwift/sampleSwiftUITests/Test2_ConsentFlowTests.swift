@@ -119,8 +119,9 @@ class Test2_ConsentFlowTests: XCTestCase {
 
             print("✅ Test 2 Passed: Reject consent flow completed")
         } else {
-            print("⚠️ Test 2 Skipped: Reject button not available in this widget configuration")
-            // This is acceptable - not all widget configurations have a reject button
+            // Report a real skip rather than printing one: a printed "Skipped" still
+            // counts as a pass, which hides missing coverage in CI reports.
+            throw XCTSkip("Reject button not available in this widget configuration")
         }
     }
 
@@ -161,7 +162,7 @@ class Test2_ConsentFlowTests: XCTestCase {
 
             print("✅ Test 3 Passed: Widget close button works")
         } else {
-            print("⚠️ Test 3 Skipped: Close button not available in this widget configuration")
+            throw XCTSkip("Close button not available in this widget configuration")
         }
     }
 
@@ -247,7 +248,7 @@ class Test2_ConsentFlowTests: XCTestCase {
             // The test passing means the app didn't crash
             print("✅ Test 5 Passed: Multiple consent actions handled gracefully")
         } else {
-            print("⚠️ Test 5 Skipped: Accept button not found")
+            throw XCTSkip("Accept button not found")
         }
     }
 }

@@ -33,6 +33,14 @@ final class sampleSwiftUITests: XCTestCase {
 
     @MainActor
     func testLaunchPerformance() throws {
+        // measure() runs several launch iterations, which is meaningful cost on a suite that
+        // already takes ~30 minutes against the live consent widget. Opt in explicitly when
+        // launch performance is what you are actually investigating.
+        try XCTSkipUnless(
+            ProcessInfo.processInfo.environment["AXEPTIO_RUN_PERF_TESTS"] == "1",
+            "Set AXEPTIO_RUN_PERF_TESTS=1 to run launch performance measurements."
+        )
+
         // This measures how long it takes to launch your application.
         measure(metrics: [XCTApplicationLaunchMetric()]) {
             XCUIApplication().launch()

@@ -51,6 +51,31 @@ class AxeptioIntegrationTestsHelper {
         }
     }
 
+    /// Wait for the first element matching any of `labels` in any of `queries`.
+    ///
+    /// The `timeout` is a single budget shared across every label, not granted to each in
+    /// turn: waiting `timeout` per label made a 5s call block for 15s across three labels.
+    /// Polling (rather than an immediate `.exists` check) matters for web content, where the
+    /// consent DOM is populated some time after the enclosing webview starts to exist.
+    func waitForFirstMatch(
+        labels: [String],
+        in queries: [XCUIElementQuery],
+        timeout: TimeInterval
+    ) -> XCUIElement? {
+        let deadline = Date().addingTimeInterval(timeout)
+
+        repeat {
+            for query in queries {
+                for label in labels where query[label].exists {
+                    return query[label]
+                }
+            }
+            Thread.sleep(forTimeInterval: 0.25)
+        } while Date() < deadline
+
+        return nil
+    }
+
     /// Tap the "Consent pop up" button in sampleSwift to trigger widget display
     @discardableResult
     func tapShowConsentButton(timeout: TimeInterval = 5.0) -> Bool {
@@ -61,17 +86,14 @@ class AxeptioIntegrationTestsHelper {
             "Brands Consent Dialog"
         ]
 
-        for label in buttonLabels {
-            let button = app.buttons[label]
-            if button.waitForExistence(timeout: timeout) {
-                button.tap()
-                print("✅ Tapped '\(label)' button to show widget")
-                return true
-            }
+        guard let button = waitForFirstMatch(labels: buttonLabels, in: [app.buttons], timeout: timeout) else {
+            print("❌ Show consent button not found (tried: \(buttonLabels.joined(separator: ", ")))")
+            return false
         }
 
-        print("❌ Show consent button not found (tried: \(buttonLabels.joined(separator: ", ")))")
-        return false
+        button.tap()
+        print("✅ Tapped '\(button.label)' button to show widget")
+        return true
     }
 
     /// Tap the "Clear consent" button in sampleSwift to reset consent state
@@ -145,7 +167,12 @@ class AxeptioIntegrationTestsHelper {
     /// - Returns: True if widget is no longer visible
     func waitForWidgetToDisappear(timeout: TimeInterval = 5.0) -> Bool {
         let webView = app.webViews.firstMatch
-        let disappeared = !webView.waitForExistence(timeout: timeout)
+
+        // Must be waitForNonExistence, not !waitForExistence: the latter returns true
+        // immediately when the element is already on screen, so it reported "still visible"
+        // without ever waiting, and conversely burned the whole timeout to report success
+        // when the widget had never appeared at all.
+        let disappeared = webView.waitForNonExistence(timeout: timeout)
 
         if disappeared {
             print("✅ Widget disappeared")
@@ -164,6 +191,10 @@ class AxeptioIntegrationTestsHelper {
     /// - Returns: True if button was found and tapped
     @discardableResult
     func tapAcceptButton(timeout: TimeInterval = 5.0) -> Bool {
+        // `timeout` is a single budget covering both the webview appearing and its
+        // buttons rendering, so the caller's number means what it says.
+        let start = Date()
+
         // Wait for WebView to load
         let webView = app.webViews.firstMatch
         guard webView.waitForExistence(timeout: timeout) else {
@@ -181,22 +212,17 @@ class AxeptioIntegrationTestsHelper {
             "J'accepte"
         ]
 
-        for label in buttonLabels {
-            // Look in WebView first
-            let button = webView.buttons[label]
-            if button.exists {
-                button.tap()
-                print("✅ Tapped accept button: '\(label)'")
-                return true
-            }
-
-            // Also check outside WebView (in case button is native)
-            let nativeButton = app.buttons[label]
-            if nativeButton.exists {
-                nativeButton.tap()
-                print("✅ Tapped native accept button: '\(label)'")
-                return true
-            }
+        // Poll for the remaining budget rather than checking .exists once: the webview
+        // existing does not mean the consent DOM inside it has rendered yet.
+        let remaining = max(0, timeout - Date().timeIntervalSince(start))
+        if let button = waitForFirstMatch(
+            labels: buttonLabels,
+            in: [webView.buttons, app.buttons],
+            timeout: remaining
+        ) {
+            button.tap()
+            print("✅ Tapped accept button: '\(button.label)'")
+            return true
         }
 
         // Try finding button with partial match
@@ -216,6 +242,10 @@ class AxeptioIntegrationTestsHelper {
     /// - Returns: True if button was found and tapped
     @discardableResult
     func tapRejectButton(timeout: TimeInterval = 5.0) -> Bool {
+        // As with tapAcceptButton, `timeout` covers both the webview appearing and its
+        // buttons rendering.
+        let start = Date()
+
         let webView = app.webViews.firstMatch
         guard webView.waitForExistence(timeout: timeout) else {
             print("❌ WebView not found, cannot tap reject button")
@@ -230,17 +260,19 @@ class AxeptioIntegrationTestsHelper {
             "Tout refuser"
         ]
 
-        for label in buttonLabels {
-            let button = webView.buttons[label]
-            if button.exists {
-                button.tap()
-                print("✅ Tapped reject button: '\(label)'")
-                return true
-            }
+        let remaining = max(0, timeout - Date().timeIntervalSince(start))
+        guard let button = waitForFirstMatch(
+            labels: buttonLabels,
+            in: [webView.buttons, app.buttons],
+            timeout: remaining
+        ) else {
+            print("❌ Reject button not found")
+            return false
         }
 
-        print("❌ Reject button not found")
-        return false
+        button.tap()
+        print("✅ Tapped reject button: '\(button.label)'")
+        return true
     }
 
     // MARK: - Screenshots

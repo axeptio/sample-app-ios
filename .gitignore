@@ -206,3 +206,10 @@ dist
 
 # TernJS port file
 .tern-port
+# Code signing material — never commit to this public repo
+*.p12
+*.cer
+*.pem
+*.key
+*.certSigningRequest
+*.mobileprovision

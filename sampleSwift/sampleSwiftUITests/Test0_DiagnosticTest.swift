@@ -17,6 +17,14 @@ class Test0_DiagnosticTest: XCTestCase {
     var helper: AxeptioIntegrationTestsHelper!
 
     override func setUpWithError() throws {
+        // These tests deliberately assert nothing — they exist to print what the accessibility
+        // tree looks like when something else is failing. Run as part of the nightly suite they
+        // add launches and screenshots while producing no pass/fail signal, so they are opt-in.
+        try XCTSkipUnless(
+            ProcessInfo.processInfo.environment["AXEPTIO_RUN_DIAGNOSTICS"] == "1",
+            "Set AXEPTIO_RUN_DIAGNOSTICS=1 to run the diagnostic (non-asserting) tests."
+        )
+
         continueAfterFailure = false
 
         // Lock device to portrait orientation
@@ -27,7 +35,9 @@ class Test0_DiagnosticTest: XCTestCase {
     }
 
     override func tearDownWithError() throws {
-        app.terminate()
+        // tearDown still runs when setUp throws XCTSkip, at which point `app` was never
+        // assigned — terminating an implicitly-unwrapped nil would crash the run.
+        app?.terminate()
         app = nil
         helper = nil
     }
