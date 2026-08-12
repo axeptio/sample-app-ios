@@ -76,64 +76,85 @@ class AxeptioIntegrationTestsHelper {
         return nil
     }
 
+    /// Tap a native (non-webview) button by accessibility identifier, falling back to a list
+    /// of visible titles.
+    ///
+    /// Identifiers are the reliable path: the main screen retitles its consent button between
+    /// TCF and Brands (see `ViewController.updateServiceSpecificButtons`), but the identifiers
+    /// set in `loadBasicButtons` never change. Labels are kept only so the helper still works
+    /// against an older build of the app that predates the identifiers.
+    @discardableResult
+    func tapNativeButton(
+        identifier: String,
+        fallbackLabels: [String] = [],
+        timeout: TimeInterval = 5.0
+    ) -> Bool {
+        // One budget shared across the identifier and every fallback label.
+        let deadline = Date().addingTimeInterval(timeout)
+
+        let byId = app.buttons[identifier]
+        if byId.waitForExistence(timeout: max(0, deadline.timeIntervalSinceNow)) {
+            byId.tap()
+            print("✅ Tapped button id='\(identifier)'")
+            return true
+        }
+
+        for label in fallbackLabels {
+            let button = app.buttons[label]
+            if button.waitForExistence(timeout: max(0, deadline.timeIntervalSinceNow)) {
+                button.tap()
+                print("✅ Tapped button label='\(label)'")
+                return true
+            }
+        }
+
+        print("❌ Button not found (id='\(identifier)', labels=\(fallbackLabels.joined(separator: ", ")))")
+        return false
+    }
+
     /// Tap the "Consent pop up" button in sampleSwift to trigger widget display
     @discardableResult
     func tapShowConsentButton(timeout: TimeInterval = 5.0) -> Bool {
-        // Button label can be "Consent pop up", "TCF Consent Dialog", or "Brands Consent Dialog"
-        let buttonLabels = [
-            "Consent pop up",
-            "TCF Consent Dialog",
-            "Brands Consent Dialog"
-        ]
+        tapNativeButton(
+            identifier: "ax_showConsent",
+            fallbackLabels: ["Consent pop up", "TCF Consent Dialog", "Brands Consent Dialog"],
+            timeout: timeout
+        )
+    }
 
-        guard let button = waitForFirstMatch(labels: buttonLabels, in: [app.buttons], timeout: timeout) else {
-            print("❌ Show consent button not found (tried: \(buttonLabels.joined(separator: ", ")))")
-            return false
-        }
-
-        button.tap()
-        print("✅ Tapped '\(button.label)' button to show widget")
-        return true
+    /// Alias used by the Row J and re-open suites to manually display the consent widget.
+    @discardableResult
+    func tapDisplayConsentButton(timeout: TimeInterval = 5.0) -> Bool {
+        tapShowConsentButton(timeout: timeout)
     }
 
     /// Tap the "Clear consent" button in sampleSwift to reset consent state
     @discardableResult
     func tapClearConsentButton(timeout: TimeInterval = 5.0) -> Bool {
-        // Try multiple button label variations
-        let buttonLabels = [
-            "Clear consent",
-            "Clear Consent",
-            "clear consent"
-        ]
+        let tapped = tapNativeButton(
+            identifier: "ax_clearConsent",
+            fallbackLabels: ["Clear consent", "Clear Consent", "clear consent"],
+            timeout: timeout
+        )
+        guard tapped else { return false }
 
-        // Debug: report only the button count. Enumerating allElementsBoundByIndex
-        // and reading each .label takes a fresh accessibility snapshot per element,
-        // which throws "No matches found for Element at index N" whenever an element
-        // goes stale mid-iteration (common once the consent webview is on screen).
-        print("  [Debug] Available buttons: \(app.buttons.count)")
-
-        for label in buttonLabels {
-            let button = app.buttons[label]
-            if button.waitForExistence(timeout: timeout / Double(buttonLabels.count)) {
-                button.tap()
-                print("✅ Tapped '\(label)' button")
-                // Wait for the confirmation (button briefly shows "✅ Cleared!")
-                sleep(1)
-                return true
-            }
+        // Clearing presents a blocking "Consent Cleared Successfully" alert. Dismiss it and
+        // confirm it is gone, rather than sleeping and hoping — a lingering alert swallows
+        // every subsequent tap in the test.
+        let alert = app.alerts.firstMatch
+        guard alert.buttons["OK"].waitForExistence(timeout: 3.0) else {
+            return true // no confirmation alert in this build — the clear tap still succeeded
         }
+        alert.buttons["OK"].tap()
 
-        // Try partial match as fallback
-        let partialMatch = app.buttons.containing(NSPredicate(format: "label CONTAINS[c] 'clear' AND label CONTAINS[c] 'consent'")).firstMatch
-        if partialMatch.exists {
-            partialMatch.tap()
-            print("✅ Tapped clear consent button (partial match)")
-            sleep(1)
-            return true
+        let dismissed = XCTNSPredicateExpectation(
+            predicate: NSPredicate(format: "exists == false"),
+            object: alert as Any
+        )
+        if XCTWaiter().wait(for: [dismissed], timeout: 3.0) != .completed {
+            print("⚠️ Consent-cleared alert did not dismiss")
         }
-
-        print("❌ Clear consent button not found (tried: \(buttonLabels.joined(separator: ", ")))")
-        return false
+        return true
     }
 
     // MARK: - Widget Detection

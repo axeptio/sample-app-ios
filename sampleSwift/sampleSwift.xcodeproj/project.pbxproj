@@ -33,6 +33,7 @@
 		C2F130FC2B750EFC0079B2DF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C2F130FB2B750EFC0079B2DF /* Assets.xcassets */; };
 		C2F130FF2B750EFC0079B2DF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C2F130FD2B750EFC0079B2DF /* LaunchScreen.storyboard */; };
 		F0E27E5A25E02857FEE2FFBA /* Test4_RowJScenarioTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EECA945D43D0FFB90466EF39 /* Test4_RowJScenarioTests.swift */; };
+		A5D1B0C74E118A2093F5C012 /* Test5_ReopenConsentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D1B0C74E118A2093F5C011 /* Test5_ReopenConsentTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,6 +86,7 @@
 		D01A4E45CCDEE08C898B7393 /* AxeptioIntegrationTestsHelper.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AxeptioIntegrationTestsHelper.swift; sourceTree = "<group>"; };
 		E2AE64F7CB52569AE78E490E /* Test3_PersistenceTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Test3_PersistenceTests.swift; sourceTree = "<group>"; };
 		EECA945D43D0FFB90466EF39 /* Test4_RowJScenarioTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Test4_RowJScenarioTests.swift; sourceTree = "<group>"; };
+		A5D1B0C74E118A2093F5C011 /* Test5_ReopenConsentTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Test5_ReopenConsentTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +126,7 @@
 				3ECC2AC04396067BC238F21B /* Test2_ConsentFlowTests.swift */,
 				E2AE64F7CB52569AE78E490E /* Test3_PersistenceTests.swift */,
 				EECA945D43D0FFB90466EF39 /* Test4_RowJScenarioTests.swift */,
+				A5D1B0C74E118A2093F5C011 /* Test5_ReopenConsentTests.swift */,
 				550778A01D2C1E74652633FB /* sampleSwiftUITests.swift */,
 				96402763F6C1351AFFBA1C9A /* sampleSwiftUITestsLaunchTests.swift */,
 			);
@@ -304,6 +307,7 @@
 				20418CC8FF6A336BFA7EDD34 /* Test2_ConsentFlowTests.swift in Sources */,
 				959DE2ECF071305834FA50D5 /* Test3_PersistenceTests.swift in Sources */,
 				F0E27E5A25E02857FEE2FFBA /* Test4_RowJScenarioTests.swift in Sources */,
+				A5D1B0C74E118A2093F5C012 /* Test5_ReopenConsentTests.swift in Sources */,
 				2D3DBF3EB8979EFF061D10B2 /* sampleSwiftUITests.swift in Sources */,
 				931FCBC4DDB8DB500F15FB43 /* sampleSwiftUITestsLaunchTests.swift in Sources */,
 			);
