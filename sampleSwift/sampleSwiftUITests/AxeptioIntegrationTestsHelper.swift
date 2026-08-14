@@ -51,29 +51,45 @@ class AxeptioIntegrationTestsHelper {
         }
     }
 
-    /// Wait for the first element matching any of `labels` in any of `queries`.
+    /// Wait for whichever of `candidates` shows up first, sharing one timeout budget.
     ///
-    /// The `timeout` is a single budget shared across every label, not granted to each in
-    /// turn: waiting `timeout` per label made a 5s call block for 15s across three labels.
-    /// Polling (rather than an immediate `.exists` check) matters for web content, where the
-    /// consent DOM is populated some time after the enclosing webview starts to exist.
-    func waitForFirstMatch(
-        labels: [String],
-        in queries: [XCUIElementQuery],
-        timeout: TimeInterval
-    ) -> XCUIElement? {
+    /// The primitive the rest of this helper is built on. `XCUIElement` is a lazy proxy — it
+    /// re-queries the accessibility tree on each `.exists` — so a candidate list can be built
+    /// up front and re-polled cheaply.
+    ///
+    /// Two properties matter, and both were bugs here at some point:
+    ///
+    /// - **One shared budget.** Waiting `timeout` on each candidate in turn makes a 5s call
+    ///   block for 15s across three candidates, and — worse — lets an absent early candidate
+    ///   swallow the whole budget so a later one that *is* present never gets looked at.
+    /// - **Polling, not a single `.exists`.** Web content populates the consent DOM some time
+    ///   after the enclosing webview begins to exist, so a one-shot check races the render.
+    ///
+    /// Candidates are probed in order on every pass, so earlier entries stay preferred without
+    /// starving later ones.
+    func waitForFirstExisting(_ candidates: [XCUIElement], timeout: TimeInterval) -> XCUIElement? {
         let deadline = Date().addingTimeInterval(timeout)
 
         repeat {
-            for query in queries {
-                for label in labels where query[label].exists {
-                    return query[label]
-                }
+            for candidate in candidates where candidate.exists {
+                return candidate
             }
             Thread.sleep(forTimeInterval: 0.25)
         } while Date() < deadline
 
         return nil
+    }
+
+    /// Convenience over `waitForFirstExisting` for the common "any of these labels, in any of
+    /// these queries" case.
+    func waitForFirstMatch(
+        labels: [String],
+        in queries: [XCUIElementQuery],
+        timeout: TimeInterval
+    ) -> XCUIElement? {
+        // Ordered label-major so a preferred label wins over query order.
+        let candidates = labels.flatMap { label in queries.map { $0[label] } }
+        return waitForFirstExisting(candidates, timeout: timeout)
     }
 
     /// Tap a native (non-webview) button by accessibility identifier, falling back to a list
@@ -89,23 +105,16 @@ class AxeptioIntegrationTestsHelper {
         fallbackLabels: [String] = [],
         timeout: TimeInterval = 5.0
     ) -> Bool {
-        // One budget shared across the identifier and every fallback label.
-        let deadline = Date().addingTimeInterval(timeout)
+        // Probe the identifier and every fallback label on each poll pass, inside one budget.
+        // Waiting on each in turn would let an absent identifier consume the whole timeout —
+        // and the fallbacks exist precisely for the build where the identifier is missing, so
+        // that ordering starves the only path that could have worked.
+        let candidates = [app.buttons[identifier]] + fallbackLabels.map { app.buttons[$0] }
 
-        let byId = app.buttons[identifier]
-        if byId.waitForExistence(timeout: max(0, deadline.timeIntervalSinceNow)) {
-            byId.tap()
-            print("✅ Tapped button id='\(identifier)'")
+        if let button = waitForFirstExisting(candidates, timeout: timeout) {
+            button.tap()
+            print("✅ Tapped button '\(button.identifier.isEmpty ? button.label : button.identifier)'")
             return true
-        }
-
-        for label in fallbackLabels {
-            let button = app.buttons[label]
-            if button.waitForExistence(timeout: max(0, deadline.timeIntervalSinceNow)) {
-                button.tap()
-                print("✅ Tapped button label='\(label)'")
-                return true
-            }
         }
 
         print("❌ Button not found (id='\(identifier)', labels=\(fallbackLabels.joined(separator: ", ")))")
@@ -223,9 +232,12 @@ class AxeptioIntegrationTestsHelper {
             return false
         }
 
-        // Try multiple button label variations
+        // Exact labels, most-current first. These are web copy served from client.axept.io and
+        // drift without any change here — "Accept all cookies" was observed live on
+        // 2026-08-14, and none of the older entries matched it.
         let buttonLabels = [
-            "OK!",                // Brands consent dialog
+            "Accept all cookies", // observed on the Brands widget, 2026-08-14
+            "OK!",                // older Brands consent dialog
             "Accept",
             "Accept all",
             "Accepter",
@@ -233,29 +245,40 @@ class AxeptioIntegrationTestsHelper {
             "J'accepte"
         ]
 
-        // Poll for the remaining budget rather than checking .exists once: the webview
-        // existing does not mean the consent DOM inside it has rendered yet.
+        // Exact labels first, then a substring match, all polled inside the same budget.
+        //
+        // The substring probes are not a last resort — they are load-bearing. The labels above
+        // are copy served from client.axept.io, so the widget team can change them without any
+        // change in this repository. That has already happened: a verification run tapped
+        // accept via the substring probe, not the list. Leaving substring matching as a
+        // one-shot check *after* the budget expired meant every copy change cost a full
+        // timeout before the thing that actually works was tried.
+        // The negation clause is not defensive padding — it is the whole point. A bare
+        // `label CONTAINS[c] 'accept'` also matches "Close without accepting cookies", which
+        // is a dismiss control and the opposite of consent. That was live: a verification run
+        // reported "Tapped accept button" having pressed exactly that, because the old code
+        // logged "(partial match)" without the label and hid it.
+        let substring = NSPredicate(
+            format: """
+                (label CONTAINS[c] 'accept' OR label CONTAINS[c] 'accepter' OR label CONTAINS[c] 'agree') \
+                AND NOT (label CONTAINS[c] 'without' OR label CONTAINS[c] 'sans' \
+                OR label CONTAINS[c] "n'accepte" OR label CONTAINS[c] 'refuse')
+                """
+        )
+        let candidates =
+            buttonLabels.flatMap { [webView.buttons[$0], app.buttons[$0]] }
+            + [webView.buttons.containing(substring).firstMatch,
+               app.buttons.containing(substring).firstMatch]
+
         let remaining = max(0, timeout - Date().timeIntervalSince(start))
-        if let button = waitForFirstMatch(
-            labels: buttonLabels,
-            in: [webView.buttons, app.buttons],
-            timeout: remaining
-        ) {
-            button.tap()
-            print("✅ Tapped accept button: '\(button.label)'")
-            return true
+        guard let button = waitForFirstExisting(candidates, timeout: remaining) else {
+            print("❌ Accept button not found")
+            return false
         }
 
-        // Try finding button with partial match
-        let partialMatch = webView.buttons.containing(NSPredicate(format: "label CONTAINS[c] 'accept'")).firstMatch
-        if partialMatch.exists {
-            partialMatch.tap()
-            print("✅ Tapped accept button (partial match)")
-            return true
-        }
-
-        print("❌ Accept button not found")
-        return false
+        button.tap()
+        print("✅ Tapped accept button: '\(button.label)'")
+        return true
     }
 
     /// Tap the "Reject" button in the consent widget
@@ -281,12 +304,19 @@ class AxeptioIntegrationTestsHelper {
             "Tout refuser"
         ]
 
+        // Same reasoning as tapAcceptButton: exact labels plus a substring probe, one budget.
+        // Reject previously had no substring fallback at all, so a copy change on the widget
+        // side failed it outright rather than degrading.
+        let substring = NSPredicate(
+            format: "label CONTAINS[c] 'reject' OR label CONTAINS[c] 'refuser' OR label CONTAINS[c] 'no, thanks'"
+        )
+        let candidates =
+            buttonLabels.flatMap { [webView.buttons[$0], app.buttons[$0]] }
+            + [webView.buttons.containing(substring).firstMatch,
+               app.buttons.containing(substring).firstMatch]
+
         let remaining = max(0, timeout - Date().timeIntervalSince(start))
-        guard let button = waitForFirstMatch(
-            labels: buttonLabels,
-            in: [webView.buttons, app.buttons],
-            timeout: remaining
-        ) else {
+        guard let button = waitForFirstExisting(candidates, timeout: remaining) else {
             print("❌ Reject button not found")
             return false
         }
