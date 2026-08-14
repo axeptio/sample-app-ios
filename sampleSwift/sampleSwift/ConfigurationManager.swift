@@ -132,7 +132,8 @@ class ConfigurationManager {
     var currentConfiguration: CustomerConfiguration {
         get {
             let clientId = userDefaults.string(forKey: Keys.clientId) ?? "5fbfa806a0787d3985c6ee5f"
-            let cookiesVersion = userDefaults.string(forKey: Keys.cookiesVersion) ?? "google cmp partner program sandbox-en-EU"
+            let cookiesVersion = userDefaults.string(forKey: Keys.cookiesVersion)
+                ?? "google cmp partner program sandbox-en-EU"
             let token = userDefaults.string(forKey: Keys.token)
             let cookiesDuration = userDefaults.object(forKey: Keys.cookiesDuration) as? Int ?? 190
             let shouldUpdateCookiesDuration = userDefaults.bool(forKey: Keys.shouldUpdateCookiesDuration)

@@ -1,1 +1,4 @@
-npm run build:check
+# Lint and build. Deliberately NOT `npm run pre-commit`: that also chains test:check,
+# which is the network-bound XCUITest suite (~30 min against the live consent widget) and
+# has no business in a commit hook. The suite runs nightly via .github/workflows/ui-tests.yml.
+npm run lint:check && npm run build:check

@@ -1,0 +1,37 @@
+# SwiftLint configuration for the Axeptio iOS sample app.
+#
+# Before this file existed, `npm run lint` ran on stock defaults and reported 23 errors under
+# --strict, so it could never be used as a gate. Most were rule-vs-convention conflicts rather
+# than defects; those are configured here, and the genuine ones were fixed.
+
+included:
+  - sampleSwift
+
+excluded:
+  - sampleSwift/build
+  - sampleSwift/sampleSwift.xcodeproj
+
+type_name:
+  # The XCUITest suites are deliberately named Test0_DiagnosticTest … Test5_ReopenConsentTests.
+  # The numeric prefix gives them a run order in reports and makes `-only-testing:` invocations
+  # readable, and those names appear in CI docs and workflow arguments. Renaming six suites to
+  # satisfy a style rule would break those references for no readability gain, so underscores
+  # are permitted instead.
+  allowed_symbols: ["_"]
+  # Xcode-generated, named after the target, which is itself lowercase. Renaming them means
+  # renaming the target. Listed by name rather than relaxing
+  # `validates_start_with_lowercase` globally, so a genuinely lowercase new type still fails.
+  excluded:
+    - sampleSwiftUITests
+    - sampleSwiftUITestsLaunchTests
+
+identifier_name:
+  # Standard Swift shorthand for coordinates and generic indices. Loop counters that carry real
+  # meaning are still expected to say what they mean — the two `for i in 1...3` loops that
+  # triggered this rule were renamed rather than exempted.
+  excluded:
+    - x
+    - y
+    - z
+    - id
+    - to

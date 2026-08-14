@@ -128,7 +128,8 @@ class VendorConsentViewController: UIViewController {
             let setBits = vendorConsents.filter { $0 == "1" }.count
             analysis += "• TCF String Set Bits: \(setBits)\n"
             if setBits != consentedVendors.count {
-                analysis += "• ⚠️ DISCREPANCY: API shows \(consentedVendors.count) consented, TCF string suggests \(setBits)\n"
+                analysis += "• ⚠️ DISCREPANCY: API shows \(consentedVendors.count) consented, "
+                    + "TCF string suggests \(setBits)\n"
             }
         }
 

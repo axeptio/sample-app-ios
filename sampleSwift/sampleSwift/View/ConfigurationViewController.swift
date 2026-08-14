@@ -73,7 +73,8 @@ class ConfigurationViewController: UIViewController {
         setupPresetConfigurationSection()
 
         // Add observers for text field changes
-        [clientIdTextField, cookiesVersionTextField, tokenTextField, cookiesDurationTextfield, widgetPRTextField].forEach { textField in
+        [clientIdTextField, cookiesVersionTextField, tokenTextField,
+         cookiesDurationTextfield, widgetPRTextField].forEach { textField in
             textField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         }
         widgetTypeSegmentedControl.addTarget(self, action: #selector(segmentedControlChanged), for: .valueChanged)
@@ -132,7 +133,9 @@ class ConfigurationViewController: UIViewController {
         presetTableView.layer.cornerRadius = 8
         presetTableView.layer.borderWidth = 1
         presetTableView.layer.borderColor = UIColor.systemGray4.cgColor
-        presetTableView.heightAnchor.constraint(equalToConstant: CGFloat(presetConfigurations.count * 44)).isActive = true
+        presetTableView.heightAnchor
+            .constraint(equalToConstant: CGFloat(presetConfigurations.count * 44))
+            .isActive = true
 
         stackView.addArrangedSubview(presetTableView)
 

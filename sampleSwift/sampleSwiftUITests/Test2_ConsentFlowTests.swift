@@ -150,7 +150,9 @@ class Test2_ConsentFlowTests: XCTestCase {
 
         // When: User taps close/dismiss button (if available)
         let webView = app.webViews.firstMatch
-        let closeButton = webView.buttons.containing(NSPredicate(format: "label CONTAINS[c] 'close' OR label CONTAINS[c] 'fermer' OR label == 'X'")).firstMatch
+        let closeButton = webView.buttons.containing(
+            NSPredicate(format: "label CONTAINS[c] 'close' OR label CONTAINS[c] 'fermer' OR label == 'X'")
+        ).firstMatch
 
         if closeButton.exists {
             closeButton.tap()

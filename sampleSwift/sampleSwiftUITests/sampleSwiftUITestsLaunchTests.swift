@@ -9,6 +9,9 @@ import XCTest
 
 final class sampleSwiftUITestsLaunchTests: XCTestCase {
 
+    // Must stay `class`: this overrides an XCTestCase class property, and `static` cannot
+    // override. The rule does not account for `override`, so this is a false positive.
+    // swiftlint:disable:next static_over_final_class
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true
     }
