@@ -146,17 +146,17 @@ class Test3_PersistenceTests: XCTestCase {
         sleep(2)
 
         // MULTIPLE RESTARTS: Verify consent persists
-        for i in 1...3 {
-            print("  [Restart \(i)] Launching app...")
+        for restart in 1...3 {
+            print("  [Restart \(restart)] Launching app...")
             helper.launchApp()
             sleep(2)
 
             // Widget should not appear (consent already given)
             let widgetDisplayed = helper.isWidgetDisplayed(timeout: 3.0)
-            XCTAssertFalse(widgetDisplayed, "Widget should not appear on restart #\(i)")
+            XCTAssertFalse(widgetDisplayed, "Widget should not appear on restart #\(restart)")
 
             // Take screenshot
-            let screenshot = helper.takeScreenshot(named: "Test3_MultipleRestarts_Launch\(i)")
+            let screenshot = helper.takeScreenshot(named: "Test3_MultipleRestarts_Launch\(restart)")
             add(screenshot)
 
             // Terminate
@@ -248,8 +248,8 @@ class Test3_PersistenceTests: XCTestCase {
         XCTAssertFalse(helper.isWidgetDisplayed(timeout: 2.0), "Widget should be dismissed")
 
         // When: App is backgrounded and foregrounded multiple times
-        for i in 1...3 {
-            print("  [Background cycle \(i)]")
+        for cycle in 1...3 {
+            print("  [Background cycle \(cycle)]")
             XCUIDevice.shared.press(.home)
             sleep(1)
             app.activate()
@@ -257,7 +257,7 @@ class Test3_PersistenceTests: XCTestCase {
 
             // Then: Widget should still not reappear
             let widgetReappeared = helper.isWidgetDisplayed(timeout: 2.0)
-            XCTAssertFalse(widgetReappeared, "Widget should not reappear after backgrounding #\(i)")
+            XCTAssertFalse(widgetReappeared, "Widget should not reappear after backgrounding #\(cycle)")
         }
 
         print("  ✅ Test 4 Passed: Consent persisted through backgrounding cycles")

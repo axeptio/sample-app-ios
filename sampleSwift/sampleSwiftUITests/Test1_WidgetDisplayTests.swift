@@ -100,13 +100,18 @@ class Test1_WidgetDisplayTests: XCTestCase {
         XCTAssertTrue(webView.exists, "WebView should exist in the widget")
 
         // Check for consent buttons inside the WebView (at least one should exist)
-        let hasAcceptButton = webView.buttons.containing(NSPredicate(format: "label CONTAINS[c] 'accept' OR label CONTAINS[c] 'tout accepter'")).firstMatch.exists
-        let hasRejectButton = webView.buttons.containing(NSPredicate(format: "label CONTAINS[c] 'reject' OR label CONTAINS[c] 'refus' OR label CONTAINS[c] 'deny'")).firstMatch.exists
+        let hasAcceptButton = webView.buttons.containing(
+            NSPredicate(format: "label CONTAINS[c] 'accept' OR label CONTAINS[c] 'tout accepter'")
+        ).firstMatch.exists
+        let hasRejectButton = webView.buttons.containing(
+            NSPredicate(format: "label CONTAINS[c] 'reject' OR label CONTAINS[c] 'refus' OR label CONTAINS[c] 'deny'")
+        ).firstMatch.exists
         let hasAnyButton = webView.buttons.count > 0
 
         XCTAssertTrue(
             hasAcceptButton || hasRejectButton || hasAnyButton,
-            "Widget should contain at least one action button (accept or reject). Found \(webView.buttons.count) buttons in WebView"
+            "Widget should contain at least one action button (accept or reject). "
+            + "Found \(webView.buttons.count) buttons in WebView"
         )
 
         // Take screenshot

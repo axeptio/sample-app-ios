@@ -66,7 +66,10 @@ extension ConsentDebugViewController: UITableViewDataSource, UITableViewDelegate
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "ConsentDebugCell", for: indexPath) as? ConsentDebugCell else {
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: "ConsentDebugCell",
+            for: indexPath
+        ) as? ConsentDebugCell else {
             return UITableViewCell()
         }
 

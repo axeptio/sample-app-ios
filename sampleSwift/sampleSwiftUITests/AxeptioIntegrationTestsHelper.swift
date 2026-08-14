@@ -181,10 +181,15 @@ class AxeptioIntegrationTestsHelper {
             return true
         }
 
-        // Alternative: Look for specific consent button text
-        let acceptButton = app.buttons.containing(NSPredicate(format: "label CONTAINS[c] 'accept' OR label CONTAINS[c] 'accepter'")).firstMatch
-        if acceptButton.exists {
-            print("✅ Widget detected: Accept button found")
+        // Alternative: look for consent button text. Deliberately broad — this is a
+        // presence probe, not an action, so a dismiss control like "Close without accepting
+        // cookies" matching is fine and still proves the widget is up. Do not copy the
+        // stricter predicate from tapAcceptButton here.
+        let consentButton = app.buttons.containing(
+            NSPredicate(format: "label CONTAINS[c] 'accept' OR label CONTAINS[c] 'accepter'")
+        ).firstMatch
+        if consentButton.exists {
+            print("✅ Widget detected: consent button found")
             return true
         }
 

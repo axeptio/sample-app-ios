@@ -106,7 +106,11 @@ npm run release
 
 ## Pre-commit Validation
 
-`.husky/pre-commit` runs `npm run build:check` — an Xcode build of the sample app. Note this does **not** currently run SwiftLint or tests, despite `npm run pre-commit` being defined to do so. `.husky/commit-msg` validates the commit message format via commitlint.
+`.husky/pre-commit` runs `npm run lint:check && npm run build:check` — SwiftLint (`--strict`, configured by `.swiftlint.yml`) followed by an Xcode build. Both degrade to a skip message when the tool is absent, so the hook still works without Xcode or SwiftLint installed.
+
+It deliberately does **not** run `npm run pre-commit`, even though that script exists: that chains `test:check`, which is the XCUITest suite — ~30 minutes against the live consent widget over the network. That suite runs nightly via `.github/workflows/ui-tests.yml`, not on every commit.
+
+`.husky/commit-msg` validates the commit message format via commitlint.
 
 ## Version Synchronization
 
