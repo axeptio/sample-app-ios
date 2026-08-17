@@ -16,10 +16,15 @@
 # Usage:  xcodebuild test -destination "id=$(scripts/pick-simulator.sh)"
 set -euo pipefail
 
-if ! command -v xcrun >/dev/null 2>&1; then
-  echo "pick-simulator: xcrun not found (Xcode command line tools missing)" >&2
-  exit 1
-fi
+for tool in xcrun python3; do
+  if ! command -v "$tool" >/dev/null 2>&1; then
+    # Both ship with the Xcode command line tools, so in practice either both are present or
+    # neither is. Named explicitly anyway: a bare "python3: command not found" mid-pipeline
+    # gives no hint that it came from here.
+    echo "pick-simulator: $tool not found (install the Xcode command line tools: xcode-select --install)" >&2
+    exit 1
+  fi
+done
 
 udid=$(xcrun simctl list devices available --json | python3 -c "
 import json, re, sys
