@@ -74,7 +74,9 @@ jobs:
       run: |
         echo "Building Swift sample app with updated SDK"
         cd sampleSwift
-        xcodebuild -project sampleSwift.xcodeproj -scheme sampleSwift -destination 'platform=iOS Simulator,name=iPhone 16' build
+        # Generic destination: this step only needs to prove the new SDK compiles and links,
+        # so it needs no concrete device — and cannot break when Apple rotates device names.
+        xcodebuild -project sampleSwift.xcodeproj -scheme sampleSwift -destination 'generic/platform=iOS Simulator' build
 
     - name: Check for changes
       id: changes
