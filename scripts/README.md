@@ -29,6 +29,18 @@ cd sample-app-ios
 - **Usage**: `npm run version:sync`
 - See [CONTRIBUTING.md](../CONTRIBUTING.md#version-synchronization)
 
+### `pick-simulator.sh`
+- **Purpose**: Print the UDID of the best available iPhone simulator
+- **Usage**: `xcodebuild test -destination "id=$(scripts/pick-simulator.sh)"`
+- **Why**: device names are not stable. Everything here used to pin `iPhone 16`; when GitHub
+  rotated the `macos-latest` image to the iPhone 17 family, every run failed in ~2 minutes on
+  `Unable to find a device matching the provided destination specifier`. Addressing a
+  simulator by UDID avoids name *and* OS resolution.
+- Picks a plain `iPhone <n>` on the newest iOS runtime, falling back to any iPhone. The chosen
+  device goes to stderr (so CI logs record what ran); only the UDID goes to stdout.
+- Used by `npm run test` and `.github/workflows/ui-tests.yml`. Steps that only need to compile
+  use `-destination 'generic/platform=iOS Simulator'` instead and need no simulator at all.
+
 ## What's Being Tested
 
 ### 🔥 Critical Fix: NSDate Serialization (MSK-84)

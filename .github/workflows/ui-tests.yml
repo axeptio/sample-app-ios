@@ -21,7 +21,9 @@ concurrency:
 
 jobs:
   ui-tests:
-    name: XCUITest (iPhone 16)
+    # No device in the name: the runner's simulator set rotates, and the one actually used is
+    # logged by the Select a simulator step.
+    name: XCUITest
     runs-on: macos-latest
 
     steps:
@@ -37,13 +39,27 @@ jobs:
         working-directory: sampleSwift
         run: xcodebuild -resolvePackageDependencies -project sampleSwift.xcodeproj -scheme sampleSwift
 
+      # Resolve the device instead of naming it. Pinning 'iPhone 16' silently stopped working
+      # when GitHub rotated the runner image to the iPhone 17 family: every run failed in ~2
+      # minutes on destination resolution, before building anything.
+      - name: Select a simulator
+        id: sim
+        run: |
+          set -euo pipefail
+          # Fail the job here rather than handing xcodebuild an empty destination, which
+          # would produce a far less obvious error further down.
+          udid=$(scripts/pick-simulator.sh)
+          echo "udid=$udid" >> "$GITHUB_OUTPUT"
+
       - name: Run UI tests
         working-directory: sampleSwift
+        env:
+          SIM_UDID: ${{ steps.sim.outputs.udid }}
         run: |
           xcodebuild test \
             -project sampleSwift.xcodeproj \
             -scheme sampleSwift \
-            -destination 'platform=iOS Simulator,name=iPhone 16' \
+            -destination "id=$SIM_UDID" \
             -resultBundlePath TestResults.xcresult \
             -only-testing:sampleSwiftUITests \
             -retry-tests-on-failure \
