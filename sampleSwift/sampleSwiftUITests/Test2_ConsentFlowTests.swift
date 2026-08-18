@@ -237,20 +237,25 @@ class Test2_ConsentFlowTests: XCTestCase {
 
         XCTAssertTrue(helper.isWidgetDisplayed(), "Widget should auto-display")
 
-        // When: User taps accept button multiple times rapidly
-        let webView = app.webViews.firstMatch
-        let acceptButton = webView.buttons.containing(NSPredicate(format: "label CONTAINS[c] 'accept'")).firstMatch
-
-        if acceptButton.exists {
-            acceptButton.tap()
-            acceptButton.tap() // Second tap (if widget hasn't dismissed yet)
-            sleep(5)
-
-            // Then: Widget should handle multiple taps gracefully (no crash)
-            // The test passing means the app didn't crash
-            print("✅ Test 5 Passed: Multiple consent actions handled gracefully")
-        } else {
-            throw XCTSkip("Accept button not found")
+        // When: User taps accept multiple times rapidly.
+        //
+        // Goes through the helper rather than matching the button here. This test used to run
+        // its own `label CONTAINS[c] 'accept'` lookup, which also matches "Close without
+        // accepting cookies" — so it was tapping the dismiss control while claiming to accept.
+        // The helper's predicate excludes negated phrasings; duplicating the lookup is what let
+        // the two drift apart.
+        guard helper.tapAcceptButton(timeout: 10.0) else {
+            throw XCTSkip("Accept button not found in the widget")
         }
+
+        // Second tap, if the widget has not dismissed yet. Expected to find nothing once it
+        // has, which is not a failure — the point is that a rapid double tap does not crash.
+        let secondTapLanded = helper.tapAcceptButton(timeout: 2.0)
+        print("  Second tap \(secondTapLanded ? "landed" : "found no button (widget already dismissed)")")
+        sleep(5)
+
+        // Then: the app is still alive and responsive after the rapid taps.
+        XCTAssertEqual(app.state, .runningForeground, "App should still be running after rapid consent taps")
+        print("✅ Test 5 Passed: Multiple consent actions handled gracefully")
     }
 }

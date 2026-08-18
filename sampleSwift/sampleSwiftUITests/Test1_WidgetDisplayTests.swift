@@ -100,6 +100,9 @@ class Test1_WidgetDisplayTests: XCTestCase {
         XCTAssertTrue(webView.exists, "WebView should exist in the widget")
 
         // Check for consent buttons inside the WebView (at least one should exist)
+        // Broad on purpose: this asks "does the widget have any action button", so matching
+        // "Close without accepting cookies" is a correct answer. Do not reuse this predicate to
+        // *tap* accept — use helper.tapAcceptButton, which excludes negated phrasings.
         let hasAcceptButton = webView.buttons.containing(
             NSPredicate(format: "label CONTAINS[c] 'accept' OR label CONTAINS[c] 'tout accepter'")
         ).firstMatch.exists
