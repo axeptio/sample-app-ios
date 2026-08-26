@@ -98,8 +98,10 @@ jobs:
       uses: peter-evans/create-pull-request@v7
       with:
         # Note: a PR opened with GITHUB_TOKEN does not trigger downstream workflow
-        # runs, so checks on the generated PR must be kicked off manually (e.g. by
-        # pushing an empty commit) or by swapping in a PAT / GitHub App token.
+        # runs. Since develop requires "Build and lint" and "Normalize and validate
+        # PR title" to merge, the generated PR is not merely missing its checks — it
+        # cannot be merged until they report. Push an empty commit to the generated
+        # branch to trigger them, or swap in a PAT / GitHub App token.
         token: ${{ secrets.GITHUB_TOKEN }}
         commit-message: |
           feat: update Axeptio iOS SDK to v${{ github.event.inputs.sdk_version }}

@@ -1,0 +1,68 @@
+name: PR Checks
+
+# The PR gate for code. `swiftlint --strict` and an iOS Simulator build are the same two
+# checks .husky/pre-commit runs, which any --no-verify skips — this is the copy that
+# cannot be bypassed. The XCUITest suite deliberately stays out of it (nightly, ~30 min,
+# network-bound); see ui-tests.yml.
+#
+# Kept fully inline rather than calling axeptio/tech-scripts: this repo is public and
+# cannot access Axeptio's internal reusable workflows, so the `uses:` form reports no job
+# at all. Same reasoning as validate-pull-request-title.yml and ui-tests.yml.
+#
+# No `paths:` or `branches:` filter, on purpose. This job is a *required* status check on
+# develop: a filtered run that never reports leaves the PR pending forever rather than
+# failing it, so it has to run on every PR.
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-and-lint-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-lint:
+    # This string is the required status-check context on develop. Renaming it silently
+    # breaks the merge gate — the old context stops being reported and every PR sits
+    # pending. Change it and the branch protection together, never one alone.
+    name: Build and lint
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      # Ships with the current macos runner images, but installed rather than assumed: a
+      # required gate that skips itself when a tool is missing is worse than a slow one.
+      - name: Ensure SwiftLint
+        run: command -v swiftlint || brew install swiftlint
+
+      # Deliberately not `npm run lint:check` / `build:check`: those are
+      # `command -v <tool> || echo skipping` wrappers that exit 0 when the toolchain is
+      # absent. As a merge gate that is a check which can pass without checking anything.
+      # Uses the repo-root .swiftlint.yml.
+      - name: Lint
+        run: swiftlint --strict
+
+      - name: Resolve Swift packages
+        working-directory: sampleSwift
+        run: xcodebuild -resolvePackageDependencies -project sampleSwift.xcodeproj -scheme sampleSwift
+
+      # `generic/platform=iOS Simulator` builds without resolving a concrete device, so
+      # this needs no simulator and no scripts/pick-simulator.sh.
+      - name: Build
+        working-directory: sampleSwift
+        run: |
+          xcodebuild build \
+            -project sampleSwift.xcodeproj \
+            -scheme sampleSwift \
+            -destination 'generic/platform=iOS Simulator'
