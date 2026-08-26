@@ -53,6 +53,11 @@ jobs:
       - name: Lint
         run: swiftlint --strict
 
+      # `-project`, matching ui-tests.yml and update-sdk-version.yml. There is no
+      # separate .xcworkspace in this repo: Package.resolved lives under the project's
+      # *implicit* workspace (sampleSwift.xcodeproj/project.xcworkspace/xcshareddata/),
+      # so -project and -workspace resolve the same container and the same pins. Both
+      # were run against this commit and both build. Not worth churning.
       - name: Resolve Swift packages
         working-directory: sampleSwift
         run: xcodebuild -resolvePackageDependencies -project sampleSwift.xcodeproj -scheme sampleSwift

@@ -98,7 +98,7 @@ jobs:
       uses: peter-evans/create-pull-request@v7
       with:
         # Note: a PR opened with GITHUB_TOKEN does not trigger downstream workflow
-        # runs. Since develop requires "Build and lint" and "Normalize and validate
+        # runs. Once develop requires "Build and lint" and "Normalize and validate
         # PR title" to merge, the generated PR is not merely missing its checks — it
         # cannot be merged until they report. Push an empty commit to the generated
         # branch to trigger them, or swap in a PAT / GitHub App token.
