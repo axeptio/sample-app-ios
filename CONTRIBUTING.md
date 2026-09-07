@@ -84,23 +84,23 @@ The on-screen "Axeptio iOS SDK vX.Y.Z" label in the app reads `CFBundleShortVers
 
 ## Release Process
 
-Releases are produced by **semantic-release**, configured in `.releaserc.json`, driven by the conventional-commit history:
+Releases are produced by **semantic-release**, configured in `.releaserc.json`, driven by the conventional-commit history. This runs automatically — `.github/workflows/release.yml` invokes it on every push to `develop`, authenticated as `axeptio-bot` (via org-level `BOT_GITHUB_TOKEN` / `BOT_GPG_PRIVATE_KEY` / `BOT_EMAIL` secrets, the same bot used by the org's other release automation). You do not need to run anything locally to cut a release.
 
 ```bash
-# Preview what would be released without publishing
+# Preview what the next release would look like, without publishing
 npm run release:dry-run
-
-# Perform the release
-npm run release
 ```
 
+`npm run release` still works as a manual fallback (e.g. to debug the CI job), but requires local GPG signing and admin-level bypass on `develop`'s branch protection — not something most contributors have configured.
+
 ### What Happens During Release
-1. Commits since the last tag are analysed to determine the next version
-2. `CHANGELOG.md` is generated from the conventional commits
-3. `package.json` / `package-lock.json` are updated to the new version
-4. A git tag is created (e.g. `v2.4.0`)
-5. A GitHub release is published
-6. The release commit — `CHANGELOG.md`, `package.json`, `package-lock.json` — is pushed back to the release branch
+1. On push to `develop`, `.github/workflows/release.yml` runs `semantic-release`
+2. Commits since the last tag are analysed to determine the next version
+3. `CHANGELOG.md` is generated from the conventional commits
+4. `package.json` / `package-lock.json` are updated to the new version
+5. A GPG-signed git tag is created (e.g. `v2.4.0`)
+6. A GitHub release is published
+7. The release commit — `CHANGELOG.md`, `package.json`, `package-lock.json` — is pushed back to `develop` (signed as `axeptio-bot`, tagged `[skip ci]` so it doesn't re-trigger the workflow)
 
 > ⚠️ `@semantic-release/git` commits those three files **only**. It does not touch the iOS project files, so `MARKETING_VERSION`, `Info.plist` and the SDK pin from the list above still have to be updated in the PR that precedes the release. Run `npm run version:sync` after bumping `package.json` to propagate the first two.
 
