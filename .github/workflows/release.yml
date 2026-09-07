@@ -52,7 +52,7 @@ jobs:
           BOT_GITHUB_TOKEN: ${{ secrets.BOT_GITHUB_TOKEN }}
 
       - name: Install dependencies
-        run: npm install
+        run: npm install --no-package-lock
 
       - name: Release
         run: npx semantic-release
