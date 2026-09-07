@@ -210,7 +210,7 @@ Or declare it in a `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/axeptio/axeptio-ios-sdk.git", from: "2.5.0")
+    .package(url: "https://github.com/axeptio/axeptio-ios-sdk.git", exact: "2.5.0")
 ]
 ```
 <br><br><br>
