@@ -9,6 +9,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -30,6 +34,7 @@ jobs:
           gpg_private_key: ${{ secrets.BOT_GPG_PRIVATE_KEY }}
           git_user_signingkey: true
           git_commit_gpgsign: true
+          git_tag_gpgsign: true
           git_config_global: true
           git_committer_name: axeptio-bot
           git_committer_email: ${{ secrets.BOT_EMAIL }}
