@@ -2,12 +2,12 @@
 
 # Axeptio iOS SDK Documentation
 
-Welcome to the Axeptio iOS SDK Samples project. This repository provides a comprehensive guide on how to integrate the Axeptio iOS SDK into your mobile applications. It ships a single Swift module using Swift Package Manager, aligned with Axeptio iOS SDK `2.4.0`. Objective-C integration snippets throughout this README are kept as reference for Obj-C consumers, but there is no compiled Obj-C sample to run. Below you'll find detailed instructions and code examples to help you integrate and configure the SDK within your iOS app.
+Welcome to the Axeptio iOS SDK Samples project. This repository provides a comprehensive guide on how to integrate the Axeptio iOS SDK into your mobile applications. It ships a single Swift module using Swift Package Manager, aligned with Axeptio iOS SDK `2.5.0`. Objective-C integration snippets throughout this README are kept as reference for Obj-C consumers, but there is no compiled Obj-C sample to run. Below you'll find detailed instructions and code examples to help you integrate and configure the SDK within your iOS app.
 
-> **Upgrading from 2.2.x or earlier?** Read [Migrating to 2.4.0](#migrating-to-240) first. One change alters behaviour **without a compile error**: the consent banner is now shown to ATT-denied users by default.
+> **Upgrading from 2.2.x or earlier?** Read [Migrating to 2.5.0](#migrating-to-250) first. One change alters behaviour **without a compile error**: the consent banner is now shown to ATT-denied users by default.
 
 ## Table of Contents
-0. [Migrating to 2.4.0](#migrating-to-240)
+0. [Migrating to 2.5.0](#migrating-to-250)
 1. [GitHub Access Token Documentation](#github-access-token-documentation)
 2. [Requirements](#requirements)
 3. [SDK Version](#sdk-version)
@@ -52,9 +52,9 @@ Welcome to the Axeptio iOS SDK Samples project. This repository provides a compr
 
 <br><br>
 
-## Migrating to 2.4.0
+## Migrating to 2.5.0
 
-Everything below applies when moving from **2.2.x or earlier** to **2.4.0**. There are **no source-breaking API changes** — every public symbol in 2.2.0 is present and unchanged in 2.4.0, so your code keeps compiling. The changes that matter are behavioural.
+Everything below applies when moving from **2.2.x or earlier** to **2.5.0**. There are **no source-breaking API changes** — every public symbol in 2.2.0 is present and unchanged in 2.5.0, so your code keeps compiling. The changes that matter are behavioural.
 
 ### 1. The consent banner is now shown to ATT-denied users by default
 
@@ -147,14 +147,15 @@ Ensure the **following keys** are added to your `Info.plist` file to comply with
 
 ## SDK Version
 
-This sample app demonstrates the **Axeptio iOS SDK**. Current version: **2.4.0**.
+This sample app demonstrates the **Axeptio iOS SDK**. Current version: **2.5.0**.
 
 For release notes and changelog, see:
 - [SDK Releases](https://github.com/axeptio/axeptio-ios-sdk/releases)
+- [Release Notes v2.5.0](https://github.com/axeptio/axeptio-ios-sdk/releases/tag/v2.5.0)
 - [Release Notes v2.4.0](https://github.com/axeptio/axeptio-ios-sdk/releases/tag/v2.4.0)
 - [Release Notes v2.3.0](https://github.com/axeptio/axeptio-ios-sdk/releases/tag/v2.3.0) — note the substance of the 2.3.0 line is documented in [v2.3.0-beta.2](https://github.com/axeptio/axeptio-ios-sdk/releases/tag/v2.3.0-beta.2)
 
-> Release tags carry a `v` prefix from 2.3.0 onward (`v2.3.0`, `v2.4.0`); earlier releases do not (`2.2.0`). Swift Package Manager normalizes this, so pinning `2.4.0` resolves tag `v2.4.0` correctly.
+> Release tags carry a `v` prefix from 2.3.0 onward (`v2.3.0`, `v2.4.0`, `v2.5.0`); earlier releases do not (`2.2.0`). Swift Package Manager normalizes this, so pinning `2.5.0` resolves tag `v2.5.0` correctly.
 
 <br><br><br>
 ## Clone the Repository
@@ -180,7 +181,7 @@ platform :ios, '15.0'
 use_frameworks!
 
 target 'MyApp' do
-  pod 'AxeptioIOSSDK', '~> 2.4.0'
+  pod 'AxeptioIOSSDK', '~> 2.5.0'
 end
 ```
 - run the following command to install the dependency:
@@ -201,7 +202,7 @@ To integrate the Axeptio iOS SDK into your Xcode project using Swift Package Man
 - Click the **+** button to add a new package dependency
 - In the search bar, paste the following package URL: `https://github.com/axeptio/axeptio-ios-sdk`
 - Select the **AxeptioIOSSDK** package from the list of available packages
-- Choose a version rule — this sample pins **Exact Version `2.4.0`**
+- Choose a version rule — this sample pins **Exact Version `2.5.0`**
 - Click Add Package.
 - In the **Choose Package Products screen**, confirm the selection and click **Add Package** to complete the integration
 
@@ -209,7 +210,7 @@ Or declare it in a `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/axeptio/axeptio-ios-sdk.git", from: "2.4.0")
+    .package(url: "https://github.com/axeptio/axeptio-ios-sdk.git", from: "2.5.0")
 ]
 ```
 <br><br><br>
@@ -1668,7 +1669,7 @@ The decision codes are stable, so they are safe to grep for and to quote in a su
 | Outcome | Meaning |
 |---|---|
 | `presented` | The consent screen was shown |
-| `blocked_att` | Suppressed because ATT was denied — see [Migrating to 2.4.0](#migrating-to-240), this is now off by default |
+| `blocked_att` | Suppressed because ATT was denied — see [Migrating to 2.5.0](#migrating-to-250), this is now off by default |
 | `widget_declined` | The widget itself decided no consent was needed (e.g. consent already valid) |
 | `present_failed_busy` | Another view controller was already being presented; the SDK retries |
 | `load_failed` | The consent web view failed to load — also surfaced via `onError` |
