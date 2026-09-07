@@ -39,6 +39,13 @@ jobs:
           git_committer_name: axeptio-bot
           git_committer_email: ${{ secrets.BOT_EMAIL }}
 
+      - name: Configure git author identity
+        run: |
+          git config --global user.name "axeptio-bot"
+          git config --global user.email "${BOT_EMAIL}"
+        env:
+          BOT_EMAIL: ${{ secrets.BOT_EMAIL }}
+
       - name: Authenticate git remote as axeptio-bot
         run: git remote set-url origin "https://x-access-token:${BOT_GITHUB_TOKEN}@github.com/${{ github.repository }}.git"
         env:
