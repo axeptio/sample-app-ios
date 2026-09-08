@@ -1,0 +1,61 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - develop
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    if: github.ref == 'refs/heads/develop'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+
+      - name: Import bot GPG key
+        uses: crazy-max/ghaction-import-gpg@v7
+        with:
+          gpg_private_key: ${{ secrets.BOT_GPG_PRIVATE_KEY }}
+          git_user_signingkey: true
+          git_commit_gpgsign: true
+          git_tag_gpgsign: true
+          git_config_global: true
+          git_committer_name: axeptio-bot
+          git_committer_email: ${{ secrets.BOT_EMAIL }}
+
+      - name: Configure git author identity
+        run: |
+          git config --global user.name "axeptio-bot"
+          git config --global user.email "${BOT_EMAIL}"
+        env:
+          BOT_EMAIL: ${{ secrets.BOT_EMAIL }}
+
+      - name: Authenticate git remote as axeptio-bot
+        run: git remote set-url origin "https://x-access-token:${BOT_GITHUB_TOKEN}@github.com/${{ github.repository }}.git"
+        env:
+          BOT_GITHUB_TOKEN: ${{ secrets.BOT_GITHUB_TOKEN }}
+
+      - name: Install dependencies
+        run: npm install --no-package-lock
+
+      - name: Release
+        run: npx semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.BOT_GITHUB_TOKEN }}
