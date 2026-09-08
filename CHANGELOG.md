@@ -12,6 +12,30 @@
 * **build:** resolve the simulator instead of pinning a device name ([9bb09c2](https://github.com/axeptio/sample-app-ios/commit/9bb09c22321cde2683630870a414475e4c5690cb))
 * **build:** restrict release workflow_dispatch to develop ([2b71677](https://github.com/axeptio/sample-app-ios/commit/2b7167731587df0dc1a14e8da8b16835172fbc5b))
 * **build:** stop committing package-lock.json during release ([b4e23ec](https://github.com/axeptio/sample-app-ios/commit/b4e23ec5437e85b2393c821f8ca60655578b397f))
+* **build:** stop signing release tags, only sign commits ([422e034](https://github.com/axeptio/sample-app-ios/commit/422e0344dcb60ca528b9b002067f917ff42db5cd))
+* **sdk-integration:** address Copilot review round 1 ([23a0daf](https://github.com/axeptio/sample-app-ios/commit/23a0daffd22478fe102276161966b71ad03f0f7a))
+* **tests:** route the rapid-tap test through the accept helper ([5a82466](https://github.com/axeptio/sample-app-ios/commit/5a824664dd5ae0d7d9055977f49294128d121bf5)), closes [#48](https://github.com/axeptio/sample-app-ios/issues/48) [#48](https://github.com/axeptio/sample-app-ios/issues/48)
+* **tests:** stop the accept helper pressing the dismiss button ([00b2bc4](https://github.com/axeptio/sample-app-ios/commit/00b2bc484ae834f9ede82bd089bcf8ee20836196))
+
+
+### Features
+
+* **sdk-integration:** align sample app with Axeptio iOS SDK 2.5.0 ([6ebae04](https://github.com/axeptio/sample-app-ios/commit/6ebae0434feaa5adba0139f6f4fa1975f93ade7f))
+
+# [2.5.0](https://github.com/axeptio/sample-app-ios/compare/v2.4.0...v2.5.0) (2026-09-08)
+
+
+### Bug Fixes
+
+* **build:** address Copilot review round 1 on release workflow ([3a478c2](https://github.com/axeptio/sample-app-ios/commit/3a478c228e3d96052180fabddf659b72d3e0d452))
+* **build:** address Copilot review round 2 on release workflow ([261e9d7](https://github.com/axeptio/sample-app-ios/commit/261e9d78633900aea1bc06f0be32c148e7945524))
+* **build:** address Copilot review round 3 on release workflow ([bfbe0be](https://github.com/axeptio/sample-app-ios/commit/bfbe0beba9973e70f07667b7654524d23c83bc0c))
+* **build:** force axeptio-bot identity on the release commit ([3d1583d](https://github.com/axeptio/sample-app-ios/commit/3d1583d0b4c322efaddd1f9151a4315e7dd92842))
+* **build:** install without generating a local package-lock.json ([14ee2f0](https://github.com/axeptio/sample-app-ios/commit/14ee2f0664fb8b56c1fb47504be52008b3e23790))
+* **build:** name python3 as a pick-simulator dependency ([bd7e615](https://github.com/axeptio/sample-app-ios/commit/bd7e6151d119ed471b10d98d119bf382a9d298ad))
+* **build:** resolve the simulator instead of pinning a device name ([9bb09c2](https://github.com/axeptio/sample-app-ios/commit/9bb09c22321cde2683630870a414475e4c5690cb))
+* **build:** restrict release workflow_dispatch to develop ([2b71677](https://github.com/axeptio/sample-app-ios/commit/2b7167731587df0dc1a14e8da8b16835172fbc5b))
+* **build:** stop committing package-lock.json during release ([b4e23ec](https://github.com/axeptio/sample-app-ios/commit/b4e23ec5437e85b2393c821f8ca60655578b397f))
 * **sdk-integration:** address Copilot review round 1 ([23a0daf](https://github.com/axeptio/sample-app-ios/commit/23a0daffd22478fe102276161966b71ad03f0f7a))
 * **tests:** route the rapid-tap test through the accept helper ([5a82466](https://github.com/axeptio/sample-app-ios/commit/5a824664dd5ae0d7d9055977f49294128d121bf5)), closes [#48](https://github.com/axeptio/sample-app-ios/issues/48) [#48](https://github.com/axeptio/sample-app-ios/issues/48)
 * **tests:** stop the accept helper pressing the dismiss button ([00b2bc4](https://github.com/axeptio/sample-app-ios/commit/00b2bc484ae834f9ede82bd089bcf8ee20836196))
