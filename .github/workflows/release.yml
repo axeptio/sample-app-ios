@@ -40,13 +40,6 @@ jobs:
           git_committer_name: axeptio-bot
           git_committer_email: ${{ secrets.BOT_EMAIL }}
 
-      - name: Configure git author identity
-        run: |
-          git config --global user.name "axeptio-bot"
-          git config --global user.email "${BOT_EMAIL}"
-        env:
-          BOT_EMAIL: ${{ secrets.BOT_EMAIL }}
-
       - name: Authenticate git remote as axeptio-bot
         run: git remote set-url origin "https://x-access-token:${BOT_GITHUB_TOKEN}@github.com/${{ github.repository }}.git"
         env:
@@ -59,3 +52,11 @@ jobs:
         run: npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.BOT_GITHUB_TOKEN }}
+          # @semantic-release/git hardcodes its own commit identity
+          # (semantic-release-bot@martynus.net) via these env vars unless
+          # they're already set — global git config alone doesn't override
+          # it, which is what left the release commit unverified.
+          GIT_AUTHOR_NAME: axeptio-bot
+          GIT_AUTHOR_EMAIL: ${{ secrets.BOT_EMAIL }}
+          GIT_COMMITTER_NAME: axeptio-bot
+          GIT_COMMITTER_EMAIL: ${{ secrets.BOT_EMAIL }}
