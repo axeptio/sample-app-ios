@@ -1,0 +1,28 @@
+version: 2
+updates:
+  # Third-party actions are pinned to commit SHAs (`@<sha> # vX.Y.Z`);
+  # Dependabot keeps both the SHA and the version comment current.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    # Wait before adopting a new release, so a compromised or yanked version
+    # has time to be caught upstream before it reaches our workflows.
+    # (Only default-days is supported for github-actions.)
+    cooldown:
+      default-days: 7
+    # Minor and patch bumps arrive together in one low-risk PR; each major
+    # bump stays in its own PR so a breaking change is reviewed on its own.
+    groups:
+      github-actions-minor-patch:
+        patterns:
+          - "*"
+        update-types:
+          - minor
+          - patch
+    # Internal axeptio/tech-scripts references stay on their branch/tag (ENG-14483).
+    ignore:
+      - dependency-name: "axeptio/tech-scripts*"
+    commit-message:
+      prefix: ci
+      include: scope

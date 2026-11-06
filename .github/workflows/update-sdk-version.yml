@@ -18,12 +18,12 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Set up Xcode
-      uses: maxim-lobanov/setup-xcode@v1
+      uses: maxim-lobanov/setup-xcode@ed7a3b1fda3918c0306d1b724322adc0b8cc0a90 # v1.7.0
       with:
         xcode-version: latest-stable
 
@@ -95,7 +95,7 @@ jobs:
 
     - name: Create Pull Request
       if: steps.changes.outputs.has_changes == 'true'
-      uses: peter-evans/create-pull-request@v7
+      uses: peter-evans/create-pull-request@22a9089034f40e5a961c8808d113e2c98fb63676 # v7.0.11
       with:
         # Note: a PR opened with GITHUB_TOKEN does not trigger downstream workflow
         # runs. Once develop requires "Build and lint" and "Normalize and validate
