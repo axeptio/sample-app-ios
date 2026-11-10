@@ -139,12 +139,16 @@ jobs:
 
     - name: Comment on Success  
       if: steps.changes.outputs.has_changes == 'true'
+      env:
+        SDK_VERSION: ${{ github.event.inputs.sdk_version }}
       run: |
-        echo "✅ Successfully created PR to update SDK to v${{ github.event.inputs.sdk_version }}"
+        echo "✅ Successfully created PR to update SDK to v${SDK_VERSION}"
         echo "📝 Check the PR for detailed changes and build results"
         
     - name: Comment on No Changes
       if: steps.changes.outputs.has_changes == 'false'
+      env:
+        SDK_VERSION: ${{ github.event.inputs.sdk_version }}
       run: |
-        echo "ℹ️ No changes detected - SDK may already be at v${{ github.event.inputs.sdk_version }}"
+        echo "ℹ️ No changes detected - SDK may already be at v${SDK_VERSION}"
         echo "🔍 Verify the current SDK version in Package.resolved"
